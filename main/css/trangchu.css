@@ -1,0 +1,235 @@
+*{
+    box-sizing: border-box;
+    margin: 0px auto;
+    font-size: 16px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.container-fluid{
+    padding: 0px;
+}
+.container .logo
+{
+    width: 160px;
+    height: auto;
+    object-fit: cover;
+}
+.container .search input
+{
+    width: 50%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 20px;
+    font-size: 16px;
+    outline: none;
+}
+.container .search{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    text-align: center;
+    position: relative;
+}
+.container .search button
+{
+    position: absolute;
+    right: 175px;
+    top: 2px;
+    background-color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.container .user{
+    display: flex;
+}
+.container .user p
+{
+    margin-left: 5px;
+    margin-top: 25px;
+    
+}
+.container .user .icon-cart a{
+    color: black;
+}
+.container .user .icon-user,.icon-cart
+{
+    border: none;
+    margin-left: 10px;
+    background-color:white;
+    position: relative;
+}
+#dem_GioHang{
+    border-radius: 40%;
+    color: white;
+    background-color: #4479d4;
+    padding: 4px 5px;
+    font-size: 14px;
+    position: absolute;
+    top:0px;
+    right:0px
+
+}
+
+.container .icon-user .dropdownn_login
+{
+    display: none; 
+    position: absolute;
+    width: 150px;
+    top: 45px;
+    left: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    z-index: 1;
+}
+.container .icon-user:hover .dropdownn_login
+{
+    display: block;
+}
+
+.container .icon-user .dropdownn_logout
+{
+    display: none; 
+    position: absolute;
+    top: 45px;
+    left: 5px;
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    z-index: 1;
+}
+.container .icon-user:hover .dropdownn_logout
+{
+    display: block;
+}
+.container .icon-user .dropdownn_login,.dropdownn_logout li,ul
+{
+    list-style: none;
+    text-align: center;
+    padding-inline-start: 0px;
+}
+.dropdownn_login a,.dropdownn_logout a{
+    color: black;
+    text-decoration: none;
+    padding: 10px 30px;
+}
+.dropdownn_login a:hover,.dropdownn_logout a:hover{
+    color:white;
+}
+.dropdownn_login li:hover,.dropdownn_logout li:hover{
+    background-color: #4479d4;
+}
+.dropdownn_login li,.dropdownn_logout li{
+    padding:5px 0px;
+}
+
+
+
+
+
+/* menu */
+.menu-nav
+{
+    position: relative;
+    background-color:#4479d4;
+}
+.menu-nav .container .nav .nav-item .nav-link {
+    color: white;
+}
+
+.menu-dropdown-item{
+    display: none;
+    position: absolute;
+    width: 180px;
+    top: 35px;
+    background-color: #4479d4;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    font-size: 15px;
+    /* Xếp chồng lên nhau z > hơn sẽ chồng lên z nhỏ hơn */
+    z-index: 10;
+}
+.nav-dropdown{
+    padding: 10px 20px;
+}
+.menu-dropdown-item .nav-dropdown .nav-link-dropdown{
+    color: white;
+    text-decoration: none;
+}
+.menu-dropdown-item .nav-dropdown .nav-link-dropdown:hover{
+    border-bottom: 4px solid #ccc;
+}
+.menu-dropdown:hover  .menu-dropdown-item{
+    display: block;
+}
+
+.slide{
+    width: 80%;
+}
+.slider .carousel-item img{
+    /* display: block; */
+    width: 100%;
+    height: 500px;
+}
+
+/* footer */
+.section6{
+    margin-top: 40px;
+    width: 100%;
+    height: auto;
+    background-color:#4479d4;
+}
+.section6-form{
+    display: flex;
+    justify-content: center;
+
+}
+.section6-form-text{
+    max-width: 300px;
+    color: white;
+}
+.section6-form-text h3{
+    font-size: 17px;
+    font-weight: bold;
+    padding: 20px 0px;
+}
+.section6-form-text p{
+    padding-bottom: 20px;
+    text-align: justify;
+}
+
+.footer{
+    margin-top: 40px;
+    padding-bottom: 50px;
+}
+.footer-form{
+    display: flex;
+}
+.footer-form-img img{
+    width: 200px;
+    height: auto;
+    margin-top: 10px;
+}
+
+.footer-form-nav h3,.footer-form-img h3{
+    font-size: 17px;
+    font-weight: bold;
+}
+.footer-form-nav ul{
+    list-style-type: none;
+    padding-inline-start: 0px;
+    margin-top: 20px;
+}
+.footer-form-nav li{
+    padding: 5px 0px;
+}
+.footer-form-nav a{
+    color: black;
+    text-decoration: none;
+}

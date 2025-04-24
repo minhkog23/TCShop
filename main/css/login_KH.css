@@ -1,0 +1,39 @@
+#form_signup a,#form_login a{
+    color:#4479d4;
+    text-decoration: none;
+}
+#form_signup,#form_login{
+    max-width: 400px;
+    height: auto;
+}
+#form_signup label,#form_login label{
+    float: left;
+    font-size: 15px;
+}
+
+.box-login input,.box-singup input{
+    border: 1px solid #a2a2a2;
+    outline: none;
+}
+.box-login input:focus,.box-singup input:focus{
+    outline: 2px solid #b2c7ea; /* Đổi màu viền khi focus */
+    border: 2px solid #b2c7ea; /* Tùy chỉnh viền */
+    box-shadow: none; 
+}
+#txtho,#txtten{
+    width: 195px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #a2a2a2;
+    outline: none;
+}
+#txtho:focus,#txtten:focus{
+    outline: 2px solid #b2c7ea; /* Đổi màu viền khi focus */
+    border: 2px solid #b2c7ea; /* Tùy chỉnh viền */
+    box-shadow: none; 
+}
+.hoten{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}

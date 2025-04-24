@@ -1,0 +1,128 @@
+<?php
+    include '../class/admin.php';
+    $ad=new admin();
+?>
+
+<?php
+include 'component/header.php';
+?>
+    <div class="alert alert-secondary"><h4 class="pt-2">TC-Badminton / Thương hiệu</h4></div>
+    <!-- Basic Card Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Sửa thương hiệu</h5>
+            <?php
+                $id_sua=$_REQUEST['id_sua'];
+                $tenThuongHieu=$ad->laycot("select tenThuongHieu from thuonghieu where id_ThuongHieu='$id_sua'");
+                $moTa=$ad->laycot("select moTa from thuonghieu where id_ThuongHieu='$id_sua'");
+            ?>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row">
+                    <div class="mb-3 col-md-12">
+                        <label for="txttenth" class="form-label">Nhập tên thương hiệu <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="txttenth" id="txttenth" value="<?php echo $tenThuongHieu ?>">
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label for="txtmota" class="form-label">Mô tả</label>
+                        <textarea class="form-control" name="txtmota" id="txtmota" rows="7"><?php echo $moTa ?></textarea>
+                    </div>
+                    
+                    <div class="mb-3 col-md-12 text-center" >
+                        <a href="danhSachTH.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
+                        <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
+                        <button type="submit" name="nut_sua" value="sua-TH" class="btn btn-outline-primary">Lưu</button>
+                    </div>
+                </div>
+                <div align="center">
+                    <?php
+                        if(isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-TH')
+                        {
+                            $tenThuongHieu=$_REQUEST['txttenth'];
+                            $mota=$_REQUEST['txtmota'];
+                            if($_REQUEST['txttenth']=='')
+                            {
+                                echo '<span id="valTH" style="display: block; color:red">Vui lòng nhập tên thương hiệu cần sửa !</span>';
+                            }
+                            else
+                            {
+                                if($ad->themxoasua("UPDATE thuonghieu 
+                                                    SET tenThuongHieu='$tenThuongHieu',moTa='$mota' 
+                                                    WHERE id_ThuongHieu='$id_sua'")==1)
+                                {
+                                    echo "<script>swal('Thành công','Sửa thương hiệu thành công','success').then(function(){
+                                                    window.location='danhSachTH.php';
+                                        })</script>";
+                                }
+                                else
+                                {
+                                    echo "<script>swal('Thất bại','Sửa thương hiệu không thành công','error').then(function(){
+                                                    window.location='sua-ThuongHieu.php';
+                                        })</script>";
+                                }
+                            }
+                        }
+                    ?>
+                </div>
+                
+            </form>
+
+        </div>
+
+        <!-- <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách thương hiệu</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <form method="post">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thương hiệu</th>
+                                <th style="width: 600px;">Mô tả</th>
+                                <th>Chứ năng</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thương hiệu</th>
+                                <th>Mô tả</th>
+                                <th>Chứ năng</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <?php
+                                // $ad->getThuongHieu('select * 
+                                //             from thuonghieu order by id_ThuongHieu desc');
+                            ?>
+                        </tbody>
+                    </table>
+
+                    <?php
+                        // if(isset($_REQUEST['nut_xoa'])&&$_REQUEST['nut_xoa']=='Xóa')
+                        // {
+                        //     $id_xoa=$_REQUEST['id_xoa'];
+                        //     if($ad->themxoasua("DELETE FROM thuonghieu WHERE id_ThuongHieu='$id_xoa'")==1)
+                        //     {
+                        //         echo "<script>swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
+                        //                             window.location='add-ThuongHieu.php';
+                        //                 })</script>";
+                        //     } 
+                        //     else
+                        //     {
+                        //         echo "<script>swal('Thất bại','Xóa thương hiệu không thành công','error').then(function(){
+                        //                         window.location='add-ThuongHieu.php';
+                        //             })</script>";
+                        //     }  
+                        // }
+                    ?>
+                </form>
+            </div>
+        </div> -->
+
+<?php
+include_once 'component/footer.php'
+?>

@@ -1,0 +1,88 @@
+.duongdan{
+    padding: 20px 70px;
+    background-color: aliceblue;
+}
+.duongdan a{
+    text-decoration: none;
+    color: black;
+}
+.duongdan a:hover{
+    color: #4479d4;
+}
+
+.thumbnail img {
+    cursor: pointer;
+}
+
+.thumbnail img.active {
+    border-color: orange;
+}
+
+.carousel-indicators {
+    bottom: -30px;
+}
+.carousel-inner{
+    width: 380px;
+    height: 450px;
+}
+.carousel-item {
+    transition: all 1s ease;
+}
+.carousel-item img{
+    object-fit: cover;
+}
+.thumbnail img {
+    cursor: pointer;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    object-fit: cover;
+}
+
+.thumbnail img.active {
+    border-color: orange;
+    transform: scale(1.1); /* Tăng kích thước thumbnail khi được chọn */
+}
+#demo{
+    max-width: 500px;
+}
+.slider{
+    margin-left: 150px;
+}
+.box-size{
+    background-color: #f2f2f2;
+    width: 100px;
+    margin-inline-start: 0px;
+    border: 1px solid orange;
+    padding: 10px 12px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+.box-soLuong-sl{
+    background-color: #f2f2f2;
+    border: 1px solid orange;
+    outline-color: orange;
+    border-radius: 5px; 
+    padding: 10px 20px;
+}
+#themgiohang ,#muahang a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+#themgiohang{
+    margin-right: 20px;
+    padding: 7px 20px;
+}
+#themgiohang:hover ,#muahang:hover{
+    background-color: white;
+}
+#themgiohang:hover,#muahang:hover a{
+    color: orange;
+}
+.btn-danhGia{
+    background-color: #4479d4;
+}
+.box-danhGia{
+    border: 1px solid rgb(228, 228, 228);
+    padding: 20px 80px;
+    background-color: #f2f2f2;
+}
