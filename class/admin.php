@@ -668,6 +668,7 @@
                         <td>
                             <form method="post">
                                 <input type="hidden" name="id_dgh" id="id_dgh" value="'.$id_HD.'">
+                                <input type="submit" name="nut_huy" value="Hủy" class="btn btn-danger btn-sm" onclick="return confirm(\'Bạn có chắc chắn muốn hủy không ?\')">
                                 <input type="submit" name="nut_hoanthanh" value="Xong" class="btn btn-success btn-sm">
                                         
                             </form>

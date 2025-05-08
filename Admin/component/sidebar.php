@@ -111,7 +111,7 @@
     if($_SESSION['id_quyen']!='3')
     {
         echo '<li class="nav-item role">
-        <a class="nav-link position-relative" href="danhSachHD.php">
+        <a class="nav-link position-relative" href="danhSachHD.php?loc=cxl">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Đơn đặt hàng</span>';
         
@@ -139,7 +139,7 @@
     {
 
         echo '<li class="nav-item">
-        <a class="nav-link position-relative" href="danhSachGH.php">
+        <a class="nav-link position-relative" href="danhSachGH.php?loc=cgh">
         <i class="fas fa-fw fa-table"></i>
         <span>Giao hàng</span>';
             

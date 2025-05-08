@@ -63,17 +63,8 @@
         }
         public function uploadfile($name,$tmp_name,$folder)
 		{	
-			//$a=1;
 			if($name!='') 
 			{
-				// $name_a=$name;
-				// while(file_exists($folder.'/'.$name_a))
-				// {
-				// 	$name_a=$a.'_'.$name;
-				// 	$a++;
-					
-				// }
-				// $name=time().'_'.$name;
 				$des=$folder.'/'.$name;
 				if(move_uploaded_file($tmp_name,$des))	
 				{

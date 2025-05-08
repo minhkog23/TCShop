@@ -1,9 +1,14 @@
-
 <?php
-    include '../class/admin.php';
-    $ad=new admin();
+include '../class/admin.php';
+$ad = new admin();
 ?>
-
+<?php
+include '../class/auth.php';
+$checkRole = new auth();
+if ($checkRole->checkRoleAdmin() == 0) {
+    header('location:index.php');
+}
+?>
 <?php
 include 'component/header.php';
 ?>
@@ -40,24 +45,22 @@ include 'component/header.php';
                     </tfoot>
                     <tbody>
                         <?php
-                            $ad->getThuongHieu('select * from thuonghieu order by id_ThuongHieu desc');
+                        $ad->getThuongHieu('select * from thuonghieu order by id_ThuongHieu desc');
                         ?>
-                        
+
                     </tbody>
                 </table>
 
                 <?php
-                    if(isset($_REQUEST['nut_xoa'])&&$_REQUEST['nut_xoa']=='Xóa')
-                    {
-                        $id_xoa=$_REQUEST['id_xoa'];
-                        echo $id_xoa;
-                        if($ad->themxoasua("DELETE FROM thuonghieu WHERE id_ThuongHieu='$id_xoa'")==1)
-                        {
-                            echo "<script>swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
+                if (isset($_REQUEST['nut_xoa']) && $_REQUEST['nut_xoa'] == 'Xóa') {
+                    $id_xoa = $_REQUEST['id_xoa'];
+                    echo $id_xoa;
+                    if ($ad->themxoasua("DELETE FROM thuonghieu WHERE id_ThuongHieu='$id_xoa'") == 1) {
+                        echo "<script>swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
                                                 window.location='danhSachTH.php';
                                     })</script>";
-                        }   
                     }
+                }
                 ?>
             </form>
         </div>

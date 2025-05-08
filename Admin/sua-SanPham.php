@@ -2,7 +2,13 @@
 include '../class/admin.php';
 $ad = new admin();
 ?>
-
+<?php
+include '../class/auth.php';
+$checkRole = new auth();
+if ($checkRole->checkRoleAdmin() == 0) {
+    header('location:index.php');
+}
+?>
 <?php
 include 'component/header.php';
 ?>
@@ -80,10 +86,6 @@ include 'component/header.php';
 
                 <div class="form-group mb-4 mt-2 col-md-12 border rounded">
                     <p class="pt-2">Thông Số: <span style="color: red">*</span></p>
-                    <!-- <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="txtthongso" id="txtthongso" value="option1">
-                            <label class="form-check-label" for="txtthongso">3U5</label>
-                        </div> -->
                     <?php
                     $size = $ad->laycot_lap("SELECT size FROM `chitietsanpham` where id_maSP='$id_sua' ");
                     $ad->getThongSo_sua_SanPham('SELECT *
@@ -121,34 +123,6 @@ include 'component/header.php';
                 $moTa = $_REQUEST['txtmota'];
                 $thongSo = $_REQUEST['txtthongso'];
                 $mauSac = $_REQUEST['txtmausac'];
-                // echo'<br>';
-                // echo $tensp;
-                // echo'<br>';
-                // echo $DongSP;
-                // echo'<br>';
-                // echo $dongia;
-                // echo'<br>';
-                // echo $anhNen_name;
-                // echo $anhNen_tmp_name;
-                // echo'<br>';
-                // for ($i = 0; $i < count($anhChiTiet_name); $i++) {
-                //     echo $anhChiTiet_name[$i];
-                //     echo '_';
-                // }
-
-                // echo'<br>';
-                // echo $moTa;
-                // echo'<br>';
-                // for ($i = 0; $i < count($thongSo); $i++) {
-                //     echo $thongSo[$i];
-                //     echo '_';
-                //     echo'<br>';
-                // }
-                // for ($i = 0; $i < count($mauSac); $i++) {
-                //     echo $mauSac[$i];
-                //     echo '_';
-                // }
-
 
                 //xử lý update chỉ có ảnh nền
                 if (isset($_FILES['fileAnhNen']) && $anhNen_name != '') {
@@ -175,10 +149,9 @@ include 'component/header.php';
                                     if ($thongSo_i != '') {
                                         // Thêm thông số kỹ thuật vào bảng chitietsanpham
                                         if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                                            VALUES ('$id_sua','$thongSo_i')") != 1) 
-                                        {
-                                                echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật thất bại", "error")</script>';
-                                        }  
+                                                            VALUES ('$id_sua','$thongSo_i')") != 1) {
+                                            echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật thất bại", "error")</script>';
+                                        }
                                     }
                                 }
                             }
@@ -245,13 +218,12 @@ include 'component/header.php';
                                 $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
                                 // Kiểm tra kích thước không rỗng
                                 if ($thongSo_i != '') {
-                                   
+
                                     // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
                                     if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                                                VALUES ('$id_sua','$thongSo_i')") != 1) 
-                                    {
+                                                                VALUES ('$id_sua','$thongSo_i')") != 1) {
                                         echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật thất bại", "error")</script>';
-                                    }  
+                                    }
                                 }
                             }
                         }
@@ -320,15 +292,14 @@ include 'component/header.php';
                                         // Xử lý kích thước 
                                         for ($i = 0; $i < count($thongSo); $i++) {
                                             $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
-        
+
                                             // Kiểm tra kích thước không rỗng
                                             if ($thongSo_i != '') {
                                                 // Thêm thông số kỹ thuật vào bảng chitietsanpham
                                                 if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                                                    VALUES ('$id_sua','$thongSo_i')") != 1) 
-                                                {
-                                                        echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật thất bại", "error")</script>';
-                                                }  
+                                                                    VALUES ('$id_sua','$thongSo_i')") != 1) {
+                                                    echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật thất bại", "error")</script>';
+                                                }
                                             }
                                         }
                                     }
@@ -354,12 +325,9 @@ include 'component/header.php';
                             if ($thongSo_i != '') {
                                 // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
                                 if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                                    VALUES ('$id_sua','$thongSo_i')") != 1) 
-                                {
+                                                    VALUES ('$id_sua','$thongSo_i')") != 1) {
                                     echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật thất bại", "error")</script>';
                                 }
-                                
-                                
                             }
                         }
                     } else {

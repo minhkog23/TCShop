@@ -179,7 +179,6 @@
                     $tenSP=$item['product_name'];
                     $donGia=$item['price'];
                     $size=$item['size'];
-                    $color=$item['color'];
 
                     $tensp=$cart[$i]['product_name'];
                     $sl=$cart[$i]['quantity'];
@@ -187,8 +186,8 @@
                     $tongTien=$itemTotal;
 
                     $id_maSP=$p->laycot("select id_maSP from sanpham where tenSP='$tensp'");
-                    if($p->themxoasua("INSERT INTO chitiethoadon(id_HD, soLuong, donGia, thanhTien, size, maMau, id_maSP) 
-                                        VALUES ('$id_HD','$sl','$dongia','$tongTien','$size','$color','$id_maSP')
+                    if($p->themxoasua("INSERT INTO chitiethoadon(id_HD, soLuong, donGia, thanhTien, size, id_maSP) 
+                                        VALUES ('$id_HD','$sl','$dongia','$tongTien','$size','$id_maSP')
 
                                     ")!=1)
                     {
