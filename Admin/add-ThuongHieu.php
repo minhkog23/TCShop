@@ -54,7 +54,7 @@ include 'component/header.php';
                                         swal('Thành công','Thêm thương hiệu thành công','success').then(function(){
                                                     window.location='add-ThuongHieu.php';
                                         });
-                                        setTimeOut(function(){
+                                        setTimeout(function(){
                                             window.location='add-ThuongHieu.php';
                                         }, 2000);
                                 </script>";
@@ -111,7 +111,7 @@ include 'component/header.php';
                                     swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
                                             window.location='add-ThuongHieu.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='add-ThuongHieu.php';
                                     }, 2000);
                             </script>";

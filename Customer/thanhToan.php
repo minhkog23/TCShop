@@ -160,7 +160,7 @@ $p = new login();
                         swal("Thất bại","Đặt hàng thất bại","error").then(function(){
                             window.location="cart.php";
                         });
-                        setTimeOut(function(){
+                        setTimeout(function(){
                             window.location="cart.php";
                         }, 2000);
                     </script>';
@@ -201,7 +201,7 @@ $p = new login();
                             swal("Thành công","Đặt hàng thành công","success").then(function(){
                             window.location="index.php";
                             });
-                            setTimeOut(function(){
+                            setTimeout(function(){
                                 window.location="index.php";
                             }, 2000);
                         </script>';

@@ -163,7 +163,7 @@ if (isset($_REQUEST['id_nv']) || isset($_REQUEST['id_kh'])) {
                             swal('Thành công','Cập nhập thành công','success').then(function(){
                                 window.location = 'taiKhoan-kh.php';
                             });
-                            setTimeOut(function(){
+                            setTimeout(function(){
                                 window.location = 'taiKhoan-kh.php';
                             }, 2000);
                         </script>";
@@ -185,7 +185,7 @@ if (isset($_REQUEST['id_nv']) || isset($_REQUEST['id_kh'])) {
                             swal('Thành công','Cập nhập thành công','success').then(function(){
                                 window.location = 'taiKhoan-nv.php';
                             });
-                            setTimeOut(function(){
+                            setTimeout(function(){
                                 window.location = 'taiKhoan-nv.php';
                             }, 2000);
                         </script>";

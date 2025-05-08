@@ -69,7 +69,7 @@
                                                 swal("Thành công","Đăng ký thành công","success").then(function(){
                                                             window.location="login.php";
                                                 });
-                                                setTimeOut(function(){
+                                                setTimeout(function(){
                                                     window.location="login.php";
                                                 }, 2000);
                                             </script>';

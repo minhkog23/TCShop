@@ -47,7 +47,7 @@ include 'component/header.php';
                             echo "<script>swal('Thành công','Thêm thông số thành công','success').then(function(){
                                                 window.location='add-SanPham-thongSo.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='add-SanPham-thongSo.php';
                                     }, 2000);    
                                 </script>";
@@ -97,7 +97,7 @@ include 'component/header.php';
                                 swal('Thành công','Xóa thông số thành công','success').then(function(){
                                         window.location='add-SanPham-thongSo.php';
                                 });
-                                setTimeOut(function(){
+                                setTimeout(function(){
                                     window.location='add-SanPham-thongSo.php';
                                 }, 2000);
                             </script>";

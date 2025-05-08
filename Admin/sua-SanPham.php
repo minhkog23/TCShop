@@ -101,14 +101,6 @@ include 'component/header.php';
             </div>
             <?php
             if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-items') {
-                // if($_REQUEST['txttensp']!='' && $_REQUEST['selectDongSP']!='' && $_REQUEST['txtdongia']!='' && $_FILES['fileAnhNen']['name']!='' && $_FILES['fileAnhChiTiet']['name']!='' && $_REQUEST['txtthongso']!=''  && $_REQUEST['txtmausac']!='' )
-                // {
-
-                // }
-                // else
-                // {
-                //     echo '<script>swal("Thất bại","Vui lòng nhập đầy đủ thông tin bắt buộc","error")</script>';
-                // }
                 $tensp = $_REQUEST['txttensp'];
                 $DongSP = $_REQUEST['selectDongSP'];
                 $dongia = $_REQUEST['txtdongia'];
@@ -122,7 +114,6 @@ include 'component/header.php';
                 $anhChiTiet_size = $_FILES['fileAnhChiTiet']['size'];
                 $moTa = $_REQUEST['txtmota'];
                 $thongSo = $_REQUEST['txtthongso'];
-                $mauSac = $_REQUEST['txtmausac'];
 
                 //xử lý update chỉ có ảnh nền
                 if (isset($_FILES['fileAnhNen']) && $anhNen_name != '') {
@@ -138,7 +129,7 @@ include 'component/header.php';
                                         swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
                                                     window.location="danhSachSP.php";
                                         });
-                                        setTimeOut(function(){
+                                        setTimeout(function(){
                                             window.location="danhSachSP.php";
                                         }, 2000);
                                     </script>';
@@ -202,7 +193,7 @@ include 'component/header.php';
                                     swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
                                             window.location="danhSachSP.php";
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location="danhSachSP.php";
                                     }, 2000);
                                 </script>';
@@ -252,7 +243,7 @@ include 'component/header.php';
                                         swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
                                                     window.location="danhSachSP.php";
                                         });
-                                        setTimeOut(function(){
+                                        setTimeout(function(){
                                             window.location="danhSachSP.php";
                                         }, 2000);
                                     </script>';
@@ -330,7 +321,7 @@ include 'component/header.php';
                                     swal("Thành Công","Cập nhật sản phẩm thành công","success").then(function(){
                                         window.location="danhSachSP.php";
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location="danhSachSP.php";
                                     }, 2000);
                                 </script>';

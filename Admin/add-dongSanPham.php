@@ -60,7 +60,7 @@ include 'component/header.php';
                                     swal('Thành công','Thêm dòng sản phẩm thành công','success').then(function(){
                                                 window.location='danhSachDongSP.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='danhSachDongSP.php';
                                     }, 2000);
                                 </script>";

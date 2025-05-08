@@ -42,7 +42,7 @@ include 'component/header.php';
                                     swal('Thành công','Khóa tài khoản thành công!','success').then(function() {
                                         window.location='taiKhoan-kh.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='taiKhoan-kh.php';
                                     }, 2000);
                                 </script>";
@@ -60,7 +60,7 @@ include 'component/header.php';
                                     swal('Thành công','Mở khóa tài khoản thành công!','success').then(function() {
                                         window.location='taiKhoan-kh.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='taiKhoan-kh.php';
                                     }, 2000);
                                 </script>";

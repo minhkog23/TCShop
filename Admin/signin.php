@@ -52,12 +52,12 @@
                   if ($_REQUEST['txtemail'] != '' || $_REQUEST['txtpass'] != '') {
                     $user = $_REQUEST['txtemail'];
                     $pass = $_REQUEST['txtpass'];
-                    if ($lg->mylogin_admin($user, $pass) == 1) {
+                    if ($lg->mylogin_admin($user, md5($pass)) == 1) {
                       echo '<script>
                                 swal("Thành công","Đăng nhập thành công","success").then(function(){
                                   window.location="index.php";
                                 });
-                                setTimeOut(function(){
+                                setTimeout(function(){
                                   window.location="index.php";
                                 }, 2000);
                         </script>';

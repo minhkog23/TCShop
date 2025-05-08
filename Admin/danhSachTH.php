@@ -60,7 +60,7 @@ include 'component/header.php';
                                     swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
                                                 window.location='danhSachTH.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='danhSachTH.php';
                                     }, 2000);
                             </script>";

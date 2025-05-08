@@ -31,7 +31,7 @@ include_once 'component/header.php';
                                     swal("Thành công","Đăng nhập thành công","success").then(function(){
                                                 window.location="index.php";
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location="index.php";
                                     }, 2000);
                                                     

@@ -26,7 +26,7 @@
                 swal("Thành công","Đăng xuất thành công","success").then(function(){
                                 window.location="../../Customer/";
                 });
-                setTimeOut(function(){
+                setTimeout(function(){
                     window.location="../../Customer/";
                 }, 2000);
             </script>'

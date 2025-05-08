@@ -95,7 +95,7 @@ include 'component/header.php';
                                         swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
                                             window.location="danhSachSP.php";
                                         });
-                                        setTimeOut(function(){
+                                        setTimeout(function(){
                                             window.location="danhSachSP.php";
                                         }, 2000);
                                     </script>';

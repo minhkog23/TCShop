@@ -151,7 +151,7 @@ include 'component/header.php';
                         }
                     }
                 } else if (isset($_REQUEST['loc']) && $_REQUEST['loc'] == 'huy') {
-                    $ad->getHD_huy('select * from hoadon where tinhtrang="Hủy bỏ" order by id_HD desc');
+                    $ad->getHD_huy('select * from hoadon where tinhtrang="Hủy" order by id_HD desc');
                 } else if (isset($_REQUEST['loc']) && $_REQUEST['loc'] == 'ht') {
                     $ad->getHD_ht('select * from hoadon where tinhtrang="Hoàn thành" order by id_HD desc');
                 } else {

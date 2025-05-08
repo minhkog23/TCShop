@@ -93,7 +93,7 @@ include 'component/header.php';
                                     swal('Thành công','Thêm tài khoản thành công!','success').then(function() {
                                         window.location = 'taiKhoan-nv.php';
                                     });
-                                    setTimeOut(function(){
+                                    setTimeout(function(){
                                         window.location='taiKhoan-nv.php';
                                     }, 2000);
                                 </script>";

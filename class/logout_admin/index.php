@@ -24,7 +24,7 @@
                 swal("Thành công","Đăng xuất thành công","success").then(function(){
                                 window.location="../../Admin/signin.php";
                 });
-                setTimeOut(function(){
+                setTimeout(function(){
                     window.location="../../Admin/signin.php";
                 }, 2000);
         </script>';

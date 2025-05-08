@@ -75,7 +75,7 @@
                         swal("Thành công","Thêm vào giỏ hàng thành công","success").then(function(){
                         window.location="product_detail.php?maSP='.$id_maSP.'";
                         });
-                        setTimeOut(function(){
+                        setTimeout(function(){
                             window.location="product_detail.php?maSP='.$id_maSP.'";
                         }, 2000);
                 </script>';
