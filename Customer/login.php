@@ -25,8 +25,8 @@
                             if(isset($_REQUEST['nut_dangnhap']) && $_REQUEST['nut_dangnhap']=='Đăng nhập')
                             {
                                 $user=$_REQUEST['txtemail'];
-                                $pass=$_REQUEST['txtpwd'];
-                                if($p->mylogin($user,$pass)!=1)
+                                $pass=$_REQUEST['txtpwd'];  
+                                if($p->mylogin($user,md5($pass))!=1)
                                 {
                                     echo'<script>swal("Thất bại","Sai tài khoản hoặc mật khẩu","error")</script>';
                                 }

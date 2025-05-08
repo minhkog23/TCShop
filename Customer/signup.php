@@ -60,9 +60,9 @@
                                 {
                                     if($pass==$pass_sm)
                                     {
-                                        //$pass_mh=md5($pass);
-                                        if($p->themxoasua("INSERT INTO khachhang(ho, ten, email, sdt, diaChi, matKhau) 
-                                                            VALUES ('$ho','$ten','$user','$sdt','$diaChi','$pass')
+                                        $pass_mh=md5($pass);
+                                        if($p->themxoasua("INSERT INTO khachhang(ho, ten, email, sdt, diaChi, matKhau,tinhTrang) 
+                                                            VALUES ('$ho','$ten','$user','$sdt','$diaChi','$pass_mh','Active')
                                                             ")==1)
                                         {
                                             echo'<script>swal("Thành công","Đăng ký thành công","success").then(function(){

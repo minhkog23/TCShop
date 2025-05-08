@@ -19,6 +19,7 @@
 
         public function mylogin($user,$pass)
         {
+            
             $sql="select * from khachhang where email='$user' and matKhau='$pass' and tinhTrang='Active' limit 1";
             $link=$this->myconnect();
             $result=mysqli_query($link,$sql);
