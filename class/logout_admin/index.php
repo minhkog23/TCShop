@@ -20,9 +20,14 @@
             unset($_SESSION['passNV']);
             unset($_SESSION['id_quyen']);
         }
-        echo '<script>swal("Thành công","Đăng xuất thành công","success").then(function(){
-                        window.location="../../Admin/signin.php";
-        });</script>'
+        echo '<script>
+                swal("Thành công","Đăng xuất thành công","success").then(function(){
+                                window.location="../../Admin/signin.php";
+                });
+                setTimeOut(function(){
+                    window.location="../../Admin/signin.php";
+                }, 2000);
+        </script>';
     ?>
 
 </body>

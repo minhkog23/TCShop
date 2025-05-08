@@ -79,7 +79,6 @@ include 'component/header.php';
             $txt_sdt = $_REQUEST['txt_sdt'];
             $txt_diachi = $_REQUEST['txt_diachi'];
             $txt_pass = $_REQUEST['txt_pass'];
-            // $txt_tinhTrang=$_REQUEST['txt_tinhTrang'];
             $select_quyen = $_REQUEST['select_quyen'];
             if (
                 isset($txt_hodem) && $txt_hodem != "" || isset($txt_ten) && $txt_ten != "" || isset($txt_email) && $txt_email != ""
@@ -91,9 +90,12 @@ include 'component/header.php';
                     if ($ad->themxoasua("INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
                         VALUES ('$txt_hodem','$txt_ten','$txt_email','$txt_sdt','$txt_diachi','$pass','Active','$select_quyen')") == 1) {
                         echo "<script>
-                                        swal('Thành công','Thêm tài khoản thành công!','success').then(function() {
-                                            window.location = 'taiKhoan-nv.php';
-                                        });
+                                    swal('Thành công','Thêm tài khoản thành công!','success').then(function() {
+                                        window.location = 'taiKhoan-nv.php';
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='taiKhoan-nv.php';
+                                    }, 2000);
                                 </script>";
                     } else {
                         echo "<script>alert('Thêm tài khoản không thành công!')</script>";
@@ -101,10 +103,10 @@ include 'component/header.php';
                     }
                 } else {
                     echo "<script>
-                                        swal('Thất bại','Email đã tồn tại. Vui lòng nhập email khác !','error').then(function() {
-                                            window.location = 'add-taiKhoan.php';
-                                        });
-                                </script>";
+                            swal('Thất bại','Email đã tồn tại. Vui lòng nhập email khác !','error').then(function() {
+                                    window.location = 'add-taiKhoan.php';
+                            });
+                        </script>";
                 }
             } else {
                 echo "<script>alert('Vui lòng nhập đầy đủ thông tin!')</script>";

@@ -99,13 +99,13 @@ include 'component/header.php';
                                                         SET tinhTrang='Đang giao hàng', id_NV_giaoHang='$id_nv_giaoHang'
                                                         WHERE id_HD='$id_gh'") == 1) {
                                 echo "<script>
-                                                    swal('Thành công','Đơn hàng sẽ được giao.','success').then(function(){
-                                                        window.location='danhSachGH.php?loc=dgh';
-                                                    });
-                                                    setTimeout(function() {
-                                                        window.location = 'danhSachGH.php?loc=dgh';
-                                                    }, 2000);
-                                                </script>";
+                                            swal('Thành công','Đơn hàng sẽ được giao.','success').then(function(){
+                                                window.location='danhSachGH.php?loc=dgh';
+                                            });
+                                            setTimeout(function() {
+                                                window.location = 'danhSachGH.php?loc=dgh';
+                                            }, 2000);
+                                    </script>";
                             }
                         } else {
                             echo "<script>
@@ -124,13 +124,13 @@ include 'component/header.php';
                                                         SET ngayGiao='$ngayHienTai', tinhTrang='Hoàn thành'
                                                         WHERE id_HD='$id_dgh'") == 1) {
                             echo "<script>
-                                                    swal('Thành công','Giao hàng thành công.','success').then(function(){
-                                                        window.location='danhSachGH.php?loc=cgh';
-                                                    });
-                                                    setTimeout(function() {
-                                                            window.location = 'danhSachGH.php?loc=cgh';
-                                                        }, 2000);
-                                                </script>";
+                                        swal('Thành công','Giao hàng thành công.','success').then(function(){
+                                            window.location='danhSachGH.php?loc=cgh';
+                                        });
+                                        setTimeout(function() {
+                                            window.location = 'danhSachGH.php?loc=cgh';
+                                        }, 2000);
+                                </script>";
                         }
                     }
                     // xử lý hủy đơn hàng
@@ -163,9 +163,14 @@ include 'component/header.php';
                     $id_xoa = $_REQUEST['id_xoa'];
                     echo $id_xoa;
                     if ($ad->themxoasua("DELETE FROM hoadon WHERE id_HD='$id_xoa'") == 1) {
-                        echo "<script>swal('Thành công','Xóa thành công','success').then(function(){
-                                                window.location='danhSachHD.php';
-                                    })</script>";
+                        echo "<script>
+                                    swal('Thành công','Xóa thành công','success').then(function(){
+                                        window.location='danhSachHD.php';
+                                    });
+                                    setTimeout(function() {
+                                        window.location = 'danhSachHD.php';
+                                    }, 2000);
+                            </script>";
                     }
                 }
                 ?>

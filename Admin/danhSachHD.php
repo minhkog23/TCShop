@@ -174,8 +174,7 @@ include 'component/header.php';
                                     setTimeout(function() {
                                         window.location = 'danhSachHD.php?loc=cxl';
                                     }, 2000);
-                                    
-                                    </script>";
+                                </script>";
                     }
                 }
                 ?>

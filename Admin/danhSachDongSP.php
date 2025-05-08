@@ -43,7 +43,7 @@ include 'component/header.php';
                     <tbody>
                         <?php
                         $ad->getDongSP('SELECT *
-                                            FROM dongsanpham dsp JOIN thuonghieu th ON dsp.id_ThuongHieu=th.id_ThuongHieu order by id_dongSP desc');
+                                        FROM dongsanpham dsp JOIN thuonghieu th ON dsp.id_ThuongHieu=th.id_ThuongHieu order by id_dongSP desc');
                         ?>
 
                     </tbody>
@@ -54,9 +54,14 @@ include 'component/header.php';
                     $id_xoa = $_REQUEST['id_xoa'];
                     echo $id_xoa;
                     if ($ad->themxoasua("DELETE FROM dongsanpham WHERE id_dongSP='$id_xoa'") == 1) {
-                        echo "<script>swal('Thành công','Xóa dòng sản phẩm thành công','success').then(function(){
-                                                window.location='danhSachDongSP.php';
-                                    })</script>";
+                        echo "<script>
+                                    swal('Thành công','Xóa dòng sản phẩm thành công','success').then(function(){
+                                        window.location='danhSachDongSP.php';
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='danhSachDongSP.php';
+                                    }, 2000);
+                            </script>";
                     }
                 }
                 ?>

@@ -42,6 +42,9 @@ include 'component/header.php';
                                     swal('Thành công','Khóa tài khoản thành công!','success').then(function() {
                                         window.location='taiKhoan-kh.php';
                                     });
+                                    setTimeOut(function(){
+                                        window.location='taiKhoan-kh.php';
+                                    }, 2000);
                                 </script>";
                         } else {
                             echo "<script>alert('Khóa tài khoản không thành công!');</script>";
@@ -57,6 +60,9 @@ include 'component/header.php';
                                     swal('Thành công','Mở khóa tài khoản thành công!','success').then(function() {
                                         window.location='taiKhoan-kh.php';
                                     });
+                                    setTimeOut(function(){
+                                        window.location='taiKhoan-kh.php';
+                                    }, 2000);
                                 </script>";
                         } else {
                             echo "<script>alert('Mở khóa tài khoản không thành công!');</script>";

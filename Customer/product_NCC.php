@@ -60,7 +60,7 @@
                 {
                     echo '<p class="" align="left">Sản phẩm của <span> '.$tenThuongHieu.'</span> <span>/ '.$tenDongSP.'</span></p>';
                 }
-                else //(isset($_REQUEST['id_ThuongHieu']))
+                else
                 {
                     echo '<p class="" align="left">Sản phẩm của <span> '.$tenThuongHieu.'</span></p>';
                 }

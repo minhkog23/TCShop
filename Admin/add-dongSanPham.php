@@ -56,9 +56,14 @@ include 'component/header.php';
                     } else {
                         if ($ad->themxoasua("INSERT INTO dongsanpham(tenDongSP, id_ThuongHieu) 
                                                     VALUES ('$tendsp','$tenThuongHieu')") == 1) {
-                            echo "<script>swal('Thành công','Thêm dòng sản phẩm thành công','success').then(function(){
-                                                    window.location='danhSachDongSP.php';
-                                        })</script>";
+                            echo "<script>
+                                    swal('Thành công','Thêm dòng sản phẩm thành công','success').then(function(){
+                                                window.location='danhSachDongSP.php';
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='danhSachDongSP.php';
+                                    }, 2000);
+                                </script>";
                         } else {
                             echo "<script>swal('Thất bại','Thêm dòng sản phẩm không thành công','error').then(function(){
                                                     window.location='add-dongSanPham.php';

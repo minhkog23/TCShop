@@ -160,10 +160,13 @@ if (isset($_REQUEST['id_nv']) || isset($_REQUEST['id_kh'])) {
                                         SET ho='$txt_hodem',ten='$txt_ten',email='$txt_email',sdt='$txt_sdt',diaChi='$txt_diachi',matKhau='$txt_pass',tinhTrang='$txt_tinhTrang'
                                         WHERE id_kh='$id_kh'") == 1) {
                     echo "<script>
-                                        swal('Thành công','Cập nhập thành công','success').then(function(){
-                                        window.location = 'taiKhoan-kh.php';
-                                        });
-                                </script>";
+                            swal('Thành công','Cập nhập thành công','success').then(function(){
+                                window.location = 'taiKhoan-kh.php';
+                            });
+                            setTimeOut(function(){
+                                window.location = 'taiKhoan-kh.php';
+                            }, 2000);
+                        </script>";
                 } else {
                     echo "<script>alert('Cập nhật tài khoản thất bại');</script>";
                 }
@@ -179,10 +182,13 @@ if (isset($_REQUEST['id_nv']) || isset($_REQUEST['id_kh'])) {
                                         SET hoNV='$txt_hodem',tenNV='$txt_ten',emailNV='$txt_email',sdtNV='$txt_sdt',diaChiNV='$txt_diachi',matKhauNV='$txt_pass',tinhTrang='$txt_tinhTrang'
                                         WHERE id_nv='$id_nv'") == 1) {
                     echo "<script>
-                                        swal('Thành công','Cập nhập thành công','success').then(function(){
-                                        window.location = 'taiKhoan-nv.php';
-                                        });
-                                </script>";
+                            swal('Thành công','Cập nhập thành công','success').then(function(){
+                                window.location = 'taiKhoan-nv.php';
+                            });
+                            setTimeOut(function(){
+                                window.location = 'taiKhoan-nv.php';
+                            }, 2000);
+                        </script>";
                 } else {
                     echo "<script>alert('Cập nhật tài khoản thất bại');</script>";
                 }

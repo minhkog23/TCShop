@@ -50,9 +50,14 @@ include 'component/header.php';
                     } else {
                         if ($ad->themxoasua("INSERT INTO thuonghieu(tenThuongHieu, moTa) 
                                                     VALUES ('$tenThuongHieu','$mota')") == 1) {
-                            echo "<script>swal('Thành công','Thêm thương hiệu thành công','success').then(function(){
+                            echo "<script>
+                                        swal('Thành công','Thêm thương hiệu thành công','success').then(function(){
                                                     window.location='add-ThuongHieu.php';
-                                        })</script>";
+                                        });
+                                        setTimeOut(function(){
+                                            window.location='add-ThuongHieu.php';
+                                        }, 2000);
+                                </script>";
                         } else {
                             echo "<script>swal('Thất bại','Thêm thương hiệu không thành công','error').then(function(){
                                                     window.location='add-ThuongHieu.php';
@@ -102,9 +107,14 @@ include 'component/header.php';
                 if (isset($_REQUEST['nut_xoa']) && $_REQUEST['nut_xoa'] == 'Xóa') {
                     $id_xoa = $_REQUEST['id_xoa'];
                     if ($ad->themxoasua("DELETE FROM thuonghieu WHERE id_ThuongHieu='$id_xoa'") == 1) {
-                        echo "<script>swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
-                                                    window.location='add-ThuongHieu.php';
-                                        })</script>";
+                        echo "<script>
+                                    swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
+                                            window.location='add-ThuongHieu.php';
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='add-ThuongHieu.php';
+                                    }, 2000);
+                            </script>";
                     } else {
                         echo "<script>swal('Thất bại','Xóa thương hiệu không thành công','error').then(function(){
                                                 window.location='add-ThuongHieu.php';

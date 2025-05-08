@@ -134,9 +134,14 @@ include 'component/header.php';
                                                         SET tenSP='$tensp',moTa='$moTa',donGia='$dongia',anh='$anhNen_name_rm',id_dongSP='$DongSP'
                                                         WHERE id_maSP='$id_sua';
                                                      ") == 1) {
-                                echo '<script>swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
+                                echo '<script>
+                                        swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
                                                     window.location="danhSachSP.php";
-                                        })</script>';
+                                        });
+                                        setTimeOut(function(){
+                                            window.location="danhSachSP.php";
+                                        }, 2000);
+                                    </script>';
 
                                 if ($ad->themxoasua("DELETE FROM chitietsanpham WHERE id_maSP='$id_sua'") != 1) {
                                     echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật và màu sắc thất bại", "error")</script>';
@@ -193,9 +198,14 @@ include 'component/header.php';
                                 ") != 1) {
                             echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                         } else {
-                            echo '<script>swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
+                            echo '<script>
+                                    swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
+                                            window.location="danhSachSP.php";
+                                    });
+                                    setTimeOut(function(){
                                         window.location="danhSachSP.php";
-                            })</script>';
+                                    }, 2000);
+                                </script>';
                             //xóa ảnh chi tiết cũ
                             if (isset($anh1)) {
                                 unlink("../main/img/img_product/img_product_detail/$anh1");
@@ -238,9 +248,14 @@ include 'component/header.php';
                                                         SET tenSP='$tensp',moTa='$moTa',donGia='$dongia',anh='$anhNen_name_rm',id_dongSP='$DongSP'
                                                         WHERE id_maSP='$id_sua';
                                                      ") == 1) {
-                                echo '<script>swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
+                                echo '<script>
+                                        swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
                                                     window.location="danhSachSP.php";
-                                        })</script>';
+                                        });
+                                        setTimeOut(function(){
+                                            window.location="danhSachSP.php";
+                                        }, 2000);
+                                    </script>';
 
                                 // xử lý bảng anh_chitietsp
                                 for ($i = 0; $i < count($anhChiTiet_name); $i++) {
@@ -311,9 +326,14 @@ include 'component/header.php';
                     }
                 } else {
                     if ($ad->themxoasua("UPDATE sanpham SET tenSP='$tensp', moTa='$moTa', donGia='$dongia', id_dongSP='$DongSP' WHERE id_maSP='$id_sua'") == 1) {
-                        echo '<script>swal("Thành Công","Cập nhật sản phẩm thành công","success").then(function(){
-                                                window.location="danhSachSP.php";
-                                    })</script>';
+                        echo '<script>
+                                    swal("Thành Công","Cập nhật sản phẩm thành công","success").then(function(){
+                                        window.location="danhSachSP.php";
+                                    });
+                                    setTimeOut(function(){
+                                        window.location="danhSachSP.php";
+                                    }, 2000);
+                                </script>';
 
                         if ($ad->themxoasua("DELETE FROM chitietsanpham WHERE id_maSP='$id_sua'") != 1) {
                             echo '<script>swal("Thất bại", "Cập nhật thông số kỹ thuật và màu sắc thất bại", "error")</script>';

@@ -54,9 +54,13 @@
                     $pass = $_REQUEST['txtpass'];
                     if ($lg->mylogin_admin($user, $pass) == 1) {
                       echo '<script>
-                                    swal("Thành công","Đăng nhập thành công","success").then(function(){
-                                    window.location="index.php";
-                        });</script>';
+                                swal("Thành công","Đăng nhập thành công","success").then(function(){
+                                  window.location="index.php";
+                                });
+                                setTimeOut(function(){
+                                  window.location="index.php";
+                                }, 2000);
+                        </script>';
                     } else {
                       echo '<script>
                                     swal("Thất bại","Sai tài khoản hoặc mật khẩu","error")

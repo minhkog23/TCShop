@@ -65,9 +65,14 @@
                                                             VALUES ('$ho','$ten','$user','$sdt','$diaChi','$pass_mh','Active')
                                                             ")==1)
                                         {
-                                            echo'<script>swal("Thành công","Đăng ký thành công","success").then(function(){
-                                                        window.location="login.php";
-                                            })</script>';
+                                            echo'<script>
+                                                swal("Thành công","Đăng ký thành công","success").then(function(){
+                                                            window.location="login.php";
+                                                });
+                                                setTimeOut(function(){
+                                                    window.location="login.php";
+                                                }, 2000);
+                                            </script>';
                                         }
                                     }
                                     else

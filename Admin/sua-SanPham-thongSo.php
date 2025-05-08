@@ -96,9 +96,14 @@ include 'component/header.php';
                 if (isset($_REQUEST['nut_xoa']) && $_REQUEST['nut_xoa'] == 'Xóa') {
                     $id_xoa = $_REQUEST['id_xoa'];
                     if ($ad->themxoasua("DELETE FROM size WHERE id_size='$id_xoa'") == 1) {
-                        echo "<script>swal('Thành công','Xóa thông số thành công','success').then(function(){
-                                                window.location='add-SanPham-thongSo.php';
-                                    })</script>";
+                        echo "<script>
+                                    swal('Thành công','Xóa thông số thành công','success').then(function(){
+                                            window.location='add-SanPham-thongSo.php';
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='add-SanPham-thongSo.php';
+                                    }, 2000);
+                            </script>";
                     } else {
                         echo "<script>swal('Thất bại','Xóa thông số không thành công','error').then(function(){
                                             window.location='add-SanPham-thongSo.php';

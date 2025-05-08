@@ -56,23 +56,9 @@ include 'component/header.php';
 
                 <div class="form-group mb-4 mt-2 col-md-12 border rounded">
                     <p class="pt-2">Thông Số: <span style="color: red">*</span></p>
-                    <!-- <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="txtthongso" id="txtthongso" value="option1">
-                            <label class="form-check-label" for="txtthongso">3U5</label>
-                        </div> -->
                     <?php
                     $ad->getThongSo_add_SanPham('SELECT *
                                                 FROM size ');
-                    ?>
-                </div>
-                <div class="form-group mb-4 mt-2 col-md-12 border rounded">
-                    <!-- <p class="pt-2">Màu: <span style="color: red">*</span></p> -->
-                    <!-- <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="txtmausac" id="txtmausac" value="option1">
-                            <label class="form-check-label" for="txtmausac">Đỏ</label>
-                        </div> -->
-                    <?php
-                    //$ad->getMau_add_SanPham('SELECT *FROM mau ');
                     ?>
                 </div>
                 <div class="mb-3 col-md-12 text-center">
@@ -98,33 +84,6 @@ include 'component/header.php';
                 $moTa = $_REQUEST['txtmota'];
                 $thongSo = $_REQUEST['txtthongso'];
                 $mauSac = $_REQUEST['txtmausac'];
-                // echo'<br>';
-                // echo $tensp;
-                // echo'<br>';
-                // echo $DongSP;
-                // echo'<br>';
-                // echo $dongia;
-                // echo'<br>';
-                // echo $anhNen_name;
-                // echo $anhNen_tmp_name;
-                // echo'<br>';
-                // for ($i = 0; $i < count($anhChiTiet_name); $i++) {
-                //     echo $anhChiTiet_name[$i];
-                //     echo '_';
-                // }
-
-                // echo'<br>';
-                // echo $moTa;
-                // echo'<br>';
-                // for ($i = 0; $i < count($thongSo); $i++) {
-                //     echo $thongSo[$i];
-                //     echo '_';
-                //     echo'<br>';
-                // }
-                // for ($i = 0; $i < count($mauSac); $i++) {
-                //     echo $mauSac[$i];
-                //     echo '_';
-                // }
                 if (isset($anhNen_name) && $anhNen_name != '') {
                     $anhNen_name_rm = time() . '_' . $anhNen_name;
                     if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../main/img/img_product")) {
@@ -132,9 +91,14 @@ include 'component/header.php';
                         if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
                                             VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
                                             ") == 1) {
-                            echo '<script>swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
-                                                    window.location="danhSachSP.php";
-                                        })</script>';
+                            echo '<script>
+                                        swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
+                                            window.location="danhSachSP.php";
+                                        });
+                                        setTimeOut(function(){
+                                            window.location="danhSachSP.php";
+                                        }, 2000);
+                                    </script>';
                             $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
                             // echo $id_maSP;
 

@@ -59,9 +59,14 @@ include 'component/header.php';
                         if ($ad->themxoasua("UPDATE dongsanpham
                                                     SET tenDongSP='$tendsp',id_ThuongHieu='$tenThuongHieu'
                                                     WHERE id_dongSP='$id_sua'") == 1) {
-                            echo "<script>swal('Thành công','Sửa dòng sản phẩm thành công','success').then(function(){
-                                                    window.location='danhSachDongSP.php';
-                                        })</script>";
+                            echo "<script>
+                                    swal('Thành công','Sửa dòng sản phẩm thành công','success').then(function(){
+                                        window.location='danhSachDongSP.php';
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='danhSachDongSP.php';
+                                    }, 2000);
+                                </script>";
                         } else {
                             echo "<script>swal('Thất bại','Sửa dòng sản phẩm không thành công','error').then(function(){
                                                     window.location='sua-dongSanPham.php';

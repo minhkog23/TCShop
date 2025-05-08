@@ -57,9 +57,14 @@ include 'component/header.php';
                                         unlink("../main/img/img_product/img_product_detail/$anh4");
                                     }
                                     if ($ad->themxoasua("DELETE FROM chitietsanpham WHERE id_maSP='$id_xoa'") == 1) {
-                                        echo "<script>swal('Thành công','Xóa sản phẩm thành công','success').then(function(){
+                                        echo "<script>
+                                                swal('Thành công','Xóa sản phẩm thành công','success').then(function(){
                                                         window.location='danhSachSP.php';
-                                                })</script>";
+                                                });
+                                                setTimeout(function() {
+                                                    window.location = 'danhSachSP.php';
+                                                }, 2000);
+                                            </script>";
                                     }
                                 }
                             }

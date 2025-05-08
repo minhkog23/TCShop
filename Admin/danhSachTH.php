@@ -56,9 +56,14 @@ include 'component/header.php';
                     $id_xoa = $_REQUEST['id_xoa'];
                     echo $id_xoa;
                     if ($ad->themxoasua("DELETE FROM thuonghieu WHERE id_ThuongHieu='$id_xoa'") == 1) {
-                        echo "<script>swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
+                        echo "<script>
+                                    swal('Thành công','Xóa thương hiệu thành công','success').then(function(){
                                                 window.location='danhSachTH.php';
-                                    })</script>";
+                                    });
+                                    setTimeOut(function(){
+                                        window.location='danhSachTH.php';
+                                    }, 2000);
+                            </script>";
                     }
                 }
                 ?>
