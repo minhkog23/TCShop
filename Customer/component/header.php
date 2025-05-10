@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    <link rel="stylesheet" href="../main/css/trangchu.css">
+    <link rel="stylesheet" href="../assets/css/trangchu.css">
     
     <title><?php echo isset($pageTitle) ? $pageTitle : "Trang chủ"; ?></title>
 </head>
@@ -29,7 +29,7 @@
         <div class="container pt-2">
             <div class="row d-flex justify-content-between align-items-center">
                 <div class="col-md-3">
-                    <a href="index.php"><img src="../main/img/logo.jpg" class="logo col-md-2" alt="Load"></a>
+                    <a href="index.php"><img src="../assets/img/logo.jpg" class="logo col-md-2" alt="Load"></a>
                 </div>
                 <div class="search col-md-6 ">
                     <form action="product.php" method="post">
@@ -63,8 +63,8 @@
                             $id_KH=$_SESSION['id_KH'];
                             echo '<div class="logout">
                                     <ul class="dropdownn_logout">
-                                        <li><a href="donHang.php">Lịch sử mua hàng</a></li>
-                                        <li><a href="#">Thông tin cá nhân</a></li>
+                                        <li><a href="profile.php?loc=order&status=tc">Đơn hàng</a></li>
+                                        <li><a href="profile.php?loc=profile">Hồ sơ cá nhân</a></li>
                                         <li><a href="../class/logout">Đăng xuất</a></li>
                                     </ul>
                                 </div> ';

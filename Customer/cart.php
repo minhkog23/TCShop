@@ -3,7 +3,7 @@
     $pageTitle='Giỏ hàng'; 
     include_once 'component/header.php';
 ?>
-<link rel="stylesheet" href="../main/css/cart.css">
+<link rel="stylesheet" href="../assets/css/cart.css">
 <!-- Đường dẫn -->
     <div class="">
         <div class="duongdan">
@@ -40,7 +40,7 @@
                                 echo '<tr>
                                         <td>
                                             <div class="cart-product d-flex align-items-center">
-                                                <img src="../main/img/img_product/img_product_detail/'.$item['img'].'" alt="Sản phẩm" class="cart-product-img">
+                                                <img src="../assets/img/img_product/img_product_detail/'.$item['img'].'" alt="Sản phẩm" class="cart-product-img">
                                             </div>
                                         </td>
                                         
@@ -119,6 +119,6 @@
                 exit();
             }
         ?>
-<script src="../main/js/cart.js"></script>
+<script src="../assets/js/cart.js"></script>
 <!-- footer -->
 <?php include_once 'component/footer.php' ?>

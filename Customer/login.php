@@ -3,7 +3,7 @@
 $pageTitle = 'Đăng nhập';
 include_once 'component/header.php';
 ?>
-<link rel="stylesheet" href="../main/css/login_KH.css">
+<link rel="stylesheet" href="../assets/css/login_KH.css">
 <div class="container mt-5">
     <div class="box row">
         <div class="box-login" align="center">
@@ -18,6 +18,7 @@ include_once 'component/header.php';
                     <input type="password" class="form-control" id="txtpwd" name="txtpwd" placeholder="Nhập mật khẩu" required>
                 </div>
                 <p align="right">Nếu bạn chưa có tài khoản? <a href="signup.php">Đăng ký</a></p>
+                <p align="right">Quên mật khẩu? <a href="otp_email/forgot_pass.php">Lấy lại mật khẩu</a></p>
                 <button type="submit" name="nut_dangnhap" value="Đăng nhập" class="btn btn-primary w-100" style="background-color:#4479d4">Đăng nhập</button>
                 <div align="center">
                     <?php

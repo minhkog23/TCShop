@@ -7,7 +7,7 @@
     $pageTitle='Sản phẩm theo danh mục'; 
     include_once 'component/header.php' 
 ?>
-<link rel="stylesheet" href="../main/css/product.css">
+<link rel="stylesheet" href="../assets/css/product.css">
 <!-- Đường dẫn -->
     
     <?php

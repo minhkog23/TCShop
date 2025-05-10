@@ -9,7 +9,7 @@
 ?>
 
 
-<link rel="stylesheet" href="../main/css/product_detail.css">
+<link rel="stylesheet" href="../assets/css/product_detail.css">
 <!-- Đường dẫn -->
     <div class="">
         <div class="duongdan">
@@ -110,16 +110,16 @@
                     <!-- The slideshow/carousel -->
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="../main/img/img_product/img_product_detail/<?php echo $anh1?>" alt="LOAD" class="d-block w-100">
+                            <img src="../assets/img/img_product/img_product_detail/<?php echo $anh1?>" alt="LOAD" class="d-block w-100">
                         </div>
                         <div class="carousel-item">
-                            <img src="../main/img/img_product/img_product_detail/<?php echo $anh2?>" alt="LOAD" class="d-block w-100">
+                            <img src="../assets/img/img_product/img_product_detail/<?php echo $anh2?>" alt="LOAD" class="d-block w-100">
                         </div>
                         <div class="carousel-item">
-                            <img src="../main/img/img_product/img_product_detail/<?php echo $anh3?>" alt="LOAD" class="d-block w-100">
+                            <img src="../assets/img/img_product/img_product_detail/<?php echo $anh3?>" alt="LOAD" class="d-block w-100">
                         </div>
                         <div class="carousel-item">
-                            <img src="../main/img/img_product/img_product_detail/<?php echo $anh4?>" alt="LOAD" class="d-block w-100">
+                            <img src="../assets/img/img_product/img_product_detail/<?php echo $anh4?>" alt="LOAD" class="d-block w-100">
                         </div>
                     </div>
 
@@ -133,10 +133,10 @@
 
                     <!-- Thumbnails -->
                     <div class="d-flex justify-content-center mt-3 thumbnail">
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh1?>" class="img-thumbnail mx-1 active" data-bs-slide-to="0" alt="Thumbnail 1" style="width: 85px; height: 100px;" />
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh2?>" class="img-thumbnail mx-1" data-bs-slide-to="1" alt="Thumbnail 2" style="width: 85px; height: 100px;" />
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh3?>" class="img-thumbnail mx-1" data-bs-slide-to="2" alt="Thumbnail 3" style="width: 85px; height: 100px;" />
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh4?>" class="img-thumbnail mx-1" data-bs-slide-to="3" alt="Thumbnail 4" style="width: 85px; height: 100px;" />
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh1?>" class="img-thumbnail mx-1 active" data-bs-slide-to="0" alt="Thumbnail 1" style="width: 85px; height: 100px;" />
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh2?>" class="img-thumbnail mx-1" data-bs-slide-to="1" alt="Thumbnail 2" style="width: 85px; height: 100px;" />
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh3?>" class="img-thumbnail mx-1" data-bs-slide-to="2" alt="Thumbnail 3" style="width: 85px; height: 100px;" />
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh4?>" class="img-thumbnail mx-1" data-bs-slide-to="3" alt="Thumbnail 4" style="width: 85px; height: 100px;" />
                     </div>
                 </div>
 
@@ -261,6 +261,6 @@
             
         </div>
     </div>
-<script src="../main/js/product_detail.js"></script>
+<script src="../assets/js/product_detail.js"></script>
     <!-- footer -->
 <?php include_once 'component/footer.php' ?>

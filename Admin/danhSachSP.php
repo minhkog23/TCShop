@@ -42,19 +42,19 @@ include 'component/header.php';
                         $anh4 = $ad->laycot("select anh4 from anh_chitietsp where id_maSP='$id_xoa'");
                         echo $id_xoa;
                         if ($ad->themxoasua("DELETE FROM sanpham WHERE id_maSP='$id_xoa'") == 1) {
-                            if (unlink("../main/img/img_product/$anhnen")) {
+                            if (unlink("../assets/img/img_product/$anhnen")) {
                                 if ($ad->themxoasua("DELETE FROM anh_chitietsp WHERE id_maSP='$id_xoa'") == 1) {
                                     if (isset($anh1)) {
-                                        unlink("../main/img/img_product/img_product_detail/$anh1");
+                                        unlink("../assets/img/img_product/img_product_detail/$anh1");
                                     }
                                     if (isset($anh2)) {
-                                        unlink("../main/img/img_product/img_product_detail/$anh2");
+                                        unlink("../assets/img/img_product/img_product_detail/$anh2");
                                     }
                                     if (isset($anh3)) {
-                                        unlink("../main/img/img_product/img_product_detail/$anh3");
+                                        unlink("../assets/img/img_product/img_product_detail/$anh3");
                                     }
                                     if (isset($anh4)) {
-                                        unlink("../main/img/img_product/img_product_detail/$anh4");
+                                        unlink("../assets/img/img_product/img_product_detail/$anh4");
                                     }
                                     if ($ad->themxoasua("DELETE FROM chitietsanpham WHERE id_maSP='$id_xoa'") == 1) {
                                         echo "<script>

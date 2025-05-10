@@ -39,11 +39,11 @@
                     </div>
                     <div class="footer-form-img col-md-3 text-center">
                         <h3>HỢP TÁC VÀ LIÊN KẾT</h3>
-                        <img src="../main/img/logoBCT.png" alt="">
+                        <img src="../assets/img/logoBCT.png" alt="">
                     </div>
                     <div class="footer-form-img col-md-3 text-center">
                         <h3>PHƯƠNG THỨC THANH TOÁN</h3>
-                        <img src="../main/img/thanh-toan.jpg" alt="">
+                        <img src="../assets/img/thanh-toan.jpg" alt="">
                     </div>
                 </div>
             </div>

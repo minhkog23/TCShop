@@ -14,7 +14,6 @@ class khachhang extends badminton
         }
     }
 
-
     //lay san phẩm
     public function getSP($sql)
     {
@@ -103,6 +102,67 @@ class khachhang extends badminton
             }
         } else {
             echo '<p align="center" style="padding-top: 10px ;">Không có dòng sản phẩm</p>';
+        }
+    }
+
+    // lấy hóa đơn
+    public function getDonHang($sql)
+    {
+        $link = $this->connect();
+        $result = mysqli_query($link, $sql);
+        if(mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $id_HD = $row['id_HD'];
+                $id_KH = $row['id_KH'];
+                $ngayDat = $row['ngayDat'];
+                $ngayGiao = $row['ngayGiao'];
+                $tongTien = $row['tongTien'];
+                $tinhTrang = $row['tinhTrang'];
+                $id_NV_giaoHang = $row['id_NV_giaoHang'];
+                $tenSP = $row['tenSP'];
+                $soLuong = $row['soLuong'];
+                $anh = $row['anh'];
+                $ngayDat= new DateTime($ngayDat);
+                $ngayGiaofm ='';
+                if($ngayGiao == '0000-00-00 00:00:00')
+                {
+                    $display= 'none';
+                }
+                else{
+                    $display= 'block';
+                    $ngayGiao= new DateTime($ngayGiao);
+                    $ngayGiaofm=$ngayGiao->format('d/m/Y');
+                }
+                
+                $checkTinhTrang=$tinhTrang=='Chờ xử lý' ? '':'none';
+
+                echo '<div class="border p-3 mb-3 rounded">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div><strong>Đơn hàng # '.$id_HD.'</strong></div>
+                            <span class="badge bg-success">'.$tinhTrang.'</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <img src="../main/img/img_product/'.$anh.'" alt="SP" width="100" class="me-5 rounded">
+                            <div>
+                                <div>Sản phẩm: <strong>'.$tenSP.'</strong></div>
+                                <div>Số lượng: '.$soLuong.'</div>
+                                <div>Giá: '.number_format($tongTien, 0, '', '.').' vnđ</div>
+                                <div = new DateTime($ngaydat);
+                                <div>Ngày đặt: '.$ngayDat->format('d/m/Y').'</div>
+                                <div style="display:'.$display.'">Ngày giao: '.$ngayGiaofm.'</div>
+                            </div>
+                        </div>
+                        <div class="text-end mt-2">
+                            <form action="" method="post">
+                                <input type="hidden" name="id_hd" value="'.$id_HD.'"  id="">
+                                <input style="display:'.$checkTinhTrang.'" type="submit" value="Hủy" name="nut_huy" class="btn btn-outline-secondary btn-sm" onclick="confirm(\' Bạn có chắc muốn hủy đơn hàng này không ? \')">
+                                <input type="submit" value="Xem chi tiết" name="nut_xct" class="btn btn-outline-secondary btn-sm">
+                            </form>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo '<h3 align="center" style="padding-top: 10px ;">Không có đơn hàng nào !</h3>';
         }
     }
 }

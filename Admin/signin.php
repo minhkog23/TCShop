@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
   <title> Admin - Đăng nhập </title>
-  <link rel="stylesheet" href="../main/css/login.css">
+  <link rel="stylesheet" href="../assets/css/login.css">
   <!-- Fontawesome CDN Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -20,10 +20,10 @@
     <input type="checkbox" id="flip">
     <div class="cover">
       <div class="front">
-        <img src="../main/img/img_login/login.jpg" alt="load">
+        <img src="../assets/img/img_login/login.jpg" alt="load">
       </div>
       <div class="back">
-        <img class="backImg" src="../main/img/img_login/login.jpg" alt="load">
+        <img class="backImg" src="../assets/img/img_login/login.jpg" alt="load">
 
       </div>
     </div>

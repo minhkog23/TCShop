@@ -57,7 +57,7 @@ include 'component/header.php';
                     <label for="fileAnhNen" class="form-label">Chọn ảnh nền sản phẩm <span style="color: red">*</span></label>
                     <br>
                     <?php if (!empty($anh)) { ?>
-                        <img src="../main/img/img_product/<?php echo $anh; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
+                        <img src="../assets/img/img_product/<?php echo $anh; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
                     <?php } ?>
                     <input class="form-control mt-2" type="file" name="fileAnhNen" id="fileAnhNen" accept="image/*">
 
@@ -66,16 +66,16 @@ include 'component/header.php';
                     <label for="formFileMultiple" class="form-label">Chọn ảnh chi tiết sản phẩm ( 4 ảnh ) <span style="color: red">*</span></label>
                     <br>
                     <?php if (!empty($anh1)) { ?>
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh1; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh1; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
                     <?php } ?>
                     <?php if (!empty($anh2)) { ?>
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh2; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh2; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
                     <?php } ?>
                     <?php if (!empty($anh3)) { ?>
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh3; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh3; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
                     <?php } ?>
                     <?php if (!empty($anh4)) { ?>
-                        <img src="../main/img/img_product/img_product_detail/<?php echo $anh4; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
+                        <img src="../assets/img/img_product/img_product_detail/<?php echo $anh4; ?>" alt="Ảnh nền sản phẩm" style="max-width: 20%; max-height: 50%;">
                     <?php } ?>
                     <input class="form-control mt-2" type="file" name="fileAnhChiTiet[]" id="fileAnhChiTiet" multiple accept="image/*">
                 </div>
@@ -117,9 +117,9 @@ include 'component/header.php';
 
                 //xử lý update chỉ có ảnh nền
                 if (isset($_FILES['fileAnhNen']) && $anhNen_name != '') {
-                    if (unlink("../main/img/img_product/$anh")) {
+                    if (unlink("../assets/img/img_product/$anh")) {
                         $anhNen_name_rm = time() . '_' . $anhNen_name;
-                        if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../main/img/img_product")) {
+                        if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
 
                             if ($ad->themxoasua("UPDATE sanpham
                                                         SET tenSP='$tensp',moTa='$moTa',donGia='$dongia',anh='$anhNen_name_rm',id_dongSP='$DongSP'
@@ -163,7 +163,7 @@ include 'component/header.php';
                         $anhChiTiet_name_i = $anhChiTiet_name[$i];
                         $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];
                         $anhChiTiet_name_i_rename = time() . '_' . $anhChiTiet_name_i;
-                        if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../main/img/img_product/img_product_detail")) {
+                        if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../assets/img/img_product/img_product_detail")) {
                             if ($i == 0) {
                                 // Lưu ảnh vào cột anh1
                                 $anh1_i = $anhChiTiet_name_i_rename;
@@ -199,16 +199,16 @@ include 'component/header.php';
                                 </script>';
                             //xóa ảnh chi tiết cũ
                             if (isset($anh1)) {
-                                unlink("../main/img/img_product/img_product_detail/$anh1");
+                                unlink("../assets/img/img_product/img_product_detail/$anh1");
                             }
                             if (isset($anh2)) {
-                                unlink("../main/img/img_product/img_product_detail/$anh2");
+                                unlink("../assets/img/img_product/img_product_detail/$anh2");
                             }
                             if (isset($anh3)) {
-                                unlink("../main/img/img_product/img_product_detail/$anh3");
+                                unlink("../assets/img/img_product/img_product_detail/$anh3");
                             }
                             if (isset($anh4)) {
-                                unlink("../main/img/img_product/img_product_detail/$anh4");
+                                unlink("../assets/img/img_product/img_product_detail/$anh4");
                             }
 
                             if ($ad->themxoasua("DELETE FROM chitietsanpham WHERE id_maSP='$id_sua'") != 1) {
@@ -231,9 +231,9 @@ include 'component/header.php';
                     }
                 } else 
                 if (isset($_FILES['fileAnhChiTiet']) && $anhChiTiet_name != '' && isset($_FILES['fileAnhNen']) && $anhNen_name != '') {
-                    if (unlink("../main/img/img_product/$anh")) {
+                    if (unlink("../assets/img/img_product/$anh")) {
                         $anhNen_name_rm = time() . '_' . $anhNen_name;
-                        if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../main/img/img_product")) {
+                        if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
 
                             if ($ad->themxoasua("UPDATE sanpham
                                                         SET tenSP='$tensp',moTa='$moTa',donGia='$dongia',anh='$anhNen_name_rm',id_dongSP='$DongSP'
@@ -253,7 +253,7 @@ include 'component/header.php';
                                     $anhChiTiet_name_i = $anhChiTiet_name[$i];
                                     $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];
                                     $anhChiTiet_name_i_rename = time() . '_' . $anhChiTiet_name_i;
-                                    if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../main/img/img_product/img_product_detail")) {
+                                    if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../assets/img/img_product/img_product_detail")) {
                                         if ($i == 0) {
                                             // Lưu ảnh vào cột anh1
                                             $anh1_i = $anhChiTiet_name_i_rename;
@@ -279,16 +279,16 @@ include 'component/header.php';
                                     } else {
                                         //xóa ảnh chi tiết cũ
                                         if (isset($anh1)) {
-                                            unlink("../main/img/img_product/img_product_detail/$anh1");
+                                            unlink("../assets/img/img_product/img_product_detail/$anh1");
                                         }
                                         if (isset($anh2)) {
-                                            unlink("../main/img/img_product/img_product_detail/$anh2");
+                                            unlink("../assets/img/img_product/img_product_detail/$anh2");
                                         }
                                         if (isset($anh3)) {
-                                            unlink("../main/img/img_product/img_product_detail/$anh3");
+                                            unlink("../assets/img/img_product/img_product_detail/$anh3");
                                         }
                                         if (isset($anh4)) {
-                                            unlink("../main/img/img_product/img_product_detail/$anh4");
+                                            unlink("../assets/img/img_product/img_product_detail/$anh4");
                                         }
 
                                         //xóa đi bảng chitietsanpham để cập nhập lại vì id_maSP trùng với nhau

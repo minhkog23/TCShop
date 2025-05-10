@@ -4,7 +4,7 @@
     $pageTitle='Đăng ký';
     include_once 'component/header.php';
 ?>
-<link rel="stylesheet" href="../main/css/login_KH.css">
+<link rel="stylesheet" href="../assets/css/login_KH.css">
     <div class="container mt-5">
         <div class="box row">
             <div class="box-singup" align="center">

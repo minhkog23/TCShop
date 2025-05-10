@@ -86,7 +86,7 @@ include 'component/header.php';
                 $mauSac = $_REQUEST['txtmausac'];
                 if (isset($anhNen_name) && $anhNen_name != '') {
                     $anhNen_name_rm = time() . '_' . $anhNen_name;
-                    if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../main/img/img_product")) {
+                    if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
 
                         if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
                                             VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
@@ -108,7 +108,7 @@ include 'component/header.php';
                                     $anhChiTiet_name_i = $anhChiTiet_name[$i];
                                     $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];
                                     $anhChiTiet_name_i_rename = time() . '_' . $anhChiTiet_name_i;
-                                    if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../main/img/img_product/img_product_detail")) {
+                                    if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../assets/img/img_product/img_product_detail")) {
                                         if ($i == 0) {
                                             // Lưu ảnh vào cột anh1
                                             $anh1 = $anhChiTiet_name_i_rename;
