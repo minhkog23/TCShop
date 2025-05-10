@@ -237,7 +237,21 @@ include_once 'component/header.php';
                                         echo '<span class="badge bg-secondary">0</span>';
                                     }
                                 ?>
-                            </a> <!-- bước này thì có thể hủy đơn -->
+                            </a> 
+                            <a href="?loc=order&status=dxn" class="btn btn-light">
+                                Đã xác nhận 
+                                <?php
+                                    $dxn=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đã xác nhận' and id_KH='$id_kh'");
+                                    if($dxn!=0)
+                                    {
+                                        echo '<span class="badge bg-secondary">'.$dxn.'</span>';
+                                    }
+                                    else
+                                    {
+                                        echo '<span class="badge bg-secondary">0</span>';
+                                    }
+                                ?>
+                            </a> 
 
                             <a href="?loc=order&status=cbh" class="btn btn-light">
                                 Đang chuẩn bị hàng 
@@ -281,7 +295,11 @@ include_once 'component/header.php';
                             $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cxl") {
                             $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Chờ xử lý' order by hd.id_HD desc");
-                        } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cbh") {
+                        }
+                        else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dxn") {
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đã xác nhận' order by hd.id_HD desc");
+                        } 
+                        else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cbh") {
                             $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang chuẩn bị hàng' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dgh") {
                             $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang giao hàng' order by hd.id_HD desc");
