@@ -119,6 +119,7 @@ class khachhang extends badminton
                 $tongTien = $row['tongTien'];
                 $tinhTrang = $row['tinhTrang'];
                 $id_NV_giaoHang = $row['id_NV_giaoHang'];
+                $id_maSP = $row['id_maSP'];
                 $tenSP = $row['tenSP'];
                 $soLuong = $row['soLuong'];
                 $anh = $row['anh'];
@@ -135,7 +136,8 @@ class khachhang extends badminton
                 }
                 
                 $checkTinhTrang=$tinhTrang=='Chờ xử lý' ? '':'none';
-
+                $checkDG=$tinhTrang=='Hoàn thành' ? '':'none';
+                
                 echo '<div class="border p-3 mb-3 rounded">
                         <div class="d-flex justify-content-between mb-2">
                             <div><strong>Đơn hàng # '.$id_HD.'</strong></div>
@@ -155,14 +157,50 @@ class khachhang extends badminton
                         <div class="text-end mt-2">
                             <form action="" method="post">
                                 <input type="hidden" name="id_hd" value="'.$id_HD.'"  id="">
-                                <input style="display:'.$checkTinhTrang.'" type="submit" value="Hủy" name="nut_huy" class="btn btn-outline-secondary btn-sm" onclick="confirm(\' Bạn có chắc muốn hủy đơn hàng này không ? \')">
-                                <input type="submit" value="Xem chi tiết" name="nut_xct" class="btn btn-outline-secondary btn-sm">
+                                <input style="display:'.$checkTinhTrang.'" type="submit" value="Hủy" name="nut_huy" class="btn btn-outline-secondary w-25" onclick="confirm(\' Bạn có chắc muốn hủy đơn hàng này không ? \')">
+                                <a href="product_detail.php?maSP='.$id_maSP.'" style="display:'.$checkDG.'" class="btn btn-outline-secondary w-25">Đánh giá</a>
                             </form>
                         </div>
                     </div>';
             }
         } else {
             echo '<h3 align="center" style="padding-top: 10px ;">Không có đơn hàng nào !</h3>';
+        }
+    }
+
+    //lay đánh giá
+    public function getDanhGia($sql)
+    {
+        $link = $this->connect();
+        $result = mysqli_query($link, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $id_DG = $row['id_DG'];
+                $id_KH = $row['id_KH'];
+                $ten = $row['ten'];
+                $ngayTao = $row['ngayTao'];
+                $ngayTao = new DateTime($ngayTao);
+                $ngayTao = $ngayTao->format('d/m/Y');
+                $noiDung = $row['noiDung'];
+                echo '<div class="cus-danhGia mt-5 pd-5">
+                        <h5 align="left" class="mb-3">Đánh giá của khách hàng:</h5>
+                        <hr>
+                        <div class="noiDung-danhGia">  
+                            <p align="left"><i class="fas fa-user-secret"></i> '.$ten.': </p>
+                            <!-- <p align="left" style="color: #eb9e44;">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                            </p> -->
+                            <p align="left" style="font-size: 16px;">'.$noiDung.' : <span>'.$ngayTao.'</span></p>
+                            <hr>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo '<h3 align="center" style="padding-top: 10px ;">Chưa có đánh giá nào !</h3>';
         }
     }
 }

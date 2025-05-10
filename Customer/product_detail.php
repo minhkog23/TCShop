@@ -182,13 +182,13 @@
                             <p style="color: red; font-size: 18px;"><?php echo number_format($donGia, 0, ',', '.')?> <span>VNĐ</span></p> 
 
                             <!-- Ngôi sao chưa làm -->
-                            <span class="rate" style="color: #eb9e44;">
+                            <!-- <span class="rate" style="color: #eb9e44;">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
-                            </span>
+                            </span> -->
                         </p>
                     </div>
 
@@ -237,26 +237,49 @@
         <div class="danhGia text-center mt-5 pt-3">
             <h3>Đánh giá</h3>
             <div class="box-danhGia">
-                <div class="d-flex">
-                    <textarea name="txtMota" id="txtMota" class="form-control" placeholder="Viết đánh giá ..."></textarea>
-                    <button type="submit" class="btn btn-success btn-danhGia">Đánh giá</button>
-                </div>
-                <div class="cus-danhGia mt-5 pd-5">
-                    <h5 align="left" class="mb-3">Đánh giá của khách hàng:</h5>
-                    <hr>
-                    <div class="noiDung-danhGia">  
-                        <p align="left"><i class="fas fa-user-secret"></i> Khách hàng A: </p>
-                        <p align="left" style="color: #eb9e44;">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                        </p>
-                        <p align="left" style="font-size: 13px;">Sản phẩm tốt mừi điểm</p>
-                        <hr>
+                <form action="" method="post">
+                    <div class="d-flex">
+                        <textarea name="txtMota" id="txtMota" class="form-control" placeholder="Viết đánh giá ..."></textarea>
+                        <input type="submit" name="btn_danhgia" value="Đánh giá" class="btn btn-success btn-danhGia"></input>
                     </div>
-                </div>
+                    <?php
+                        $kh->getDanhGia("SELECT dg.id_DG, kh.id_KH, kh.ten, dg.ngayTao, dg.noiDung FROM danhgia dg JOIN khachhang kh ON dg.id_KH=kh.id_KH WHERE id_maSP=$id_maSP");
+                    ?>
+                    
+                </form>
+                <?php
+                    if(isset($_REQUEST['btn_danhgia']) && $_REQUEST['btn_danhgia']=='Đánh giá')
+                    {
+                        if(isset($_SESSION['id_KH'])&&$_SESSION['id_KH']!='' && isset($_SESSION['ten'])&&$_SESSION['ten']!='')
+                        {
+                            if($_REQUEST['txtMota']!='')
+                            {
+                                $id_KH=$_SESSION['id_KH'];
+                                $ten_KH=$_SESSION['ten'];
+                                $noidung=$_REQUEST['txtMota'];
+                                if($kh->themxoasua("INSERT INTO danhgia(noiDung, id_maSP, id_KH) VALUES ('$noidung','$id_maSP','$id_KH')")==1)
+                                {
+                                    echo '<script>
+                                            swal("Thành công","Đánh giá thành công","success").then(function(){
+                                                    window.location="product_detail.php?maSP='.$id_maSP.'";
+                                            });
+                                            setTimeout(function(){
+                                                window.location="product_detail.php?maSP='.$id_maSP.'";
+                                            }, 2000);
+                                    </script>';
+                                }
+                                else
+                                {
+                                    echo '<script>swal("Thất bại","Đánh giá thất bại !","error")</script>';
+                                }
+                            }
+                            else
+                            {
+                                echo '<script>swal("Thất bại","Bạn chưa nhập đánh giá !","error")</script>';
+                            } 
+                        }
+                    }
+                ?>
             </div>
             
         </div>

@@ -292,21 +292,21 @@ include_once 'component/header.php';
                         <?php
                         // Lấy danh sách đơn hàng từ cơ sở dữ liệu
                         if (isset($_REQUEST['status']) && $_REQUEST['status'] == "tc") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cxl") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Chờ xử lý' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Chờ xử lý' order by hd.id_HD desc");
                         }
                         else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dxn") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đã xác nhận' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đã xác nhận' order by hd.id_HD desc");
                         } 
                         else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cbh") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang chuẩn bị hàng' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang chuẩn bị hàng' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dgh") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang giao hàng' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang giao hàng' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dg") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hoàn thành' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hoàn thành' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "huy") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hủy' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hủy' order by hd.id_HD desc");
                         }
                         ?>
                     </form>
@@ -316,7 +316,6 @@ include_once 'component/header.php';
                             if(isset($_REQUEST['id_hd'])&&$_REQUEST['id_hd']!='')
                             {
                                 $id_hd=$_REQUEST['id_hd'];
-                                echo $id_hd;
                                 if($kh->themxoasua("UPDATE hoadon SET tinhTrang='Hủy' WHERE id_HD=$id_hd")==1)
                                 {
                                     echo "<script>
@@ -328,9 +327,8 @@ include_once 'component/header.php';
                                             }, 2000);
                                         </script>";
                                 }
-                            }
-                            
-                        }        
+                            } 
+                        }  
                     ?>
                 </div>
 
