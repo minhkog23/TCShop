@@ -1197,6 +1197,77 @@
                 echo 'Không có quyền nào !';
             }
         }
+
+        // hàm lấy doanh thu
+        public function getDoanhThu($sql)
+        {
+            $link=$this->connect();
+            $result=mysqli_query($link,$sql);
+            if(mysqli_num_rows($result)>0)
+            {
+                while($row=mysqli_fetch_array($result))
+                {
+                    $tongTien=$row['doanhThu'];
+                    
+                    echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.number_format($tongTien,0,',','.').' vnđ</div>';
+                }
+            }
+            else
+            {
+                echo 'Không có doanh thu nào !';
+            }
+        }
+        public function getDonHang($sql)
+        {
+            $link=$this->connect();
+            $result=mysqli_query($link,$sql);
+            if(mysqli_num_rows($result)>0)
+            {
+                while($row=mysqli_fetch_array($result))
+                {
+                    $tinhTrang=$row['tinhTrang'];
+                    echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$tinhTrang.'</div>';
+                }
+            }
+            else
+            {
+                echo 'Không có doanh thu nào !';
+            }
+        }
+        public function getSLSP($sql)
+        {
+            $link=$this->connect();
+            $result=mysqli_query($link,$sql);
+            if(mysqli_num_rows($result)>0)
+            {
+                while($row=mysqli_fetch_array($result))
+                {
+                    $id_maSP=$row['id_maSP'];
+                    echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$id_maSP.'</div>';
+                }
+            }
+            else
+            {
+                echo 'Không có doanh thu nào !';
+            }
+        }
+        public function getSLNV($sql)
+        {
+            $link=$this->connect();
+            $result=mysqli_query($link,$sql);
+            if(mysqli_num_rows($result)>0)
+            {
+                while($row=mysqli_fetch_array($result))
+                {
+                    $id_NV=$row['id_NV'];
+                    echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$id_NV.'</div>';
+                }
+            }
+            else
+            {
+                echo 'Không có doanh thu nào !';
+            }
+        }
     }
 
 ?>
