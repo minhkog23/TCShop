@@ -46,7 +46,7 @@
             <?php
                 if(isset($_REQUEST['nut_search']) && $_REQUEST['nut_search']=='search' && $_REQUEST['txtsearch']!='')
                 {
-                    $ten_search = $_REQUEST['txtsearch'];
+                    $ten_search = htmlspecialchars($_REQUEST['txtsearch'], ENT_QUOTES, 'UTF-8');
                     echo "<p style='padding-left:50px'>Kết quả tìm kiếm '<span style='color: #4479D4'> $ten_search </span>' </p>";
                     $kh->getSP("select* from sanpham where tenSP like '%$ten_search%'");
                 }

@@ -21,14 +21,15 @@ class khachhang extends badminton
         $result = mysqli_query($link, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $id_maSP = $row['id_maSP'];
-                $tenSP = $row['tenSP'];
-                $moTa = $row['moTa'];
-                $donGia = $row['donGia'];
-                $anh = $row['anh'];
-                $soLuong = $row['soLuong'];
-                $id_SPTB = $row['id_SPTB'];
-                $id_dongSP = $row['id_dongSP'];
+                $id_maSP = htmlspecialchars($row['id_maSP'], ENT_QUOTES, 'UTF-8');
+                $tenSP = htmlspecialchars($row['tenSP'], ENT_QUOTES, 'UTF-8');
+                $moTa = htmlspecialchars($row['moTa'], ENT_QUOTES, 'UTF-8');
+                $donGia = htmlspecialchars($row['donGia'], ENT_QUOTES, 'UTF-8');
+                $anh = htmlspecialchars($row['anh'], ENT_QUOTES, 'UTF-8');
+                $soLuong = htmlspecialchars($row['soLuong'], ENT_QUOTES, 'UTF-8');
+                $id_SPTB = htmlspecialchars($row['id_SPTB'], ENT_QUOTES, 'UTF-8');
+                $id_dongSP = htmlspecialchars($row['id_dongSP'], ENT_QUOTES, 'UTF-8');
+
                 echo '<div class="box-card col-md-3 mb-4">
                             <div class="card">
                                 <img class="card-img-top" src="../assets/img/img_product/' . $anh . '" width="200px" height="250px" alt="Load">
@@ -52,8 +53,9 @@ class khachhang extends badminton
         $result = mysqli_query($link, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $id_ThuongHieu = $row['id_ThuongHieu'];
-                $tenThuongHieu = $row['tenThuongHieu'];
+                $id_ThuongHieu = htmlspecialchars($row['id_ThuongHieu'], ENT_QUOTES, 'UTF-8');
+                $tenThuongHieu = htmlspecialchars($row['tenThuongHieu'], ENT_QUOTES, 'UTF-8');
+
                 echo '<li class="nav-item">
                             <a class="nav-link" href="product_NCC.php?id_ThuongHieu=' . $id_ThuongHieu . '">' . $tenThuongHieu . '</a>
                         </li>';
@@ -68,9 +70,10 @@ class khachhang extends badminton
         $result = mysqli_query($link, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $id_dongSP = $row['id_dongSP'];
-                $tenDongSP = $row['tenDongSP'];
-                $id_ThuongHieu = $row['id_ThuongHieu'];
+                $id_dongSP = htmlspecialchars($row['id_dongSP'], ENT_QUOTES, 'UTF-8');
+                $tenDongSP = htmlspecialchars($row['tenDongSP'], ENT_QUOTES, 'UTF-8');
+                $id_ThuongHieu = htmlspecialchars($row['id_ThuongHieu'], ENT_QUOTES, 'UTF-8');
+
                 echo '<div class="category-box col-md-3 mb-3">
                             <a href="product_NCC.php?id_ThuongHieu=' . $id_ThuongHieu . '&id_dongSP=' . $id_dongSP . '"><span>' . $tenDongSP . '</span></a>
                         </div>';
@@ -88,9 +91,10 @@ class khachhang extends badminton
         $xetGiaTri = []; // Mảng để theo dõi các giá trị đã được lấy
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $id_maSP = $row['id_maSP'];
-                $size = $row['size'];
-                $soLuong = $row['soLuong'];
+                $id_maSP = htmlspecialchars($row['id_maSP'], ENT_QUOTES, 'UTF-8');
+                $size = htmlspecialchars($row['size'], ENT_QUOTES, 'UTF-8');
+                $soLuong = htmlspecialchars($row['soLuong'], ENT_QUOTES, 'UTF-8');
+
                 if (!in_array($size, $xetGiaTri)) {
                     // Nếu chưa xuất hiện, thêm vào mảng và hiển thị
                     $xetGiaTri[] = $size;
@@ -110,7 +114,7 @@ class khachhang extends badminton
     {
         $link = $this->connect();
         $result = mysqli_query($link, $sql);
-        if(mysqli_num_rows($result) > 0) {
+        if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $id_HD = $row['id_HD'];
                 $id_KH = $row['id_KH'];
@@ -123,42 +127,40 @@ class khachhang extends badminton
                 $tenSP = $row['tenSP'];
                 $soLuong = $row['soLuong'];
                 $anh = $row['anh'];
-                $ngayDat= new DateTime($ngayDat);
-                $ngayGiaofm ='';
-                if($ngayGiao == '0000-00-00 00:00:00')
-                {
-                    $display= 'none';
+                $ngayDat = new DateTime($ngayDat);
+                $ngayGiaofm = '';
+                if ($ngayGiao == '0000-00-00 00:00:00') {
+                    $display = 'none';
+                } else {
+                    $display = 'block';
+                    $ngayGiao = new DateTime($ngayGiao);
+                    $ngayGiaofm = $ngayGiao->format('d/m/Y');
                 }
-                else{
-                    $display= 'block';
-                    $ngayGiao= new DateTime($ngayGiao);
-                    $ngayGiaofm=$ngayGiao->format('d/m/Y');
-                }
-                
-                $checkTinhTrang=$tinhTrang=='Chờ xử lý' ? '':'none';
-                $checkDG=$tinhTrang=='Hoàn thành' ? '':'none';
-                
+
+                $checkTinhTrang = $tinhTrang == 'Chờ xử lý' ? '' : 'none';
+                $checkDG = $tinhTrang == 'Hoàn thành' ? '' : 'none';
+
                 echo '<div class="border p-3 mb-3 rounded">
                         <div class="d-flex justify-content-between mb-2">
-                            <div><strong>Đơn hàng # '.$id_HD.'</strong></div>
-                            <span class="badge bg-success">'.$tinhTrang.'</span>
+                            <div><strong>Đơn hàng # ' . $id_HD . '</strong></div>
+                            <span class="badge bg-success">' . $tinhTrang . '</span>
                         </div>
                         <div class="d-flex align-items-center">
-                            <img src="../assets/img/img_product/'.$anh.'" alt="SP" width="100" class="me-5 rounded">
+                            <img src="../assets/img/img_product/' . $anh . '" alt="SP" width="100" class="me-5 rounded">
                             <div>
-                                <div>Sản phẩm: <strong>'.$tenSP.'</strong></div>
-                                <div>Số lượng: '.$soLuong.'</div>
-                                <div>Giá: '.number_format($tongTien, 0, '', '.').' vnđ</div>
+                                <div>Sản phẩm: <strong>' . $tenSP . '</strong></div>
+                                <div>Số lượng: ' . $soLuong . '</div>
+                                <div>Giá: ' . number_format($tongTien, 0, '', '.') . ' vnđ</div>
                                 <div = new DateTime($ngaydat);
-                                <div>Ngày đặt: '.$ngayDat->format('d/m/Y').'</div>
-                                <div style="display:'.$display.'">Ngày giao: '.$ngayGiaofm.'</div>
+                                <div>Ngày đặt: ' . $ngayDat->format('d/m/Y') . '</div>
+                                <div style="display:' . $display . '">Ngày giao: ' . $ngayGiaofm . '</div>
                             </div>
                         </div>
                         <div class="text-end mt-2">
                             <form action="" method="post">
-                                <input type="hidden" name="id_hd" value="'.$id_HD.'"  id="">
-                                <input style="display:'.$checkTinhTrang.'" type="submit" value="Hủy" name="nut_huy" class="btn btn-outline-secondary w-25" onclick="confirm(\' Bạn có chắc muốn hủy đơn hàng này không ? \')">
-                                <a href="product_detail.php?maSP='.$id_maSP.'" style="display:'.$checkDG.'" class="btn btn-outline-secondary w-25">Đánh giá</a>
+                                <input type="hidden" name="id_hd" value="' . $id_HD . '"  id="">
+                                <input style="display:' . $checkTinhTrang . '" type="submit" value="Hủy" name="nut_huy" class="btn btn-outline-secondary w-25" onclick="confirm(\' Bạn có chắc muốn hủy đơn hàng này không ? \')">
+                                <a href="product_detail.php?maSP=' . $id_maSP . '" style="display:' . $checkDG . '" class="btn btn-outline-secondary w-25">Đánh giá</a>
                             </form>
                         </div>
                     </div>';
@@ -186,7 +188,7 @@ class khachhang extends badminton
                         <h5 align="left" class="mb-3">Đánh giá của khách hàng:</h5>
                         <hr>
                         <div class="noiDung-danhGia">  
-                            <p align="left"><i class="fas fa-user-secret"></i> '.$ten.': </p>
+                            <p align="left"><i class="fas fa-user-secret"></i> ' . $ten . ': </p>
                             <!-- <p align="left" style="color: #eb9e44;">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -194,7 +196,7 @@ class khachhang extends badminton
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                             </p> -->
-                            <p align="left" style="font-size: 16px;">'.$noiDung.' : <span>'.$ngayTao.'</span></p>
+                            <p align="left" style="font-size: 16px;">' . $noiDung . ' : <span>' . $ngayTao . '</span></p>
                             <hr>
                         </div>
                     </div>';

@@ -21,7 +21,10 @@
         {
             $link=$this->myconnect();
             $sql="select* from khachhang where email='$user' and matKhau='$pass' limit 1";
-            $result=mysqli_query($link,$sql);
+            $stmt=mysqli_prepare($link,$sql);
+            mysqli_stmt_bind_param($stmt,"ss",$user,$pass);
+            mysqli_stmt_execute($stmt);
+            $result=mysqli_stmt_get_result($stmt);
             if(mysqli_num_rows($result)!=1)
             {
                 echo'<script>swal("Thất bại","Vui lòng đăng nhập trước khi thanh toán","error").then(function(){

@@ -26,7 +26,7 @@
                 while($row=mysqli_fetch_array($result))
                 {
                     $gt=$row[0];
-                    $giatri=$gt;
+                    $giatri = htmlspecialchars($gt, ENT_QUOTES, 'UTF-8');
                 }
                 return $giatri;
             }
@@ -84,7 +84,9 @@
         public function checkTrung($sql)
         {
             $link=$this->connect();
-            $result=mysqli_query($link,$sql);
+            $stmt=mysqli_prepare($link,$sql);
+            mysqli_stmt_execute($stmt);
+            $result=mysqli_stmt_get_result($stmt);
             if(mysqli_num_rows($result)>0)
             {
                 return 1;

@@ -21,7 +21,7 @@ include_once 'component/header.php';
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Doanh thu</div>
-                        <?php $admin->getDoanhThu("SELECT sum(tongTien) as doanhThu FROM hoadon") ?>
+                        <?php $admin->getDoanhThu("SELECT sum(tongTien) as doanhThu FROM hoadon where tinhTrang='Hoàn thành'") ?>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
