@@ -31,7 +31,7 @@ class khachhang extends badminton
                 $id_dongSP = $row['id_dongSP'];
                 echo '<div class="box-card col-md-3 mb-4">
                             <div class="card">
-                                <img class="card-img-top" src="../main/img/img_product/' . $anh . '" width="200px" height="250px" alt="Load">
+                                <img class="card-img-top" src="../assets/img/img_product/' . $anh . '" width="200px" height="250px" alt="Load">
                                 <div class="card-body" align="center">
                                     <p class="card-ten" style="font-size:17px; height:40px">' . $tenSP . '</p>
                                     <p style="color:red; font-size: 16px;" class="card-gia">' . number_format($donGia, 0, ',', '.') . ' <span>VNĐ</span></p>
@@ -144,7 +144,7 @@ class khachhang extends badminton
                             <span class="badge bg-success">'.$tinhTrang.'</span>
                         </div>
                         <div class="d-flex align-items-center">
-                            <img src="../main/img/img_product/'.$anh.'" alt="SP" width="100" class="me-5 rounded">
+                            <img src="../assets/img/img_product/'.$anh.'" alt="SP" width="100" class="me-5 rounded">
                             <div>
                                 <div>Sản phẩm: <strong>'.$tenSP.'</strong></div>
                                 <div>Số lượng: '.$soLuong.'</div>

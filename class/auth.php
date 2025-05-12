@@ -18,4 +18,13 @@ class auth
             return 0;
         }
     }
+
+    public function checkRoleCustomer()
+    {
+        if (isset($_SESSION['id_KH']) && $_SESSION['id_KH'] != '') {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

@@ -4,6 +4,14 @@ $kh = new khachhang();
 ?>
 
 <?php
+include '../class/auth.php';
+$checkRole = new auth();
+if ($checkRole->checkRoleCustomer() == 0) {
+    header('location:index.php');
+}
+?>
+
+<?php
 // Danh sách giá trị loc hợp lệ
 $ar = ['profile', 'resetPass', 'order', 'cxl'];
 

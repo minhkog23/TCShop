@@ -1,5 +1,8 @@
 <?php
+    if (session_status() == PHP_SESSION_NONE) {
+    // Nếu chưa bắt đầu session, thì bắt đầu session
     session_start();
+    }
     include '../class/login.php';
     $p=new login();
 ?>

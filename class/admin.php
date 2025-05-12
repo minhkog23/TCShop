@@ -147,7 +147,7 @@
                     $tenThuongHieu=$row['tenThuongHieu'];
                     echo '<tr>
                         <td>'.$count.'</td>
-                        <td><img width="50px" height="50px" src="../main/img/img_product/'.$anh.'" alt="Load..."></td>
+                        <td><img width="50px" height="50px" src="../assets/img/img_product/'.$anh.'" alt="Load..."></td>
                         <td>'.$tenSP.'</td>
                         <td>'.$donGia.'</td>
                         <td>'.$tenDongSP.'</td>

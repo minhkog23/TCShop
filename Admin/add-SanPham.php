@@ -38,7 +38,7 @@ include 'component/header.php';
                 </div>
                 <div class="mb-3 col-md-4">
                     <label for="txtdongia" class="form-label">Nhập giá <span style="color: red">*</span></label>
-                    <input type="text" class="form-control" name="txtdongia" id="txtdongia" placeholder="Nhập giá ...">
+                    <input type="text" class="form-control" name="txtdongia" id="txtdongia" placeholder="Nhập giá ..." pattern="^\d+$" title="Chỉ nhập số và không âm">
                 </div>
 
                 <div class="mb-3 col-md-6">
@@ -47,7 +47,7 @@ include 'component/header.php';
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="formFileMultiple" class="form-label">Chọn ảnh chi tiết sản phẩm ( 4 ảnh ) <span style="color: red">*</span></label>
-                    <input class="form-control" type="file" name="fileAnhChiTiet[]" id="fileAnhChiTiet" multiple accept="image/*">
+                    <input class="form-control" type="file" name="fileAnhChiTiet[]" id="fileAnhChiTiet" min="1" max="4" multiple accept="image/*">
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="txtmota" class="form-label">Mô tả</label>
@@ -58,7 +58,7 @@ include 'component/header.php';
                     <p class="pt-2">Thông Số: <span style="color: red">*</span></p>
                     <?php
                     $ad->getThongSo_add_SanPham('SELECT *
-                                                FROM size ');
+                                                FROM size');
                     ?>
                 </div>
                 <div class="mb-3 col-md-12 text-center">
@@ -82,77 +82,143 @@ include 'component/header.php';
                 $anhChiTiet_tmp_name = $_FILES['fileAnhChiTiet']['tmp_name'];
                 $anhChiTiet_size = $_FILES['fileAnhChiTiet']['size'];
                 $moTa = $_REQUEST['txtmota'];
-                $thongSo = $_REQUEST['txtthongso'];
-                $mauSac = $_REQUEST['txtmausac'];
-                if (isset($anhNen_name) && $anhNen_name != '') {
-                    $anhNen_name_rm = time() . '_' . $anhNen_name;
-                    if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
+                if (isset($_REQUEST['txtthongso'])) {
+                    $thongSo = $_REQUEST['txtthongso'];
+                }
+                if ($tensp == '' || $DongSP == '' || $dongia == '') {
+                    echo '<script>swal("Thất bại","Vui lòng nhập đầy đủ thông tin !","error")</script>';
+                } else if ($dongia < 0) {
+                    echo '<script>swal("Thất bại","Giá không hợp lệ !","error")</script>';
+                } else if (empty($thongSo[0])) {
+                    echo '<script>swal("Thất bại","Bạn chưa chọn thông số !","error")</script>';
+                } else {
+                    if (isset($anhNen_name) && $anhNen_name != '') {
+                        if ($anhNen_type != 'image/png' && $anhNen_type != 'image/jpg' && $anhNen_type != 'image/jpeg' && $anhNen_type != 'image/gif' && $anhNen_type != 'image/webp') {
+                            echo '<script>swal("Thất bại","File ảnh không hợp lệ !","error")</script>';
+                        } else {
+                            $anhNen_name_rm = time() . '_' . $anhNen_name;
+                            // if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
 
-                        if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
-                                            VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
-                                            ") == 1) {
-                            echo '<script>
-                                        swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
-                                            window.location="danhSachSP.php";
-                                        });
-                                        setTimeout(function(){
-                                            window.location="danhSachSP.php";
-                                        }, 2000);
-                                    </script>';
-                            $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
-                            // echo $id_maSP;
+                            // if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
+                            //             VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
+                            //             ") == 1) {
+                            //     echo '<script>
+                            //         swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
+                            //             window.location="danhSachSP.php";
+                            //         });
+                            //         setTimeout(function(){
+                            //             window.location="danhSachSP.php";
+                            //         }, 2000);
+                            //     </script>';
+                            //     $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
 
                             // xử lý bảng anh_chitietsp
-                            if (isset($anhChiTiet_name) && $anhChiTiet_name != '') {
+                            if (isset($anhChiTiet_name) && !empty($_FILES['fileAnhChiTiet']['name'][0])) {
                                 for ($i = 0; $i < count($anhChiTiet_name); $i++) {
-                                    $anhChiTiet_name_i = $anhChiTiet_name[$i];
-                                    $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];
-                                    $anhChiTiet_name_i_rename = time() . '_' . $anhChiTiet_name_i;
-                                    if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../assets/img/img_product/img_product_detail")) {
-                                        if ($i == 0) {
-                                            // Lưu ảnh vào cột anh1
-                                            $anh1 = $anhChiTiet_name_i_rename;
-                                        } else if ($i == 1) {
-                                            // Lưu ảnh vào cột anh2
-                                            $anh2 = $anhChiTiet_name_i_rename;
-                                        } else if ($i == 2) {
-                                            // Lưu ảnh vào cột anh3
-                                            $anh3 = $anhChiTiet_name_i_rename;
-                                        } else if ($i == 3) {
-                                            // Lưu ảnh vào cột anh4
-                                            $anh4 = $anhChiTiet_name_i_rename;
+                                    // Kiểm tra nếu tệp không phải là hình ảnh hợp lệ
+                                    if ($anhChiTiet_type[$i] == 'image/png' || $anhChiTiet_type[$i] == 'image/jpg' || $anhChiTiet_type[$i] == 'image/jpeg' || $anhChiTiet_type[$i] == 'image/gif' || $anhChiTiet_type[$i] == 'image/webp') {
+                                        $anhChiTiet_name_i = $anhChiTiet_name[$i];
+                                        $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];
+                                        $anhChiTiet_name_i_rename = time() . '_' . $anhChiTiet_name_i;
+                                        if ($ad->uploadfile($anhChiTiet_name_i_rename, $anhChiTiet_tmp_name_i, "../assets/img/img_product/img_product_detail")) {
+                                            if ($i == 0) {
+                                                // Lưu ảnh vào cột anh1
+                                                $anh1 = $anhChiTiet_name_i_rename;
+                                            } else if ($i == 1) {
+                                                // Lưu ảnh vào cột anh2
+                                                $anh2 = $anhChiTiet_name_i_rename;
+                                            } else if ($i == 2) {
+                                                // Lưu ảnh vào cột anh3
+                                                $anh3 = $anhChiTiet_name_i_rename;
+                                            } else if ($i == 3) {
+                                                // Lưu ảnh vào cột anh4
+                                                $anh4 = $anhChiTiet_name_i_rename;
+                                            }
                                         }
+                                    } else {
+                                        echo '<script>
+                                                    swal("Thất bại","File ảnh chi tiết không hợp lệ !","error").then(function(){
+                                                        window.location="add-SanPham.php";
+                                                    });
+                                                </script>';
+                                        break;  // Dừng vòng lặp ngay khi phát hiện lỗi
                                     }
                                 }
+
                                 // xử lý bảng anh_chitietsp
-                                if (isset($anh1) && isset($anh2) && isset($anh3) && isset($anh4)) {
-                                    if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
+                                if (isset($anh1) &&  isset($anh2) && isset($anh3) && isset($anh4)) {
+                                    if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
+                                        if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
+                                                                VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
+                                                                ") == 1) {
+                                            echo '<script>
+                                                        swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
+                                                            window.location="danhSachSP.php";
+                                                        });
+                                                        setTimeout(function(){
+                                                            window.location="danhSachSP.php";
+                                                        }, 2000);
+                                                    </script>';
+                                            $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
+                                            if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
                                                                     VALUES ('$id_maSP','$anh1','$anh2','$anh3','$anh4')
-                                                ") != 1) {
+                                                        ") != 1) {
+                                                echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
+                                            }
+                                            // Xử lý kích thước
+                                            if (isset($thongSo) && !empty($thongSo[0])) {
+                                                for ($i = 0; $i < count($thongSo); $i++) {
+                                                    $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
+
+                                                    // Kiểm tra kích thước không rỗng
+                                                    if ($thongSo_i != '') {
+                                                        // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
+                                                        if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
+                                                                                        VALUES ('$id_maSP','$thongSo_i')") != 1) {
+                                                            echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
                                         echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                                     }
+                                    // if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
+                                    //                         VALUES ('$id_maSP','$anh1','$anh2','$anh3','$anh4')
+                                    //     ") != 1) {
+                                    //     echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
+                                    // }
                                 }
 
 
                                 // Xử lý kích thước
-                                for ($i = 0; $i < count($thongSo); $i++) {
-                                    $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
+                                // if (isset($thongSo) && !empty($thongSo[0])) {
+                                //     for ($i = 0; $i <script count($thongSo); $i++) {
+                                //         $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
 
-                                    // Kiểm tra kích thước không rỗng
-                                    if ($thongSo_i != '') {
-                                        // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
-                                        if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                                                        VALUES ('$id_maSP','$thongSo_i')") != 1) {
-                                            echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
-                                        }
-                                    }
-                                }
+                                //         // Kiểm tra kích thước không rỗng
+                                //         if ($thongSo_i != '') {
+                                //             // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
+                                //             if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
+                                //                                             VALUES ('$id_maSP','$thongSo_i')") != 1) {
+                                //                 echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
+                                //             }
+                                //         }
+                                //     }
+                                // }
+                            } else {
+                                echo '<script>swal("Thất bại","Vui lòng chọn ảnh chi tiết !","error")</script>';
                             }
-                        } else {
-                            echo '<script>swal("Thất bại","thất bại","error")</script>';
+                            // } else {
+                            //     echo '<script>swal("Thất bại","thất bại","error")</script>';
+                            // }
+                            // } else {
+                            //     echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
+                            // }
                         }
                     } else {
-                        echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
+                        echo '<script>swal("Thất bại","Vui lòng chọn ảnh nền !","error")</script>';
                     }
                 }
             }
