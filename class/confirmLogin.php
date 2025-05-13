@@ -20,7 +20,7 @@
         public function confirmlogin($user,$pass)
         {
             $link=$this->myconnect();
-            $sql="select* from khachhang where email='$user' and matKhau='$pass' limit 1";
+            $sql="select* from khachhang where email=? and matKhau=? limit 1";
             $stmt=mysqli_prepare($link,$sql);
             mysqli_stmt_bind_param($stmt,"ss",$user,$pass);
             mysqli_stmt_execute($stmt);

@@ -176,6 +176,9 @@ class khachhang extends badminton
         $link = $this->connect();
         $result = mysqli_query($link, $sql);
         if (mysqli_num_rows($result) > 0) {
+            echo '<div class="cus-danhGia mt-5 pd-5">
+                        <h5 align="left" class="mb-3">Đánh giá của khách hàng:</h5>
+                        <hr>';
             while ($row = mysqli_fetch_assoc($result)) {
                 $id_DG = $row['id_DG'];
                 $id_KH = $row['id_KH'];
@@ -184,9 +187,7 @@ class khachhang extends badminton
                 $ngayTao = new DateTime($ngayTao);
                 $ngayTao = $ngayTao->format('d/m/Y');
                 $noiDung = $row['noiDung'];
-                echo '<div class="cus-danhGia mt-5 pd-5">
-                        <h5 align="left" class="mb-3">Đánh giá của khách hàng:</h5>
-                        <hr>
+                echo '
                         <div class="noiDung-danhGia">  
                             <p align="left"><i class="fas fa-user-secret"></i> ' . $ten . ': </p>
                             <!-- <p align="left" style="color: #eb9e44;">
@@ -199,8 +200,9 @@ class khachhang extends badminton
                             <p align="left" style="font-size: 16px;">' . $noiDung . ' : <span>' . $ngayTao . '</span></p>
                             <hr>
                         </div>
-                    </div>';
+                    ';
             }
+            echo '</div>';
         } else {
             echo '<h3 align="center" style="padding-top: 10px ;">Chưa có đánh giá nào !</h3>';
         }

@@ -15,3 +15,4 @@
 
         <!-- footer -->
         <?php include_once 'component/footer.php' ?>
+        

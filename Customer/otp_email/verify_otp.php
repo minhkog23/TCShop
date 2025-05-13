@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['otp'])) {
+        header('location:../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +20,6 @@
         <input type="submit" value="Verify OTP">
     </form>
     <?php
-    session_start();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $otp_input = $_REQUEST['otp'];
 
@@ -26,11 +31,13 @@
             // Xử lý khi OTP hết hạn, có thể yêu cầu người dùng yêu cầu OTP mới
             unset($_SESSION['otp']);
             unset($_SESSION['otp_time']);
-            unset($_SESSION['email_temp']);
+            // unset($_SESSION['email_temp']);
         } else {
             // Kiểm tra xem OTP người dùng nhập có đúng không
             if ($otp_input == $_SESSION['otp']) {
                 echo 'OTP đã đúng.';
+                session_start();
+                $_SESSION['otp_success']=time();
                 header('Location: reset_password.php');
                 exit();
             } else {

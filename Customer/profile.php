@@ -66,11 +66,11 @@ include_once 'component/header.php';
         <?php
         if (isset($_SESSION['id_KH'])) {
             $id_kh = $_SESSION['id_KH'];
-            $ho = $kh->laycot("select ho from khachhang where id_kh='$id_kh'");
-            $ten = $kh->laycot("select ten from khachhang where id_kh='$id_kh'");
-            $email = $kh->laycot("select email from khachhang where id_kh='$id_kh'");
-            $sdt = $kh->laycot("select sdt from khachhang where id_kh='$id_kh'");
-            $diachi = $kh->laycot("select diaChi from khachhang where id_kh='$id_kh'");
+            $ho = $kh->laycot("select ho from khachhang where id_kh=?",[$id_kh]);
+            $ten = $kh->laycot("select ten from khachhang where id_kh=?",[$id_kh]);
+            $email = $kh->laycot("select email from khachhang where id_kh=?",[$id_kh]);
+            $sdt = $kh->laycot("select sdt from khachhang where id_kh=?",[$id_kh]);
+            $diachi = $kh->laycot("select diaChi from khachhang where id_kh=?",[$id_kh]);
         }
 
         ?>
@@ -133,7 +133,10 @@ include_once 'component/header.php';
                             $sdt = $_REQUEST['txtsdt'];
                             $diachi = $_REQUEST['txtdiachi'];
                             //Cập nhật thông tin khách hàng
-                            if ($kh->themxoasua("UPDATE khachhang SET ho='$ho', ten='$ten', email='$email', sdt='$sdt', diaChi='$diachi' WHERE id_kh='$id_kh'") == 1) {
+                            $sql="UPDATE khachhang SET ho=?, ten=?, email=?, sdt=?, diaChi=? WHERE id_kh=?";
+                            $params = [$ho, $ten, $email, $sdt, $diachi, $id_kh];
+                            $result = $kh->themxoasua($sql, $params);
+                            if ($result == 1) {
                                 // Cập nhật thành công
                                 echo "<script>
                                             swal('Thành công','Cập nhập thành công','success').then(function(){
@@ -142,11 +145,25 @@ include_once 'component/header.php';
                                             setTimeout(function(){
                                                 window.location.href='profile.php?loc=profile';
                                             }, 2000);
-                                    </script>";
+                                        </script>";
                             } else {
                                 // Cập nhật thất bại
                                 echo "<script>alert('Cập nhật thất bại!');</script>";
                             }
+                            // if ($kh->themxoasua("UPDATE khachhang SET ho='$ho', ten='$ten', email='$email', sdt='$sdt', diaChi='$diachi' WHERE id_kh='$id_kh'") == 1) {
+                            //     // Cập nhật thành công
+                            //     echo "<script>
+                            //                 swal('Thành công','Cập nhập thành công','success').then(function(){
+                            //                     window.location.href='profile.php?loc=profile';
+                            //                 });
+                            //                 setTimeout(function(){
+                            //                     window.location.href='profile.php?loc=profile';
+                            //                 }, 2000);
+                            //         </script>";
+                            // } else {
+                            //     // Cập nhật thất bại
+                            //     echo "<script>alert('Cập nhật thất bại!');</script>";
+                            // }
                         } else {
                             // Không có dữ liệu để cập nhật
                             echo "<script>alert('Vui lòng nhập đầy đủ thông tin!');</script>";
@@ -200,7 +217,11 @@ include_once 'component/header.php';
                             if ($kh->checkTrung("select matKhau from khachhang where id_kh='$id_kh' and matKhau='$old_pass'") == 1) {
                                 // Kiểm tra mật khẩu mới và xác nhận mật khẩu mới
                                 if ($new_pass == $confirm_pass) {
-                                    if ($kh->themxoasua("UPDATE khachhang SET matKhau='$new_pass' WHERE id_kh='$id_kh'") == 1) {
+                                    $sql="UPDATE khachhang SET matKhau=? WHERE id_kh=?";
+                                    $params = [$new_pass, $id_kh];
+                                    $result = $kh->themxoasua($sql, $params);
+                                    if ($result == 1) {
+                                        // Đổi mật khẩu thành công
                                         echo "<script>
                                             swal('Thành công','Đổi mật khẩu thành công','success').then(function(){
                                                 window.location.href='profile.php?loc=resetPass';
@@ -210,8 +231,21 @@ include_once 'component/header.php';
                                             }, 2000);
                                         </script>";
                                     } else {
+                                        // Đổi mật khẩu thất bại
                                         echo "<script>alert('Đổi mật khẩu thất bại!');</script>";
                                     }
+                                    // if ($kh->themxoasua("UPDATE khachhang SET matKhau='$new_pass' WHERE id_kh='$id_kh'") == 1) {
+                                    //     echo "<script>
+                                    //         swal('Thành công','Đổi mật khẩu thành công','success').then(function(){
+                                    //             window.location.href='profile.php?loc=resetPass';
+                                    //         });
+                                    //         setTimeout(function(){
+                                    //             window.location.href='profile.php?loc=resetPass';
+                                    //         }, 2000);
+                                    //     </script>";
+                                    // } else {
+                                    //     echo "<script>alert('Đổi mật khẩu thất bại!');</script>";
+                                    // }
                                 } else {
                                     echo "<script>alert('Mật khẩu mới và xác nhận mật khẩu không giống nhau!');</script>";
                                 }
@@ -235,7 +269,7 @@ include_once 'component/header.php';
                             <a href="?loc=order&status=cxl" class="btn btn-light">
                                 Chờ xử lý 
                                 <?php
-                                    $cxl=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Chờ xử lý' and id_KH='$id_kh'");
+                                    $cxl=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Chờ xử lý' and id_KH=?",[$id_kh]);
                                     if($cxl!=0)
                                     {
                                         echo '<span class="badge bg-secondary">'.$cxl.'</span>';
@@ -249,7 +283,7 @@ include_once 'component/header.php';
                             <a href="?loc=order&status=dxn" class="btn btn-light">
                                 Đã xác nhận 
                                 <?php
-                                    $dxn=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đã xác nhận' and id_KH='$id_kh'");
+                                    $dxn=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đã xác nhận' and id_KH=?",[$id_kh]);
                                     if($dxn!=0)
                                     {
                                         echo '<span class="badge bg-secondary">'.$dxn.'</span>';
@@ -264,7 +298,7 @@ include_once 'component/header.php';
                             <a href="?loc=order&status=cbh" class="btn btn-light">
                                 Đang chuẩn bị hàng 
                                 <?php
-                                    $cbh=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đang chuẩn bị hàng' and id_KH='$id_kh'");
+                                    $cbh=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đang chuẩn bị hàng' and id_KH=?",[$id_kh]);
                                     if($cbh!=0)
                                     {
                                         echo '<span class="badge bg-secondary">'.$cbh.'</span>';
@@ -279,7 +313,7 @@ include_once 'component/header.php';
                             <a href="?loc=order&status=dgh" class="btn btn-light">
                                 Đang giao hàng 
                                 <?php
-                                    $dgh=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đang giao hàng' and id_KH='$id_kh'");
+                                    $dgh=$kh->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đang giao hàng' and id_KH=?",[$id_kh]);
                                     if($dgh!=0)
                                     {
                                         echo '<span class="badge bg-secondary">'.$dgh.'</span>';
@@ -324,7 +358,10 @@ include_once 'component/header.php';
                             if(isset($_REQUEST['id_hd'])&&$_REQUEST['id_hd']!='')
                             {
                                 $id_hd=$_REQUEST['id_hd'];
-                                if($kh->themxoasua("UPDATE hoadon SET tinhTrang='Hủy' WHERE id_HD=$id_hd")==1)
+                                $sql="UPDATE hoadon SET tinhTrang='Hủy' WHERE id_HD=?";
+                                $params = [$id_hd];
+                                $result = $kh->themxoasua($sql, $params);
+                                if($result==1)
                                 {
                                     echo "<script>
                                             swal('Thành công','Bạn đã hủy thành công đơn hàng','success').then(function(){
@@ -335,6 +372,17 @@ include_once 'component/header.php';
                                             }, 2000);
                                         </script>";
                                 }
+                                // if($kh->themxoasua("UPDATE hoadon SET tinhTrang='Hủy' WHERE id_HD=$id_hd")==1)
+                                // {
+                                //     echo "<script>
+                                //             swal('Thành công','Bạn đã hủy thành công đơn hàng','success').then(function(){
+                                //                 window.location= 'profile.php?loc=order&status=tc';
+                                //             });
+                                //             setTimeout(function(){
+                                //                 window.location= 'profile.php?loc=order&status=tc';
+                                //             }, 2000);
+                                //         </script>";
+                                // }
                             } 
                         }  
                     ?>

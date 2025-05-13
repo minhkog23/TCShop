@@ -35,11 +35,11 @@ $p = new login();
         <h2>Thông tin thanh toán</h2>
         <?php
         $id_KH = $_SESSION['id_KH'];
-        $ho = $p->laycot("select ho from khachhang where id_KH='$id_KH'");
-        $ten = $p->laycot("select ten from khachhang where id_KH='$id_KH'");
-        $email = $p->laycot("select email from khachhang where id_KH='$id_KH'");
-        $sdt = $p->laycot("select sdt from khachhang where id_KH='$id_KH'");
-        $diaChi = $p->laycot("select diaChi from khachhang where id_KH='$id_KH'");
+        $ho = $p->laycot("select ho from khachhang where id_KH=?",[$id_KH]);
+        $ten = $p->laycot("select ten from khachhang where id_KH=?",[$id_KH]);
+        $email = $p->laycot("select email from khachhang where id_KH=?",[$id_KH]);
+        $sdt = $p->laycot("select sdt from khachhang where id_KH=?",[$id_KH]);
+        $diaChi = $p->laycot("select diaChi from khachhang where id_KH=?",[$id_KH]);
         ?>
         <form method="POST">
             <div class="row">
@@ -60,7 +60,7 @@ $p = new login();
                     </div>
                     <div class="mb-3">
                         <label for="txtemail" class="form-label">Email <span style="color:red">*</span></label>
-                        <input type="email" class="form-control" id="txtemail" name="txtemail" placeholder="Nhập email ..." value="<?php echo $email ?>" required>
+                        <input type="email" class="form-control" id="txtemail" name="txtemail" placeholder="Nhập email ..." value="<?php echo $email ?>" readonly required>
                     </div>
                     <div class="mb-3">
                         <label for="txtsdt" class="form-label">Số điện thoại <span style="color:red">*</span></label>
@@ -153,11 +153,12 @@ $p = new login();
                 $diaChi = $_REQUEST['txtdiachi'];
                 $moTa = $_REQUEST['txtmota'];
                 $selectPT = $_REQUEST['selectPT'];
-                if ($p->themxoasua("INSERT INTO hoadon(tinhTrang, thanhToan,id_KH) 
-                VALUES ('$tinhTrang','$selectPT','$id_KH')
-                ") != 1) {
+                $sql="INSERT INTO hoadon(tinhTrang, thanhToan,id_KH) VALUES (?,?,?)";
+                $params = [$tinhTrang, $selectPT, $id_KH];
+                $result = $p->themxoasua($sql, $params);
+                if ($result != 1) {
                     echo '<script>
-                        swal("Thất bại","Đặt hàng thất bại","error").then(function(){
+                        swal("Thất bại","Đặt hàng thành công","erorr").then(function(){
                             window.location="cart.php";
                         });
                         setTimeout(function(){
@@ -165,6 +166,18 @@ $p = new login();
                         }, 2000);
                     </script>';
                 }
+                // if ($p->themxoasua("INSERT INTO hoadon(tinhTrang, thanhToan,id_KH) 
+                // VALUES ('$tinhTrang','$selectPT','$id_KH')
+                // ") != 1) {
+                //     echo '<script>
+                //         swal("Thất bại","Đặt hàng thất bại","error").then(function(){
+                //             window.location="cart.php";
+                //         });
+                //         setTimeout(function(){
+                //             window.location="cart.php";
+                //         }, 2000);
+                //     </script>';
+                // }
 
                 $id_HD = $p->laycot("select id_HD from hoadon order by id_HD desc limit 1");
                 $cart = $_REQUEST['cart'];
@@ -184,20 +197,33 @@ $p = new login();
                     $dongia = $cart[$i]['price'];
                     $tongTien = $itemTotal;
 
-                    $id_maSP = $p->laycot("select id_maSP from sanpham where tenSP='$tensp'");
-                    if ($p->themxoasua("INSERT INTO chitiethoadon(id_HD, soLuong, donGia, thanhTien, size, id_maSP) 
-                                        VALUES ('$id_HD','$sl','$dongia','$tongTien','$size','$id_maSP')
-
-                                    ") != 1) {
+                    $id_maSP = $p->laycot("select id_maSP from sanpham where tenSP=? ",[$tensp]);
+                    $sql="INSERT INTO chitiethoadon(id_HD, soLuong, donGia, thanhTien, size, id_maSP) VALUES (?,?,?,?,?,?)";
+                    $params = [$id_HD, $sl, $dongia, $tongTien, $size, $id_maSP];
+                    $result = $p->themxoasua($sql, $params);
+                    if ($result != 1) {
                         echo '<script>swal("Thất bại","Đặt hàng thất bại","error").then(function(){
                             window.location="cart.php";
                         })</script>';
                     }
+                    // if ($p->themxoasua("INSERT INTO chitiethoadon(id_HD, soLuong, donGia, thanhTien, size, id_maSP) 
+                    //                     VALUES ('$id_HD','$sl','$dongia','$tongTien','$size','$id_maSP')
+
+                    //                 ") != 1) {
+                    //     echo '<script>swal("Thất bại","Đặt hàng thất bại","error").then(function(){
+                    //         window.location="cart.php";
+                    //     })</script>';
+                    // }
                 }
-                if ($p->themxoasua("UPDATE hoadon 
-                                    SET tongTien='$total'
-                                    WHERE id_HD='$id_HD'") == 1) {
-                    echo '<script>
+                $sql="UPDATE hoadon SET tongTien=? WHERE id_HD=?";
+                $params = [$total, $id_HD];
+                $result = $p->themxoasua($sql, $params);
+                if ($result == 1) {
+                    $sql="INSERT INTO nguoinhan(id_HD,ho_NN, ten_NN, diaChi_NN, sdt_NN) VALUES (?,?,?,?,?)";
+                    $params = [$id_HD, $ho, $ten, $diaChi, $sdt];
+                    $result = $p->themxoasua($sql, $params);
+                    if ($result == 1) {
+                        echo '<script>
                             swal("Thành công","Đặt hàng thành công","success").then(function(){
                             window.location="index.php";
                             });
@@ -205,13 +231,40 @@ $p = new login();
                                 window.location="index.php";
                             }, 2000);
                         </script>';
-                    unset($_SESSION['cart']);
-                    unset($_SESSION['cart_count']);
-                } else {
+                        unset($_SESSION['cart']);
+                        unset($_SESSION['cart_count']);
+                    }
+                }
+                else {
                     echo '<script>swal("Thất bại","Đặt hàng thất bại","error").then(function(){
                         window.location="cart.php";
                     })</script>';
                 }
+
+
+                // if ($p->themxoasua("UPDATE hoadon 
+                //                     SET tongTien='$total'
+                //                     WHERE id_HD='$id_HD'") == 1) {
+                //     if($p->themxoasua("INSERT INTO nguoinhan(id_HD,ho_NN, ten_NN, diaChi_NN, sdt_NN) VALUES ('$id_HD','$ho','$ten','$diaChi','$sdt')")==1)
+                //     {
+                //         echo '<script>
+                //             swal("Thành công","Đặt hàng thành công","success").then(function(){
+                //             window.location="index.php";
+                //             });
+                //             setTimeout(function(){
+                //                 window.location="index.php";
+                //             }, 2000);
+                //         </script>';
+                //         unset($_SESSION['cart']);
+                //         unset($_SESSION['cart_count']);
+                //     }
+                    
+                    
+                // } else {
+                //     echo '<script>swal("Thất bại","Đặt hàng thất bại","error").then(function(){
+                //         window.location="cart.php";
+                //     })</script>';
+                // }
             }
             ?>
         </form>

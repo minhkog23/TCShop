@@ -2,6 +2,12 @@
 include '../../class/khachhang.php';
 $khachhang = new khachhang();
 ?>
+<?php
+    session_start();
+    if(!isset($_SESSION['otp_success'])) {
+        header('location:../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,16 +25,20 @@ $khachhang = new khachhang();
     </form>
     <?php
     // reset-password.php
-    session_start();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $new_password = $_REQUEST['new_password'];
 
         // Cập nhật mật khẩu trong cơ sở dữ liệu (giả lập cơ sở dữ liệu)
         if ($khachhang->themxoasua("update khachhang set matkhau='" . md5($new_password) . "' where email='" . $_SESSION['email_temp'] . "'") == 1) {
-            echo 'Mật khẩu đã được cập nhật thành công.';
-            // Chuyển hướng về trang đăng nhập
-            header('Location: ../login.php');
+            echo '<script>
+                            swal("Thành công","Đặt lại mật khẩu thành công","success").then(function(){
+                            window.location="../index.php";
+                            });
+                            setTimeout(function(){
+                                window.location="../index.php";
+                            }, 2000);
+                        </script>';
             exit();
         } else {
             echo 'Có lỗi xảy ra khi cập nhật mật khẩu.';
@@ -36,7 +46,8 @@ $khachhang = new khachhang();
 
         // Xóa session OTP và email
         unset($_SESSION['otp']);
-        unset($_SESSION['email']);
+        unset($_SESSION['email_temp']);
+        unset($_SESSION['otp_success']);
     }
     ?>
 </body>

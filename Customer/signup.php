@@ -61,9 +61,10 @@
                                     if($pass==$pass_sm)
                                     {
                                         $pass_mh=md5($pass);
-                                        if($p->themxoasua("INSERT INTO khachhang(ho, ten, email, sdt, diaChi, matKhau,tinhTrang) 
-                                                            VALUES ('$ho','$ten','$user','$sdt','$diaChi','$pass_mh','Active')
-                                                            ")==1)
+                                        $sql="INSERT INTO khachhang(ho, ten, email, sdt, diaChi, matKhau,tinhTrang) VALUES (?,?,?,?,?,?,?)";
+                                        $params = [$ho, $ten, $user, $sdt, $diaChi, $pass_mh, 'Active'];
+                                        $result = $p->themxoasua($sql, $params);
+                                        if($result==1)
                                         {
                                             echo'<script>
                                                 swal("Thành công","Đăng ký thành công","success").then(function(){
@@ -74,6 +75,23 @@
                                                 }, 2000);
                                             </script>';
                                         }
+                                        else
+                                        {
+                                            echo'<script>swal("Thất bại","Đăng ký không thành công !","error")</script>';
+                                        }
+                                        // if($p->themxoasua("INSERT INTO khachhang(ho, ten, email, sdt, diaChi, matKhau,tinhTrang) 
+                                        //                     VALUES ('$ho','$ten','$user','$sdt','$diaChi','$pass_mh','Active')
+                                        //                     ")==1)
+                                        // {
+                                        //     echo'<script>
+                                        //         swal("Thành công","Đăng ký thành công","success").then(function(){
+                                        //                     window.location="login.php";
+                                        //         });
+                                        //         setTimeout(function(){
+                                        //             window.location="login.php";
+                                        //         }, 2000);
+                                        //     </script>';
+                                        // }
                                     }
                                     else
                                     {
