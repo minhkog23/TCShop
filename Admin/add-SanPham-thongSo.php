@@ -40,18 +40,35 @@ include 'component/header.php';
                     $thongSo = $_REQUEST['txtthongSo'];
                     if ($_REQUEST['txtthongSo'] == '') {
                         echo '<span id="valthongso" style="display: block; color:red">Vui lòng nhập thông số cần thêm !</span>';
-                    } else if ($ad->checkTrung("select size from size where size like '%$thongSo%'") == 1) {
-                        echo '<span id="valthongso" style="display: block; color:red">Thông số đã có sẵn. Vui lòng chọn thông số khác!</span>';
+                    // } else if ($ad->checkTrung("select size from size where size like '%$thongSo%'") == 1) {
+                    //     echo '<span id="valthongso" style="display: block; color:red">Thông số đã có sẵn. Vui lòng chọn thông số khác!</span>';
                     } else {
-                        if ($ad->themxoasua("INSERT INTO size(size) VALUES ('$thongSo')") == 1) {
-                            echo "<script>swal('Thành công','Thêm thông số thành công','success').then(function(){
-                                                window.location='add-SanPham-thongSo.php';
+                        $sql = "INSERT INTO size(size) VALUES (?)";
+                        $params = [$thongSo];
+                        $result = $ad->themxoasua($sql, $params);
+                        if($result == 1) {
+                            echo "<script>
+                                    swal('Thành công','Thêm thông số thành công','success').then(function(){
+                                            window.location='add-SanPham-thongSo.php';
                                     });
                                     setTimeout(function(){
                                         window.location='add-SanPham-thongSo.php';
-                                    }, 2000);    
+                                    }, 2000);
                                 </script>";
+                        } else {
+                            echo "<script>swal('Thất bại','Thêm thông số không thành công','error').then(function(){
+                                            window.location='add-SanPham-thongSo.php';
+                                })</script>";
                         }
+                        // if ($ad->themxoasua("INSERT INTO size(size) VALUES ('$thongSo')") == 1) {
+                        //     echo "<script>swal('Thành công','Thêm thông số thành công','success').then(function(){
+                        //                         window.location='add-SanPham-thongSo.php';
+                        //             });
+                        //             setTimeout(function(){
+                        //                 window.location='add-SanPham-thongSo.php';
+                        //             }, 2000);    
+                        //         </script>";
+                        // }
                     }
                 }
                 ?>

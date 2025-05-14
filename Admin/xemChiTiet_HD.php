@@ -10,48 +10,50 @@ if ($checkRole->checkRoleAdmin() == 0) {
 }
 ?>
 <?php
-include 'component/header.php';
-?>
-
-<?php
 if (isset($_REQUEST['id_HD'])) {
-    $id_HD = $_REQUEST['id_HD'];
-
-    $ngayDat = $ad->laycot("select ngayDat from hoadon where id_HD='$id_HD'");
-    $ngayGiao = $ad->laycot("select ngayGiao from hoadon where id_HD='$id_HD'");
-    $tinhTrang = $ad->laycot("select tinhTrang from hoadon where id_HD='$id_HD'");
-    $tongTien = $ad->laycot("select tongTien from hoadon where id_HD='$id_HD'");
-    $thanhToan = $ad->laycot("select thanhToan from hoadon where id_HD='$id_HD'");
-    $id_KH = $ad->laycot("select id_KH from hoadon where id_HD='$id_HD'");
-    $id_NV_banHang = $ad->laycot("select id_NV_banHang from hoadon where id_HD='$id_HD'");
-    $id_NV_giaoHang = $ad->laycot("select id_NV_giaoHang from hoadon where id_HD='$id_HD'");
-    $hoTen = $ad->laycot("select CONCAT( nn.ho_NN , ' ', nn.ten_NN) as hoten
+    if (filter_var($_REQUEST['id_HD'], FILTER_VALIDATE_INT) === false) {
+        header('location:danhSachHD.php');
+    } else {
+        $id_HD = intval($_REQUEST['id_HD']);
+        $ngayDat = $ad->laycot("select ngayDat from hoadon where id_HD='$id_HD'");
+        $ngayGiao = $ad->laycot("select ngayGiao from hoadon where id_HD='$id_HD'");
+        $tinhTrang = $ad->laycot("select tinhTrang from hoadon where id_HD='$id_HD'");
+        $tongTien = $ad->laycot("select tongTien from hoadon where id_HD='$id_HD'");
+        $thanhToan = $ad->laycot("select thanhToan from hoadon where id_HD='$id_HD'");
+        $id_KH = $ad->laycot("select id_KH from hoadon where id_HD='$id_HD'");
+        $id_NV_banHang = $ad->laycot("select id_NV_banHang from hoadon where id_HD='$id_HD'");
+        $id_NV_giaoHang = $ad->laycot("select id_NV_giaoHang from hoadon where id_HD='$id_HD'");
+        $hoTen = $ad->laycot("select CONCAT( nn.ho_NN , ' ', nn.ten_NN) as hoten
                             FROM hoadon hd JOIN nguoinhan nn ON hd.id_HD = nn.id_HD
                             WHERE hd.id_HD ='$id_HD'");
-    $diaChi = $ad->laycot("select nn.diaChi_NN FROM hoadon hd JOIN nguoinhan nn ON hd.id_HD = nn.id_HD
+        $diaChi = $ad->laycot("select nn.diaChi_NN FROM hoadon hd JOIN nguoinhan nn ON hd.id_HD = nn.id_HD
                             WHERE hd.id_HD ='$id_HD'");
-    $email = $ad->laycot("select kh.email FROM hoadon hd JOIN khachhang kh ON hd.id_KH = kh.id_KH
+        $email = $ad->laycot("select kh.email FROM hoadon hd JOIN khachhang kh ON hd.id_KH = kh.id_KH
                             WHERE hd.id_HD ='$id_HD'");
-    $sdt = $ad->laycot("select nn.sdt_NN FROM hoadon hd JOIN nguoinhan nn ON hd.id_HD = nn.id_HD
+        $sdt = $ad->laycot("select nn.sdt_NN FROM hoadon hd JOIN nguoinhan nn ON hd.id_HD = nn.id_HD
                             WHERE hd.id_HD ='$id_HD'");
-    $tensp = $ad->laycot("SELECT sp.tenSP
+        $tensp = $ad->laycot("SELECT sp.tenSP
                             FROM hoadon hd join chitiethoadon cthd ON hd.id_HD = cthd.id_HD
                             join sanpham sp ON cthd.id_maSP=sp.id_maSP
                             where hd.id_HD ='$id_HD'");
-    $soLuong = $ad->laycot("SELECT cthd.soLuong
+        $soLuong = $ad->laycot("SELECT cthd.soLuong
                             FROM hoadon hd join chitiethoadon cthd ON hd.id_HD = cthd.id_HD
                             join sanpham sp ON cthd.id_maSP=sp.id_maSP
                             where hd.id_HD ='$id_HD'");
-    $dongia = $ad->laycot("SELECT cthd.donGia
+        $dongia = $ad->laycot("SELECT cthd.donGia
                             FROM hoadon hd join chitiethoadon cthd ON hd.id_HD = cthd.id_HD
                             join sanpham sp ON cthd.id_maSP=sp.id_maSP
                             where hd.id_HD ='$id_HD'");
-    $thanhTien = $ad->laycot("SELECT cthd.thanhTien
+        $thanhTien = $ad->laycot("SELECT cthd.thanhTien
                             FROM hoadon hd join chitiethoadon cthd ON hd.id_HD = cthd.id_HD
                             join sanpham sp ON cthd.id_maSP=sp.id_maSP
                             where hd.id_HD ='$id_HD'");
+    }
 }
 
+?>
+<?php
+include 'component/header.php';
 ?>
 
 <div class="card shadow mb-4">
@@ -84,28 +86,28 @@ if (isset($_REQUEST['id_HD'])) {
 
             <div class="mb-3 row">
                 <label for="password" class="form-label col-sm-1">Sản phẩm</label>
-                <input type="text" class="form-control col-sm-10" id="txt_pass" name="txt_pass" value="<?php echo $tensp. ' |   SL:'. $soLuong . '   |    Đơn giá:'. number_format($dongia,0,'', '.') .' vnđ' .'   |   Thành tiền: '. number_format($thanhTien,0,'','.') .' vnđ'?>" readonly> <!--  kèm số lượng -->
+                <input type="text" class="form-control col-sm-10" id="txt_pass" name="txt_pass" value="<?php echo $tensp . ' |   SL:' . $soLuong . '   |    Đơn giá:' . number_format($dongia, 0, '', '.') . ' vnđ' . '   |   Thành tiền: ' . number_format($thanhTien, 0, '', '.') . ' vnđ' ?>" readonly> <!--  kèm số lượng -->
             </div>
             <!-- <div class="mb-3 row">
                 <label for="txt_tinhTrang" class="form-label col-sm-2">Số lượng</label>
                 <input type="text" class="form-control col-sm-10" id="txt_tinhTrang" name="txt_tinhTrang" value="" readonly>
             </div> -->
-        
+
             <div class="mb-3">
                 <label for="txt_diachi" class="form-label">Địa chỉ nhận hàng</label>
-                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $diaChi?>" readonly>
+                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $diaChi ?>" readonly>
             </div>
             <div class="mb-3">
                 <label for="txt_diachi" class="form-label">Ngày đặt</label>
-                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $ngayDat?>" readonly>
+                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $ngayDat ?>" readonly>
             </div>
             <div class="mb-3">
                 <label for="txt_diachi" class="form-label">Ngày giao</label>
-                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $ngayGiao?>" readonly>
+                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $ngayGiao ?>" readonly>
             </div>
             <div class="mb-3">
                 <label for="txt_diachi" class="form-label">Phương thức thanh toán</label>
-                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $thanhToan?>" readonly>
+                <input type="text" class="form-control" id="txt_diachi" name="txt_diachi" value="<?php echo $thanhToan ?>" readonly>
             </div>
         </div>
 

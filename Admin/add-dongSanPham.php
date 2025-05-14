@@ -26,7 +26,7 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-6">
                     <label for="txttendsp" class="form-label">Nhập tên dòng sản phẩm <span style="color: red">*</span></label>
-                    <input type="text" class="form-control" name="txttendsp" id="txttendsp" placeholder="Tên dòng sản phẩm ...">
+                    <input type="text"  class="form-control" name="txttendsp" id="txttendsp" placeholder="Tên dòng sản phẩm ...">
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="txttensp" class="form-label">Chọn thương hiệu sản phẩm <span style="color: red">*</span></label>
@@ -48,14 +48,15 @@ include 'component/header.php';
                 if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-dsp') {
                     $tendsp = $_REQUEST['txttendsp'];
                     $tenThuongHieu = $_REQUEST['selectDongSP'];
-                    echo $tenThuongHieu;
                     if ($tendsp == '' || $tenThuongHieu == '0') {
                         echo '<span id="valDSP" style="display: block; color:red">Vui lòng đầy đủ thông tin !</span>';
                     } else if ($ad->checkTrung("select tenDongSP from dongsanpham where tenDongSP like '%$tendsp%'") == 1) {
                         echo '<span id="valDSP" style="display: block; color:red">Tên dòng sản phẩm đã có sẵn. Vui lòng nhập dòng sản phẩm khác!</span>';
                     } else {
-                        if ($ad->themxoasua("INSERT INTO dongsanpham(tenDongSP, id_ThuongHieu) 
-                                                    VALUES ('$tendsp','$tenThuongHieu')") == 1) {
+                        $sql="INSERT INTO dongsanpham(tenDongSP, id_ThuongHieu) VALUES (?,?)";
+                        $params = [$tendsp, $tenThuongHieu];
+                        $result = $ad->themxoasua($sql, $params);
+                        if ($result==1) {
                             echo "<script>
                                     swal('Thành công','Thêm dòng sản phẩm thành công','success').then(function(){
                                                 window.location='danhSachDongSP.php';
@@ -69,6 +70,21 @@ include 'component/header.php';
                                                     window.location='add-dongSanPham.php';
                                         })</script>";
                         }
+                        // if ($ad->themxoasua("INSERT INTO dongsanpham(tenDongSP, id_ThuongHieu) 
+                        //                             VALUES ('$tendsp','$tenThuongHieu')") == 1) {
+                        //     echo "<script>
+                        //             swal('Thành công','Thêm dòng sản phẩm thành công','success').then(function(){
+                        //                         window.location='danhSachDongSP.php';
+                        //             });
+                        //             setTimeout(function(){
+                        //                 window.location='danhSachDongSP.php';
+                        //             }, 2000);
+                        //         </script>";
+                        // } else {
+                        //     echo "<script>swal('Thất bại','Thêm dòng sản phẩm không thành công','error').then(function(){
+                        //                             window.location='add-dongSanPham.php';
+                        //                 })</script>";
+                        // }
                     }
                 }
                 ?>

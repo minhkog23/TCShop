@@ -12,7 +12,7 @@ class auth
     }
     public function checkRoleDelivery()
     {
-        if (isset($_SESSION['id_quyen']) && $_SESSION['id_quyen'] == '3') {
+        if (isset($_SESSION['id_quyen']) && $_SESSION['id_quyen'] == '4') {
             return 1;
         } else {
             return 0;

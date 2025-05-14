@@ -10,6 +10,17 @@ if ($checkRole->checkRoleAdmin() == 0) {
 }
 ?>
 <?php
+if (!isset($_REQUEST['id_sua'])) {
+    header('location:danhSachTH.php');
+} else if (filter_var($_REQUEST['id_sua'], FILTER_VALIDATE_INT) === false) {
+    header('location:danhSachTH.php');
+} else {
+    $id_sua = intval($_REQUEST['id_sua']);
+    $tenThuongHieu = $ad->laycot("select tenThuongHieu from thuonghieu where id_ThuongHieu='$id_sua'");
+    $moTa = $ad->laycot("select moTa from thuonghieu where id_ThuongHieu='$id_sua'");
+}
+?>
+<?php
 include 'component/header.php';
 ?>
 <div class="alert alert-secondary">
@@ -19,18 +30,13 @@ include 'component/header.php';
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h5 class="m-0 font-weight-bold text-primary">Sửa thương hiệu</h5>
-        <?php
-        $id_sua = $_REQUEST['id_sua'];
-        $tenThuongHieu = $ad->laycot("select tenThuongHieu from thuonghieu where id_ThuongHieu='$id_sua'");
-        $moTa = $ad->laycot("select moTa from thuonghieu where id_ThuongHieu='$id_sua'");
-        ?>
     </div>
     <div class="card-body">
         <form method="post">
             <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="txttenth" class="form-label">Nhập tên thương hiệu <span style="color:red">*</span></label>
-                    <input type="text" class="form-control" name="txttenth" id="txttenth" value="<?php echo $tenThuongHieu ?>">
+                    <input type="text" class="form-control" name="txttenth" id="txttenth" value="<?php echo $tenThuongHieu ?>" required>
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="txtmota" class="form-label">Mô tả</label>
@@ -51,9 +57,12 @@ include 'component/header.php';
                     if ($_REQUEST['txttenth'] == '') {
                         echo '<span id="valTH" style="display: block; color:red">Vui lòng nhập tên thương hiệu cần sửa !</span>';
                     } else {
-                        if ($ad->themxoasua("UPDATE thuonghieu 
-                                                    SET tenThuongHieu='$tenThuongHieu',moTa='$mota' 
-                                                    WHERE id_ThuongHieu='$id_sua'") == 1) {
+                        $sql= "UPDATE thuonghieu 
+                                        SET tenThuongHieu=?,moTa=? 
+                                        WHERE id_ThuongHieu=?";
+                        $params = [$tenThuongHieu, $mota, $id_sua];
+                        $result = $ad->themxoasua($sql, $params);
+                        if ($result == 1) {
                             echo "<script>
                                     swal('Thành công','Sửa thương hiệu thành công','success').then(function(){
                                         window.location='danhSachTH.php';
@@ -65,7 +74,7 @@ include 'component/header.php';
                         } else {
                             echo "<script>swal('Thất bại','Sửa thương hiệu không thành công','error').then(function(){
                                                     window.location='sua-ThuongHieu.php';
-                                        })</script>";
+                                })</script>";
                         }
                     }
                 }

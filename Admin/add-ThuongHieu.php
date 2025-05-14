@@ -25,7 +25,7 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="txttenth" class="form-label">Nhập tên thương hiệu <span style="color:red">*</span></label>
-                    <input type="text" class="form-control" name="txttenth" id="txttenth" placeholder="Thương hiệu ...">
+                    <input type="text" class="form-control" name="txttenth" id="txttenth" placeholder="Thương hiệu ..." required>
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="txtmota" class="form-label">Mô tả</label>
@@ -48,8 +48,11 @@ include 'component/header.php';
                     } else if ($ad->checkTrung("select tenThuongHieu from thuonghieu where tenThuongHieu like '%$tenThuongHieu%'") == 1) {
                         echo '<span id="valTH" style="display: block; color:red">Tên thương hiệu đã có sẵn. Vui lòng nhập tên thương hiệu khác!</span>';
                     } else {
-                        if ($ad->themxoasua("INSERT INTO thuonghieu(tenThuongHieu, moTa) 
-                                                    VALUES ('$tenThuongHieu','$mota')") == 1) {
+                        $sql = "INSERT INTO thuonghieu(tenThuongHieu, moTa) 
+                                                    VALUES (?,?)";
+                        $params = [$tenThuongHieu, $mota];
+                        $result =$ad->themxoasua($sql, $params);
+                        if ($result == 1) {
                             echo "<script>
                                         swal('Thành công','Thêm thương hiệu thành công','success').then(function(){
                                                     window.location='add-ThuongHieu.php';
@@ -63,6 +66,21 @@ include 'component/header.php';
                                                     window.location='add-ThuongHieu.php';
                                         })</script>";
                         }
+                        // if ($ad->themxoasua("INSERT INTO thuonghieu(tenThuongHieu, moTa) 
+                        //                             VALUES ('$tenThuongHieu','$mota')") == 1) {
+                        //     echo "<script>
+                        //                 swal('Thành công','Thêm thương hiệu thành công','success').then(function(){
+                        //                             window.location='add-ThuongHieu.php';
+                        //                 });
+                        //                 setTimeout(function(){
+                        //                     window.location='add-ThuongHieu.php';
+                        //                 }, 2000);
+                        //         </script>";
+                        // } else {
+                        //     echo "<script>swal('Thất bại','Thêm thương hiệu không thành công','error').then(function(){
+                        //                             window.location='add-ThuongHieu.php';
+                        //                 })</script>";
+                        // }
                     }
                 }
                 ?>

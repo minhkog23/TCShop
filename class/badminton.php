@@ -125,6 +125,7 @@ class badminton
 
                 // Liên kết các tham số vào câu lệnh chuẩn bị
                 array_unshift($params_refs, $types); // Thêm kiểu dữ liệu vào đầu mảng
+                //vd: $params_refs bây giờ là: ['ssi', &$params[0], &$params[1], &$params[2]]
                 call_user_func_array([$stmt, 'bind_param'], $params_refs);
             }
 

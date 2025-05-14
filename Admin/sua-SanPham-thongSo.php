@@ -9,6 +9,16 @@ if ($checkRole->checkRoleAdmin() == 0) {
     header('location:index.php');
 }
 ?>
+    <?php
+    if (isset($_REQUEST['idsua']) && $_REQUEST['idsua'] != '') {
+        if (filter_var($_REQUEST['idsua'], FILTER_VALIDATE_INT) === false) {
+            header('location:danhSachSP.php');
+        } else {
+            $id_sua = intval($_REQUEST['idsua']);
+            $thongSo = $ad->laycot("select size from size where id_size='$id_sua'");
+        }
+    }
+    ?>
 <?php
 include 'component/header.php';
 ?>
@@ -20,12 +30,7 @@ include 'component/header.php';
     <div class="card-header py-3">
         <h5 class="m-0 font-weight-bold text-primary">Sửa thông số sản phẩm</h5>
     </div>
-    <?php
-    if (isset($_REQUEST['idsua']) && $_REQUEST['idsua'] != '') {
-        $id = $_REQUEST['idsua'];
-        $thongSo = $ad->laycot("select size from size where id_size='$id'");
-    }
-    ?>
+
     <div class="card-body">
         <form method="post" enctype="">
             <div class="row">
@@ -46,15 +51,32 @@ include 'component/header.php';
                     $thongSo = $_REQUEST['txtthongSo'];
                     if ($_REQUEST['txtthongSo'] == '') {
                         echo '<span id="valthongso" style="display: block; color:red">Vui lòng nhập thông số cần thêm !</span>';
-                    } else if ($ad->checkTrung("select size from size where size like '%$thongSo%'") == 1) {
+                    } else if ($ad->checkTrung("select size from size where size like '$thongSo'") == 1) {
                         echo '<span id="valthongso" style="display: block; color:red">Thông số đã có sẵn. Vui lòng chọn thông số khác!</span>';
                     } else {
-                        if ($ad->themxoasua("UPDATE size SET size='$thongSo'
-                                                WHERE id_size='$id'") == 1) {
-                            echo "<script>swal('Thành công','Thêm thông số thành công','success').then(function(){
-                                                window.location='add-SanPham-thongSo.php';
+                        $sql = "UPDATE size SET size=? WHERE id_size=?";
+                        $params = [$thongSo, $id_sua];
+                        $result = $ad->themxoasua($sql, $params);
+                        if ($result == 1) {
+                            echo "<script>
+                                        swal('Thành công','Sửa thông số thành công','success').then(function(){
+                                                    window.location='add-SanPham-thongSo.php';
+                                        });
+                                        setTimeout(function(){
+                                            window.location='add-SanPham-thongSo.php';
+                                        }, 2000);
+                                </script>";
+                        } else {
+                            echo "<script>swal('Thất bại','Sửa thông số không thành công','error').then(function(){
+                                            window.location='add-SanPham-thongSo.php';
                                     })</script>";
                         }
+                        // if ($ad->themxoasua("UPDATE size SET size='$thongSo'
+                        //                         WHERE id_size='$id'") == 1) {
+                        //     echo "<script>swal('Thành công','Thêm thông số thành công','success').then(function(){
+                        //                         window.location='add-SanPham-thongSo.php';
+                        //             })</script>";
+                        // }
                     }
                 }
                 ?>

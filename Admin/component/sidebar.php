@@ -21,7 +21,7 @@
 </li>
 
 <?php
-    if(isset($_SESSION['id_quyen'])&& $_SESSION['id_quyen']!="3")
+    if(isset($_SESSION['id_quyen'])&& $_SESSION['id_quyen']!="4")
     {
         echo '<!-- Divider -->
         <hr class="sidebar-divider" >
@@ -108,7 +108,7 @@
 <?php 
     include_once '../class/admin.php';
     $ad=new admin();
-    if($_SESSION['id_quyen']!='3')
+    if($_SESSION['id_quyen']!='4')
     {
         echo '<li class="nav-item role">
         <a class="nav-link position-relative" href="danhSachHD.php?loc=cxl">
@@ -135,7 +135,7 @@
 
 <!-- Nav Item - Tables -->
 <?php
-    if($_SESSION['id_quyen']=='3')
+    if($_SESSION['id_quyen']=='4')
     {
 
         echo '<li class="nav-item">

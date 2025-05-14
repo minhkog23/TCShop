@@ -87,8 +87,11 @@ include 'component/header.php';
             ) {
                 if ($ad->checkTrung("select emailNV from nhanvien where emailNV='$txt_email'") != 1) {
                     $pass = md5($txt_pass);
-                    if ($ad->themxoasua("INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
-                        VALUES ('$txt_hodem','$txt_ten','$txt_email','$txt_sdt','$txt_diachi','$pass','Active','$select_quyen')") == 1) {
+                    $sql="INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
+                            VALUES (?, ?, ?, ?, ?, ?, 'Active', ?)";
+                    $params = [$txt_hodem, $txt_ten, $txt_email, $txt_sdt, $txt_diachi, $pass, $select_quyen];
+                    $result = $ad->themxoasua($sql, $params);
+                    if ($result == 1) {
                         echo "<script>
                                     swal('Thành công','Thêm tài khoản thành công!','success').then(function() {
                                         window.location = 'taiKhoan-nv.php';
@@ -97,10 +100,24 @@ include 'component/header.php';
                                         window.location='taiKhoan-nv.php';
                                     }, 2000);
                                 </script>";
-                    } else {
+                    }else {
                         echo "<script>alert('Thêm tài khoản không thành công!')</script>";
                         echo "<script>window.location='add-taiKhoan.php'</script>";
                     }
+                    // if ($ad->themxoasua("INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
+                    //     VALUES ('$txt_hodem','$txt_ten','$txt_email','$txt_sdt','$txt_diachi','$pass','Active','$select_quyen')") == 1) {
+                    //     echo "<script>
+                    //                 swal('Thành công','Thêm tài khoản thành công!','success').then(function() {
+                    //                     window.location = 'taiKhoan-nv.php';
+                    //                 });
+                    //                 setTimeout(function(){
+                    //                     window.location='taiKhoan-nv.php';
+                    //                 }, 2000);
+                    //             </script>";
+                    // } else {
+                    //     echo "<script>alert('Thêm tài khoản không thành công!')</script>";
+                    //     echo "<script>window.location='add-taiKhoan.php'</script>";
+                    // }
                 } else {
                     echo "<script>
                             swal('Thất bại','Email đã tồn tại. Vui lòng nhập email khác !','error').then(function() {

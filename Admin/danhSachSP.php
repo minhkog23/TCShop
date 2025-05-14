@@ -40,7 +40,6 @@ include 'component/header.php';
                         $anh2 = $ad->laycot("select anh2 from anh_chitietsp where id_maSP='$id_xoa'");
                         $anh3 = $ad->laycot("select anh3 from anh_chitietsp where id_maSP='$id_xoa'");
                         $anh4 = $ad->laycot("select anh4 from anh_chitietsp where id_maSP='$id_xoa'");
-                        echo $id_xoa;
                         if ($ad->themxoasua("DELETE FROM sanpham WHERE id_maSP='$id_xoa'") == 1) {
                             if (unlink("../assets/img/img_product/$anhnen")) {
                                 if ($ad->themxoasua("DELETE FROM anh_chitietsp WHERE id_maSP='$id_xoa'") == 1) {

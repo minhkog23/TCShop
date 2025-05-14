@@ -25,11 +25,11 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-4">
                     <label for="txttensp" class="form-label">Nhập tên sản phẩm <span style="color: red">*</span></label>
-                    <input type="text" class="form-control" name="txttensp" id="txttensp" placeholder="Tên SP ...">
+                    <input type="text" class="form-control" name="txttensp" id="txttensp" placeholder="Tên SP ..." required>
                 </div>
                 <div class="mb-3 col-md-4">
                     <label for="txttensp" class="form-label">Chọn dòng sản phẩm <span style="color: red">*</span></label>
-                    <select name="selectDongSP" class="form-control">
+                    <select name="selectDongSP" class="form-control" required>
                         <?php
                         $ad->getdongSP_add_SanPham('SELECT *
                                         FROM dongsanpham dsp JOIN thuonghieu th ON dsp.id_ThuongHieu=th.id_ThuongHieu');
@@ -38,16 +38,16 @@ include 'component/header.php';
                 </div>
                 <div class="mb-3 col-md-4">
                     <label for="txtdongia" class="form-label">Nhập giá <span style="color: red">*</span></label>
-                    <input type="text" class="form-control" name="txtdongia" id="txtdongia" placeholder="Nhập giá ..." pattern="^\d+$" title="Chỉ nhập số và không âm">
+                    <input type="text" class="form-control" name="txtdongia" id="txtdongia" placeholder="Nhập giá ..." pattern="^\d+$" title="Chỉ nhập số và không âm" required>
                 </div>
 
                 <div class="mb-3 col-md-6">
                     <label for="fileAnhNen" class="form-label">Chọn ảnh nền sản phẩm <span style="color: red">*</span></label>
-                    <input class="form-control" type="file" name="fileAnhNen" id="fileAnhNen" accept="image/*">
+                    <input class="form-control" type="file" name="fileAnhNen" id="fileAnhNen" accept="image/*" required>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="formFileMultiple" class="form-label">Chọn ảnh chi tiết sản phẩm ( 4 ảnh ) <span style="color: red">*</span></label>
-                    <input class="form-control" type="file" name="fileAnhChiTiet[]" id="fileAnhChiTiet" min="1" max="4" multiple accept="image/*">
+                    <input class="form-control" type="file" name="fileAnhChiTiet[]" id="fileAnhChiTiet" min="1" max="4" multiple accept="image/*" required>
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="txtmota" class="form-label">Mô tả</label>
@@ -148,9 +148,11 @@ include 'component/header.php';
                                 // xử lý bảng anh_chitietsp
                                 if (isset($anh1) &&  isset($anh2) && isset($anh3) && isset($anh4)) {
                                     if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
-                                        if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
-                                                                VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
-                                                                ") == 1) {
+                                        $sql = "INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
+                                                                VALUES (?, ?, ?, ?, ?)";
+                                        $params = [$tensp, $moTa, $dongia, $anhNen_name_rm, $DongSP];
+                                        $result = $ad->themxoasua($sql, $params);
+                                        if ($result == 1) {
                                             echo '<script>
                                                         swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
                                                             window.location="danhSachSP.php";
@@ -160,9 +162,11 @@ include 'component/header.php';
                                                         }, 2000);
                                                     </script>';
                                             $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
-                                            if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
-                                                                    VALUES ('$id_maSP','$anh1','$anh2','$anh3','$anh4')
-                                                        ") != 1) {
+                                            $sql1 = "INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
+                                                                    VALUES (?, ?, ?, ?, ?)";
+                                            $params1 = [$id_maSP, $anh1, $anh2, $anh3, $anh4];
+                                            $result1 = $ad->themxoasua($sql1, $params1);
+                                            if ($result != 1) {
                                                 echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
                                             }
                                             // Xử lý kích thước
@@ -173,14 +177,58 @@ include 'component/header.php';
                                                     // Kiểm tra kích thước không rỗng
                                                     if ($thongSo_i != '') {
                                                         // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
-                                                        if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                                                                        VALUES ('$id_maSP','$thongSo_i')") != 1) {
+                                                        $sql2 = "INSERT INTO chitietsanpham(id_maSP, size) 
+                                                                                VALUES (?, ?)";
+                                                        $params2 = [$id_maSP, $thongSo_i];
+                                                        $result2 = $ad->themxoasua($sql2, $params2);
+                                                        if ($result2 != 1) {
                                                             echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
                                                         }
+                                                        // if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
+                                                        //                                 VALUES ('$id_maSP','$thongSo_i')") != 1) {
+                                                        //     echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
+                                                        // }
                                                     }
                                                 }
                                             }
+                                        } else {
+                                            echo '<script>swal("Thất bại","Thêm sản phẩm không thành công","error")</script>';
                                         }
+
+
+                                        // if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
+                                        //                         VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
+                                        //                         ") == 1) {
+                                        //     echo '<script>
+                                        //                 swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
+                                        //                     window.location="danhSachSP.php";
+                                        //                 });
+                                        //                 setTimeout(function(){
+                                        //                     window.location="danhSachSP.php";
+                                        //                 }, 2000);
+                                        //             </script>';
+                                        //     $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
+                                        //     if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
+                                        //                             VALUES ('$id_maSP','$anh1','$anh2','$anh3','$anh4')
+                                        //                 ") != 1) {
+                                        //         echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
+                                        //     }
+                                        //     // Xử lý kích thước
+                                        //     if (isset($thongSo) && !empty($thongSo[0])) {
+                                        //         for ($i = 0; $i < count($thongSo); $i++) {
+                                        //             $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
+
+                                        //             // Kiểm tra kích thước không rỗng
+                                        //             if ($thongSo_i != '') {
+                                        //                 // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
+                                        //                 if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
+                                        //                                                 VALUES ('$id_maSP','$thongSo_i')") != 1) {
+                                        //                     echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
+                                        //                 }
+                                        //             }
+                                        //         }
+                                        //     }
+                                        // }
                                     } else {
                                         echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                                     }

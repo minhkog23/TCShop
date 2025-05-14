@@ -574,7 +574,7 @@ class admin extends badminton
                         </td>
                         <form method="post">
                             <td>
-                                ' . $this->getNV("select * from nhanvien where id_quyen=3") . '
+                                ' . $this->getNV("select * from nhanvien where id_quyen=3 && tinhTrang='Active'") . '
                             </td>
                             <td>' . $thanhToan . '</td>
                             <td>

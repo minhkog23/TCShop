@@ -10,11 +10,20 @@ if ($checkRole->checkRoleAdmin() == 0) {
 }
 ?>
 <?php
-include 'component/header.php';
-?>
-
-<?php
 if (isset($_REQUEST['id_nv']) || isset($_REQUEST['id_kh'])) {
+    if (isset($_REQUEST['id_nv'])) {
+        if (filter_var($_REQUEST['id_nv'], FILTER_VALIDATE_INT) === false) {
+            header('location:taiKhoan-nv.php');
+        } else {
+            $id_nv = intval($_REQUEST['id_nv']);
+        }
+    } else if (isset($_REQUEST['id_kh'])) {
+        if (filter_var($_REQUEST['id_kh'], FILTER_VALIDATE_INT) === false) {
+            header('location:taiKhoan-kh.php');
+        } else {
+            $id_kh = intval($_REQUEST['id_kh']);
+        }
+    }
     $id_nv = isset($_REQUEST['id_nv']) ? $_REQUEST['id_nv'] : null;
     $id_kh = isset($_REQUEST['id_kh']) ? $_REQUEST['id_kh'] : null;
     if ($id_nv != null) {
@@ -41,6 +50,11 @@ if (isset($_REQUEST['id_nv']) || isset($_REQUEST['id_kh'])) {
 }
 
 ?>
+<?php
+include 'component/header.php';
+?>
+
+
 
 <div class="card shadow mb-4">
     <form action="" method="post">
