@@ -32,7 +32,9 @@ class loginAdmin
                 $passNV = htmlspecialchars($row['matKhauNV'], ENT_QUOTES, 'UTF-8');
                 $id_quyen = htmlspecialchars($row['id_quyen'], ENT_QUOTES, 'UTF-8');
 
-                session_start();
+                if(session_status()===PHP_SESSION_NONE){
+                    session_start();
+                }
                 $_SESSION['id_NV'] = $id_NV;
                 $_SESSION['hoNV'] = $hoNV;
                 $_SESSION['tenNV'] = $tenNV;
