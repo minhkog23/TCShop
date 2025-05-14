@@ -15,7 +15,7 @@ class loginAdmin
 
     public function mylogin_admin($user, $pass)
     {
-        $sql = "select * from nhanvien where emailNV=? and matKhauNV=? and tinhTrang='Active' limit 1";
+        $sql = "select * from nhanvien where emailNV=? and matKhauNV=? and tinhTrang='Active' AND id_quyen IN (1, 4)  limit 1";
         $link = $this->myconnect();
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, "ss", $user, $pass);

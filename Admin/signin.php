@@ -3,6 +3,10 @@ session_start();
 include '../class/login_admin/login_admin.php';
 $lg = new loginAdmin();
 ?>
+<?php
+include '../class/admin.php';
+$ad = new admin();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +54,7 @@ $lg = new loginAdmin();
               <div align="center">
                 <?php
                 $max_temp = 3;
-                $lock_time = 5*60; // 5 phút
+                $lock_time = 5 * 60; // 5 phút
                 $user = isset($_REQUEST['txtemail']) ? $_REQUEST['txtemail'] : '';
                 // Kiểm tra nếu tài khoản này đã bị khóa
                 if ($user && isset($_SESSION['lock_time_admin'][$user]) && time() - $_SESSION['lock_time_admin'][$user] < $lock_time) {
@@ -75,13 +79,20 @@ $lg = new loginAdmin();
                       unset($_SESSION['login_attempts_admin'][$user]);
                       unset($_SESSION['lock_time_admin'][$user]);
                     } else {
-                      $_SESSION['login_attempts_admin'][$user] = isset($_SESSION['login_attempts_admin'][$user]) ? $_SESSION['login_attempts_admin'][$user] + 1 : 1;
-                      if ($_SESSION['login_attempts_admin'][$user] >= $max_temp) {
-                        $_SESSION['lock_time_admin'][$user] = time();
-                        echo "<script>swal('Thất bại','Quá nhiều lần thử sai. Tài khoản $user đã bị khóa.','error');</script>";
+                      //$ad->checkTrung("select * from admin where email='$user' and password='" . md5($pass) . "'");
+                      if ($ad->checkTrung("select * from nhanvien where emailNV='$user'") == 0) {
+                        echo '<script>swal("Thất bại","Tài khoản không tồn tại","error")</script>';
                       } else {
-                        $left = $max_temp - $_SESSION['login_attempts_admin'][$user];
-                        echo "<script>swal('Thất bại','Sai tài khoản hoặc mật khẩu. Bạn còn $left lần thử.','error');</script>";
+                        echo '<script>swal("Thất bại","Sai tài khoản hoặc mật khẩu","error")</script>';
+                        // Tăng số lần thử đăng nhập
+                        $_SESSION['login_attempts_admin'][$user] = isset($_SESSION['login_attempts_admin'][$user]) ? $_SESSION['login_attempts_admin'][$user] + 1 : 1;
+                        if ($_SESSION['login_attempts_admin'][$user] >= $max_temp) {
+                          $_SESSION['lock_time_admin'][$user] = time();
+                          echo "<script>swal('Thất bại','Quá nhiều lần thử sai. Tài khoản $user đã bị khóa.','error');</script>";
+                        } else {
+                          $left = $max_temp - $_SESSION['login_attempts_admin'][$user];
+                          echo "<script>swal('Thất bại','Sai tài khoản hoặc mật khẩu. Bạn còn $left lần thử.','error');</script>";
+                        }
                       }
                     }
                   } else {

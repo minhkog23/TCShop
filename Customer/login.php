@@ -1,5 +1,9 @@
 <!-- header -->
 <?php
+include '../class/badminton.php';
+$kh = new badminton();
+?>
+<?php
 $pageTitle = 'Đăng nhập';
 include_once 'component/header.php';
 ?>
@@ -24,7 +28,7 @@ include_once 'component/header.php';
                     <?php
                     // Thiết lập số lần thử tối đa
                     $max_temp = 3;
-                    $lock_time = 5*60; // 5 phút
+                    $lock_time = 5 * 60; // 5 phút
 
                     $user = isset($_REQUEST['txtemail']) ? $_REQUEST['txtemail'] : '';
 
@@ -37,17 +41,19 @@ include_once 'component/header.php';
                     } else if (isset($_REQUEST['nut_dangnhap']) && $_REQUEST['nut_dangnhap'] == 'Đăng nhập') {
                         $pass = $_REQUEST['txtpwd'];
                         if ($p->mylogin($user, md5($pass)) != 1) {
-                            echo '<script>swal("Thất bại","Sai tài khoản hoặc mật khẩu","error")</script>';
-                            $_SESSION['login_attempts'][$user] = isset($_SESSION['login_attempts'][$user]) ? $_SESSION['login_attempts'][$user] + 1 : 1;
-
-                            // Nếu số lần thử vượt quá giới hạn, khóa tài khoản này
-                            if ($_SESSION['login_attempts'][$user] >= $max_temp) {
-                                $_SESSION['lock_time'][$user] = time();
-                                //echo "Quá nhiều lần thử sai. Tài khoản $user đã bị khóa.";
-                                echo "<script>swal('Thất bại','Quá nhiều lần thử sai. Tài khoản $user đã bị khóa.','error');</script>";
+                            if ($kh->checkTrung("select * from khachhang where email='$user'") == 0) {
+                                echo '<script>swal("Thất bại","Tài khoản không tồn tại","error")</script>';
                             } else {
-                                //echo "Tên đăng nhập hoặc mật khẩu sai. Bạn còn " . ($max_temp - $_SESSION['login_attempts'][$user]) . " lần thử.";
-                                echo "<script>swal('Thất bại','Tên đăng nhập hoặc mật khẩu sai. Bạn còn " . ($max_temp - $_SESSION['login_attempts'][$user]) . " lần thử.','error');</script>";
+                                $_SESSION['login_attempts'][$user] = isset($_SESSION['login_attempts'][$user]) ? $_SESSION['login_attempts'][$user] + 1 : 1;
+                                // Nếu số lần thử vượt quá giới hạn, khóa tài khoản này
+                                if ($_SESSION['login_attempts'][$user] >= $max_temp) {
+                                    $_SESSION['lock_time'][$user] = time();
+                                    //echo "Quá nhiều lần thử sai. Tài khoản $user đã bị khóa.";
+                                    echo "<script>swal('Thất bại','Quá nhiều lần thử sai. Tài khoản $user đã bị khóa.','error');</script>";
+                                } else {
+                                    //echo "Tên đăng nhập hoặc mật khẩu sai. Bạn còn " . ($max_temp - $_SESSION['login_attempts'][$user]) . " lần thử.";
+                                    echo "<script>swal('Thất bại','Tên đăng nhập hoặc mật khẩu sai. Bạn còn " . ($max_temp - $_SESSION['login_attempts'][$user]) . " lần thử.','error');</script>";
+                                }
                             }
                         } else {
                             echo '<script>
