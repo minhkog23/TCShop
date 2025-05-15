@@ -10,6 +10,16 @@ if ($checkRole->checkRoleAdmin() == 0) {
 }
 ?>
 <?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
+<?php
 include 'component/header.php';
 ?>
 <div class="alert alert-secondary">
@@ -33,6 +43,7 @@ include 'component/header.php';
                 </div>
 
                 <div class="mb-3 col-md-12 text-center">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <a href="danhSachTH.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
                     <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
                     <button type="submit" name="nut_them" value="add-TH" class="btn btn-outline-primary">Thêm</button>
@@ -40,18 +51,18 @@ include 'component/header.php';
             </div>
             <div align="center">
                 <?php
-                if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-TH') {
+                if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-TH' && $_REQUEST['token'] == $_SESSION['token']) {
                     $tenThuongHieu = $_REQUEST['txttenth'];
                     $mota = $_REQUEST['txtmota'];
                     if ($_REQUEST['txttenth'] == '') {
                         echo '<span id="valTH" style="display: block; color:red">Vui lòng nhập tên thương hiệu cần thêm !</span>';
-                    } else if ($ad->checkTrung("select tenThuongHieu from thuonghieu where tenThuongHieu like '%$tenThuongHieu%'") == 1) {
+                    } else if ($ad->checkTrung("select tenThuongHieu from thuonghieu where tenThuongHieu like '$tenThuongHieu'") == 1) {
                         echo '<span id="valTH" style="display: block; color:red">Tên thương hiệu đã có sẵn. Vui lòng nhập tên thương hiệu khác!</span>';
                     } else {
                         $sql = "INSERT INTO thuonghieu(tenThuongHieu, moTa) 
                                                     VALUES (?,?)";
                         $params = [$tenThuongHieu, $mota];
-                        $result =$ad->themxoasua($sql, $params);
+                        $result = $ad->themxoasua($sql, $params);
                         if ($result == 1) {
                             echo "<script>
                                         swal('Thành công','Thêm thương hiệu thành công','success').then(function(){
@@ -66,6 +77,7 @@ include 'component/header.php';
                                                     window.location='add-ThuongHieu.php';
                                         })</script>";
                         }
+                        unset($_SESSION['token']);
                         // if ($ad->themxoasua("INSERT INTO thuonghieu(tenThuongHieu, moTa) 
                         //                             VALUES ('$tenThuongHieu','$mota')") == 1) {
                         //     echo "<script>
@@ -82,6 +94,9 @@ include 'component/header.php';
                         //                 })</script>";
                         // }
                     }
+                } else if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-TH' && $_REQUEST['token'] != $_SESSION['token']) {
+                    echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                    unset($_SESSION['token']);
                 }
                 ?>
             </div>

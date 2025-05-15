@@ -23,19 +23,19 @@ if (!in_array($loc, $ar)) {
     header('location: profile.php?loc=profile');
     exit;
 }
-
-// Danh sách giá trị status hợp lệ
-// $ar1 = ['tc','cxn', 'dxl', 'dgh', 'dg', 'huy'];
-
-// // Lấy loc từ URL
-// $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
-
-// // Nếu loc không hợp lệ → chuyển về cxl
-// if (!in_array($status, $ar1)) {
-//     header('location: profile.php?loc=profile?status=tc');
-//     exit;
-// }
 ?>
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
+
+
 <?php
 include_once 'component/header.php';
 ?>
@@ -114,6 +114,7 @@ include_once 'component/header.php';
                         </div>
 
                         <div class="text-end">
+                            <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                             <input type="submit" value="Cập nhập" class="btn btn-primary btn-sm px-4" name="btn_capNhap">
                         </div>
                     </form>
@@ -121,7 +122,7 @@ include_once 'component/header.php';
                 </div>
                 <div>
                     <?php
-                    if (isset($_REQUEST['btn_capNhap']) && $_REQUEST['btn_capNhap'] == "Cập nhập") {
+                    if (isset($_REQUEST['btn_capNhap']) && $_REQUEST['btn_capNhap'] == "Cập nhập" && $_REQUEST['token'] == $_SESSION['token']) {
                         if (
                             isset($_REQUEST['txt_hodem']) && $_REQUEST['txt_hodem'] != "" && isset($_REQUEST['txt_ten']) && $_REQUEST['txt_ten'] != ""
                             && isset($_REQUEST['txtemail']) && $_REQUEST['txtemail'] != "" && isset($_REQUEST['txtsdt']) && $_REQUEST['txtsdt'] != "" && isset($_REQUEST['txtdiachi'])
@@ -150,24 +151,15 @@ include_once 'component/header.php';
                                 // Cập nhật thất bại
                                 echo "<script>alert('Cập nhật thất bại!');</script>";
                             }
-                            // if ($kh->themxoasua("UPDATE khachhang SET ho='$ho', ten='$ten', email='$email', sdt='$sdt', diaChi='$diachi' WHERE id_kh='$id_kh'") == 1) {
-                            //     // Cập nhật thành công
-                            //     echo "<script>
-                            //                 swal('Thành công','Cập nhập thành công','success').then(function(){
-                            //                     window.location.href='profile.php?loc=profile';
-                            //                 });
-                            //                 setTimeout(function(){
-                            //                     window.location.href='profile.php?loc=profile';
-                            //                 }, 2000);
-                            //         </script>";
-                            // } else {
-                            //     // Cập nhật thất bại
-                            //     echo "<script>alert('Cập nhật thất bại!');</script>";
-                            // }
+                            unset($_SESSION['token']);
                         } else {
                             // Không có dữ liệu để cập nhật
                             echo "<script>alert('Vui lòng nhập đầy đủ thông tin!');</script>";
                         }
+                    }
+                    else if (isset($_REQUEST['btn_capNhap']) && $_REQUEST['btn_capNhap'] == "Cập nhập" && $_REQUEST['token'] != $_SESSION['token']) {
+                        echo "<script>alert('Không gửi lại form cũ!');</script>";
+                        unset($_SESSION['token']);
                     }
                     ?>
                 </div>
@@ -199,13 +191,14 @@ include_once 'component/header.php';
                         </div>
 
                         <div class="text-end">
+                            <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                             <input type="submit" value="Lưu" class="btn btn-primary btn-sm px-4" name="btn_luu">
                         </div>
                     </form>
                 </div>
                 <div>
                     <?php
-                    if (isset($_REQUEST['btn_luu']) && $_REQUEST['btn_luu'] == "Lưu") {
+                    if (isset($_REQUEST['btn_luu']) && $_REQUEST['btn_luu'] == "Lưu" && $_REQUEST['token'] == $_SESSION['token']) {
                         if (
                             isset($_REQUEST['old_password']) && $_REQUEST['old_password'] != "" && isset($_REQUEST['new_password']) && $_REQUEST['new_password'] != ""
                             && isset($_REQUEST['confirm_password']) && $_REQUEST['confirm_password'] != ""
@@ -252,9 +245,14 @@ include_once 'component/header.php';
                             } else {
                                 echo "<script>alert('Mật khẩu hiện tại không đúng!');</script>";
                             }
+                            unset($_SESSION['token']);
                         } else {
                             echo "<script>alert('Vui lòng nhập đầy đủ thông tin!');</script>";
                         }
+                    }
+                    else if (isset($_REQUEST['btn_luu']) && $_REQUEST['btn_luu'] == "Lưu" && $_REQUEST['token'] != $_SESSION['token']) {
+                        echo "<script>alert('Không gửi lại form cũ!');</script>";
+                        unset($_SESSION['token']);
                     }
                     ?>
                 </div>
@@ -334,21 +332,21 @@ include_once 'component/header.php';
                         <?php
                         // Lấy danh sách đơn hàng từ cơ sở dữ liệu
                         if (isset($_REQUEST['status']) && $_REQUEST['status'] == "tc") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP,cthd.size , cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cxl") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Chờ xử lý' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP,cthd.size, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Chờ xử lý' order by hd.id_HD desc");
                         }
                         else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dxn") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đã xác nhận' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP,cthd.size, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đã xác nhận' order by hd.id_HD desc");
                         } 
                         else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "cbh") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang chuẩn bị hàng' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang, sp.id_maSP, sp.tenSP,cthd.size, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang chuẩn bị hàng' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dgh") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang giao hàng' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP,cthd.size, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Đang giao hàng' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "dg") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hoàn thành' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP,cthd.size, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hoàn thành' order by hd.id_HD desc");
                         } else if (isset($_REQUEST['status']) && $_REQUEST['status'] == "huy") {
-                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hủy' order by hd.id_HD desc");
+                            $kh->getDonHang("SELECT hd.id_HD, hd.id_KH, hd.ngayDat, hd.ngayGiao, hd.tongTien, hd.tinhTrang, hd.id_NV_giaoHang,  sp.id_maSP, sp.tenSP,cthd.size, cthd.soLuong, sp.anh FROM hoadon hd JOIN chitiethoadon cthd ON hd.id_HD=cthd.id_HD JOIN sanpham sp ON cthd.id_maSP=sp.id_maSP where hd.id_KH='$id_kh' and tinhTrang='Hủy' order by hd.id_HD desc");
                         }
                         ?>
                     </form>

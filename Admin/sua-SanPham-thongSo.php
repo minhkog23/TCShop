@@ -9,16 +9,26 @@ if ($checkRole->checkRoleAdmin() == 0) {
     header('location:index.php');
 }
 ?>
-    <?php
-    if (isset($_REQUEST['idsua']) && $_REQUEST['idsua'] != '') {
-        if (filter_var($_REQUEST['idsua'], FILTER_VALIDATE_INT) === false) {
-            header('location:danhSachSP.php');
-        } else {
-            $id_sua = intval($_REQUEST['idsua']);
-            $thongSo = $ad->laycot("select size from size where id_size='$id_sua'");
-        }
+<?php
+if (isset($_REQUEST['idsua']) && $_REQUEST['idsua'] != '') {
+    if (filter_var($_REQUEST['idsua'], FILTER_VALIDATE_INT) === false) {
+        header('location:danhSachSP.php');
+    } else {
+        $id_sua = intval($_REQUEST['idsua']);
+        $thongSo = $ad->laycot("select size from size where id_size='$id_sua'");
     }
-    ?>
+}
+?>
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
 <?php
 include 'component/header.php';
 ?>
@@ -40,6 +50,7 @@ include 'component/header.php';
                 </div>
 
                 <div class="mb-3 col-md-12 text-center">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <a href="danhSachSP.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
                     <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
                     <button type="submit" name="nut_sua" value="sua-thongSo" class="btn btn-outline-primary ">Sửa</button>
@@ -47,7 +58,7 @@ include 'component/header.php';
             </div>
             <div align="center">
                 <?php
-                if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-thongSo') {
+                if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-thongSo' && $_REQUEST['token'] == $_SESSION['token']) {
                     $thongSo = $_REQUEST['txtthongSo'];
                     if ($_REQUEST['txtthongSo'] == '') {
                         echo '<span id="valthongso" style="display: block; color:red">Vui lòng nhập thông số cần thêm !</span>';
@@ -71,6 +82,7 @@ include 'component/header.php';
                                             window.location='add-SanPham-thongSo.php';
                                     })</script>";
                         }
+                        unset($_SESSION['token']);
                         // if ($ad->themxoasua("UPDATE size SET size='$thongSo'
                         //                         WHERE id_size='$id'") == 1) {
                         //     echo "<script>swal('Thành công','Thêm thông số thành công','success').then(function(){
@@ -78,6 +90,9 @@ include 'component/header.php';
                         //             })</script>";
                         // }
                     }
+                } else if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-thongSo' && $_REQUEST['token'] != $_SESSION['token']) {
+                    echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                    unset($_SESSION['token']);
                 }
                 ?>
             </div>

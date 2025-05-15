@@ -10,6 +10,16 @@ if ($checkRole->checkRoleAdmin() == 0) {
 }
 ?>
 <?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
+<?php
 include 'component/header.php';
 ?>
 <div class="alert alert-secondary">
@@ -50,8 +60,8 @@ include 'component/header.php';
                     <input class="form-control" type="file" name="fileAnhChiTiet[]" id="fileAnhChiTiet" min="1" max="4" multiple accept="image/*" required>
                 </div>
                 <div class="mb-3 col-md-12">
-                    <label for="txtmota" class="form-label">Mô tả</label>
-                    <textarea class="form-control" name="txtmota" id="txtmota" rows="3" placeholder="Nhập mô tả ..."></textarea>
+                    <label for="txtmota" class="form-label">Mô tả <span style="color: red">*</span></label>
+                    <textarea class="form-control" name="txtmota" id="txtmota" rows="3" placeholder="Nhập mô tả ..."></textarea required>
                 </div>
 
                 <div class="form-group mb-4 mt-2 col-md-12 border rounded">
@@ -62,6 +72,7 @@ include 'component/header.php';
                     ?>
                 </div>
                 <div class="mb-3 col-md-12 text-center">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <a href="danhSachSP.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
                     <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
                     <button type="submit" name="nut_them" value="add-items" class="btn btn-outline-primary ">Thêm</button>
@@ -69,7 +80,7 @@ include 'component/header.php';
 
             </div>
             <?php
-            if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-items') {
+            if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-items' && $_REQUEST['token'] == $_SESSION['token']) {
                 $tensp = $_REQUEST['txttensp'];
                 $DongSP = $_REQUEST['selectDongSP'];
                 $dongia = $_REQUEST['txtdongia'];
@@ -77,15 +88,15 @@ include 'component/header.php';
                 $anhNen_type = $_FILES['fileAnhNen']['type'];
                 $anhNen_tmp_name = $_FILES['fileAnhNen']['tmp_name'];
                 $anhNen_size = $_FILES['fileAnhNen']['size'];
-                $anhChiTiet_name = $_FILES['fileAnhChiTiet']['name'];
-                $anhChiTiet_type = $_FILES['fileAnhChiTiet']['type'];
-                $anhChiTiet_tmp_name = $_FILES['fileAnhChiTiet']['tmp_name'];
-                $anhChiTiet_size = $_FILES['fileAnhChiTiet']['size'];
+                $anhChiTiet_name = (array)$_FILES['fileAnhChiTiet']['name'];
+                $anhChiTiet_type = (array)$_FILES['fileAnhChiTiet']['type'];
+                $anhChiTiet_tmp_name = (array)$_FILES['fileAnhChiTiet']['tmp_name'];
+                $anhChiTiet_size = (array)$_FILES['fileAnhChiTiet']['size'];
                 $moTa = $_REQUEST['txtmota'];
                 if (isset($_REQUEST['txtthongso'])) {
                     $thongSo = $_REQUEST['txtthongso'];
                 }
-                if ($tensp == '' || $DongSP == '' || $dongia == '') {
+                if ($tensp == '' || $DongSP == '' || $dongia == '' || $moTa == '') {
                     echo '<script>swal("Thất bại","Vui lòng nhập đầy đủ thông tin !","error")</script>';
                 } else if ($dongia < 0) {
                     echo '<script>swal("Thất bại","Giá không hợp lệ !","error")</script>';
@@ -97,21 +108,6 @@ include 'component/header.php';
                             echo '<script>swal("Thất bại","File ảnh không hợp lệ !","error")</script>';
                         } else {
                             $anhNen_name_rm = time() . '_' . $anhNen_name;
-                            // if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
-
-                            // if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
-                            //             VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
-                            //             ") == 1) {
-                            //     echo '<script>
-                            //         swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
-                            //             window.location="danhSachSP.php";
-                            //         });
-                            //         setTimeout(function(){
-                            //             window.location="danhSachSP.php";
-                            //         }, 2000);
-                            //     </script>';
-                            //     $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
-
                             // xử lý bảng anh_chitietsp
                             if (isset($anhChiTiet_name) && !empty($_FILES['fileAnhChiTiet']['name'][0])) {
                                 for ($i = 0; $i < count($anhChiTiet_name); $i++) {
@@ -146,7 +142,7 @@ include 'component/header.php';
                                 }
 
                                 // xử lý bảng anh_chitietsp
-                                if (isset($anh1) &&  isset($anh2) && isset($anh3) && isset($anh4)) {
+                                if (isset($anh1) || isset($anh2) || isset($anh3) || isset($anh4)) {
                                     if ($ad->uploadfile($anhNen_name_rm, $anhNen_tmp_name, "../assets/img/img_product")) {
                                         $sql = "INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
                                                                 VALUES (?, ?, ?, ?, ?)";
@@ -164,7 +160,7 @@ include 'component/header.php';
                                             $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
                                             $sql1 = "INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
                                                                     VALUES (?, ?, ?, ?, ?)";
-                                            $params1 = [$id_maSP, $anh1, $anh2, $anh3, $anh4];
+                                            $params1 = [$id_maSP, isset($anh1) ? $anh1 : null, isset($anh2) ? $anh2 : null, isset($anh3) ? $anh3 : null, isset($anh4) ? $anh4 : null];
                                             $result1 = $ad->themxoasua($sql1, $params1);
                                             if ($result != 1) {
                                                 echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
@@ -194,81 +190,28 @@ include 'component/header.php';
                                         } else {
                                             echo '<script>swal("Thất bại","Thêm sản phẩm không thành công","error")</script>';
                                         }
-
-
-                                        // if ($ad->themxoasua("INSERT INTO sanpham( tenSP, moTa, donGia, anh, id_dongSP) 
-                                        //                         VALUES ('$tensp','$moTa','$dongia','$anhNen_name_rm','$DongSP')
-                                        //                         ") == 1) {
-                                        //     echo '<script>
-                                        //                 swal("Thành Công","Thêm sản phẩm thành công","success").then(function(){
-                                        //                     window.location="danhSachSP.php";
-                                        //                 });
-                                        //                 setTimeout(function(){
-                                        //                     window.location="danhSachSP.php";
-                                        //                 }, 2000);
-                                        //             </script>';
-                                        //     $id_maSP = $ad->laycot("SELECT id_maSP FROM sanpham ORDER BY id_maSP DESC LIMIT 1 ");
-                                        //     if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
-                                        //                             VALUES ('$id_maSP','$anh1','$anh2','$anh3','$anh4')
-                                        //                 ") != 1) {
-                                        //         echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
-                                        //     }
-                                        //     // Xử lý kích thước
-                                        //     if (isset($thongSo) && !empty($thongSo[0])) {
-                                        //         for ($i = 0; $i < count($thongSo); $i++) {
-                                        //             $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
-
-                                        //             // Kiểm tra kích thước không rỗng
-                                        //             if ($thongSo_i != '') {
-                                        //                 // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
-                                        //                 if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                        //                                                 VALUES ('$id_maSP','$thongSo_i')") != 1) {
-                                        //                     echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
-                                        //                 }
-                                        //             }
-                                        //         }
-                                        //     }
-                                        // }
+                                        unset($_SESSION['token']);
                                     } else {
                                         echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                                     }
-                                    // if ($ad->themxoasua("INSERT INTO anh_chitietsp(id_maSP, anh1, anh2, anh3, anh4) 
-                                    //                         VALUES ('$id_maSP','$anh1','$anh2','$anh3','$anh4')
-                                    //     ") != 1) {
-                                    //     echo '<script>swal("Thất bại","Upload hình ảnh chi tiết thất bại","error")</script>';
-                                    // }
+                                    
                                 }
 
 
-                                // Xử lý kích thước
-                                // if (isset($thongSo) && !empty($thongSo[0])) {
-                                //     for ($i = 0; $i <script count($thongSo); $i++) {
-                                //         $thongSo_i = isset($thongSo[$i]) ? $thongSo[$i] : '';  // Lấy thông số kỹ thuật (kích thước) nếu có
-
-                                //         // Kiểm tra kích thước không rỗng
-                                //         if ($thongSo_i != '') {
-                                //             // Thêm thông số kỹ thuật và màu sắc vào bảng chitietsanpham
-                                //             if ($ad->themxoasua("INSERT INTO chitietsanpham(id_maSP, size) 
-                                //                                             VALUES ('$id_maSP','$thongSo_i')") != 1) {
-                                //                 echo '<script>swal("Thất bại", "Thêm thông số kỹ thuật thất bại", "error")</script>';
-                                //             }
-                                //         }
-                                //     }
-                                // }
+                                
                             } else {
                                 echo '<script>swal("Thất bại","Vui lòng chọn ảnh chi tiết !","error")</script>';
                             }
-                            // } else {
-                            //     echo '<script>swal("Thất bại","thất bại","error")</script>';
-                            // }
-                            // } else {
-                            //     echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
-                            // }
+                            
                         }
                     } else {
                         echo '<script>swal("Thất bại","Vui lòng chọn ảnh nền !","error")</script>';
                     }
                 }
+            }
+            else if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-items' && $_REQUEST['token'] != $_SESSION['token']) {
+                echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                unset($_SESSION['token']);
             }
             ?>
         </form>

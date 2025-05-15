@@ -1,4 +1,13 @@
-
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
 <!-- header -->
 <?php 
     $pageTitle='Đăng ký';
@@ -43,11 +52,12 @@
                         <input type="password" class="form-control" id="pwd_xn" name="pwd_xn" placeholder="Xác nhận mật khẩu" require>
                     </div>
                     <p align="right">Nếu bạn đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <button type="submit" name="nut_dangky" value="Đăng ký" class="btn btn-primary w-100" style="background-color:#4479d4">Đăng ký</button>
                     
                     <div align="center">
                         <?php
-                            if(isset($_REQUEST['nut_dangky']) && $_REQUEST['nut_dangky']=='Đăng ký')
+                            if(isset($_REQUEST['nut_dangky']) && $_REQUEST['nut_dangky']=='Đăng ký' && $_REQUEST['token'] == $_SESSION['token'])
                             {
                                 $ho=$_REQUEST['txtho'];
                                 $ten=$_REQUEST['txtten'];
@@ -79,19 +89,7 @@
                                         {
                                             echo'<script>swal("Thất bại","Đăng ký không thành công !","error")</script>';
                                         }
-                                        // if($p->themxoasua("INSERT INTO khachhang(ho, ten, email, sdt, diaChi, matKhau,tinhTrang) 
-                                        //                     VALUES ('$ho','$ten','$user','$sdt','$diaChi','$pass_mh','Active')
-                                        //                     ")==1)
-                                        // {
-                                        //     echo'<script>
-                                        //         swal("Thành công","Đăng ký thành công","success").then(function(){
-                                        //                     window.location="login.php";
-                                        //         });
-                                        //         setTimeout(function(){
-                                        //             window.location="login.php";
-                                        //         }, 2000);
-                                        //     </script>';
-                                        // }
+                                        unset($_SESSION['token']);
                                     }
                                     else
                                     {
@@ -103,6 +101,11 @@
                                     echo'<script>swal("Thất bại","Email đã tồn tại !","error")</script>';
                                 }
                                 
+                            }
+                            else if(isset($_REQUEST['nut_dangky']) && $_REQUEST['nut_dangky']=='Đăng ký' && $_REQUEST['token'] != $_SESSION['token'])
+                            {
+                                echo'<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                                unset($_SESSION['token']);
                             }
                         ?>
                     </div>

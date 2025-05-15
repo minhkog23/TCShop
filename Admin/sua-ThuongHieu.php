@@ -21,6 +21,17 @@ if (!isset($_REQUEST['id_sua'])) {
 }
 ?>
 <?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
+
+<?php
 include 'component/header.php';
 ?>
 <div class="alert alert-secondary">
@@ -44,6 +55,7 @@ include 'component/header.php';
                 </div>
 
                 <div class="mb-3 col-md-12 text-center">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <a href="danhSachTH.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
                     <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
                     <button type="submit" name="nut_sua" value="sua-TH" class="btn btn-outline-primary">Lưu</button>
@@ -51,13 +63,13 @@ include 'component/header.php';
             </div>
             <div align="center">
                 <?php
-                if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-TH') {
+                if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-TH' && $_REQUEST['token'] == $_SESSION['token']) {
                     $tenThuongHieu = $_REQUEST['txttenth'];
                     $mota = $_REQUEST['txtmota'];
                     if ($_REQUEST['txttenth'] == '') {
                         echo '<span id="valTH" style="display: block; color:red">Vui lòng nhập tên thương hiệu cần sửa !</span>';
                     } else {
-                        $sql= "UPDATE thuonghieu 
+                        $sql = "UPDATE thuonghieu 
                                         SET tenThuongHieu=?,moTa=? 
                                         WHERE id_ThuongHieu=?";
                         $params = [$tenThuongHieu, $mota, $id_sua];
@@ -76,7 +88,11 @@ include 'component/header.php';
                                                     window.location='sua-ThuongHieu.php';
                                 })</script>";
                         }
+                        unset($_SESSION['token']);
                     }
+                } else if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-TH' && $_REQUEST['token'] != $_SESSION['token']) {
+                    echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                    unset($_SESSION['token']);
                 }
                 ?>
             </div>

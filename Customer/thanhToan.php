@@ -8,6 +8,17 @@ if (isset($_SESSION['email']) && isset($_SESSION['pass'])) {
     header('location:login.php');
 }
 ?>
+
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
 <!-- Header -->
 <?php
 include_once '../class/login.php';
@@ -77,7 +88,7 @@ $p = new login();
                     <div class="mb-3">
                         <label for="selectPT" class="form-label">Phương thức thanh toán</label>
                         <select class="form-control" id="selectPT" name="selectPT" required>
-                            <option value="Tiền mặt">Thanh toán khi nhận hàng</option>
+                            <option value="Tiền mặt">Tiền mặt</option>
                             <!-- <option value="Thẻ tín dụng">Thẻ tín dụng</option>
                         <option value="Chuyển khoản">Chuyển khoản ngân hàng</option> -->
                         </select>
@@ -138,13 +149,20 @@ $p = new login();
                     </table>
                     <div class="d-flex justify-content-center">
                         <a class="btn btn-primary" href="cart.php" role="button">Quay lại giỏ hàng</a>
+                        <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                         <button type="submit" name="nut_dat" value="Đặt hàng" class="btn btn-primary w-50">Đặt hàng</button>
                     </div>
 
                 </div>
             </div>
             <?php
-            if (isset($_REQUEST['nut_dat']) && $_REQUEST['nut_dat'] == 'Đặt hàng') {
+            if (isset($_REQUEST['nut_dat']) && $_REQUEST['nut_dat'] == 'Đặt hàng' && $_REQUEST['token'] == $_SESSION['token']) {
+                if(!isset($_REQUEST['cart']) || empty($_REQUEST['cart'])) {
+                    echo '<script>swal("Thất bại","Giỏ hàng trống","error").then(function(){
+                        window.location="cart.php";
+                    })</script>';
+                    exit();
+                }
                 $tinhTrang = $_REQUEST['txttinhtrang'];
                 $ho = $_REQUEST['txtho'];
                 $ten = $_REQUEST['txtten'];
@@ -240,7 +258,7 @@ $p = new login();
                         window.location="cart.php";
                     })</script>';
                 }
-
+                unset($_SESSION['token']);
 
                 // if ($p->themxoasua("UPDATE hoadon 
                 //                     SET tongTien='$total'
@@ -265,6 +283,10 @@ $p = new login();
                 //         window.location="cart.php";
                 //     })</script>';
                 // }
+            }
+            else if (isset($_REQUEST['nut_dat']) && $_REQUEST['nut_dat'] == 'Đặt hàng' && $_REQUEST['token'] != $_SESSION['token']) {
+                echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                unset($_SESSION['token']);
             }
             ?>
         </form>

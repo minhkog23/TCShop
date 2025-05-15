@@ -10,6 +10,17 @@ if ($checkRole->checkRoleAdmin() == 0) {
 }
 ?>
 <?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+
+?>
+<?php
 include 'component/header.php';
 ?>
 <div class="card shadow mb-4">
@@ -67,12 +78,13 @@ include 'component/header.php';
         </div>
 
         <div class="card-footer text-center">
+            <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
             <a href="taiKhoan-nv.php"><button type="button" class="btn btn-danger">Quay lại</button></a>
             <input type="reset" class="btn btn-secondary" value="Nhập lại" name="btn_reset" id="btn_reset">
             <input type="submit" value="Thêm" class="btn btn-primary" id="btn_them" name="btn_them">
         </div>
         <?php
-        if (isset($_REQUEST['btn_them']) && $_REQUEST['btn_them'] == "Thêm") {
+        if (isset($_REQUEST['btn_them']) && $_REQUEST['btn_them'] == "Thêm" && $_REQUEST['token'] == $_SESSION['token']) {
             $txt_hodem = $_REQUEST['txt_hodem'];
             $txt_ten = $_REQUEST['txt_ten'];
             $txt_email = $_REQUEST['txt_email'];
@@ -87,7 +99,7 @@ include 'component/header.php';
             ) {
                 if ($ad->checkTrung("select emailNV from nhanvien where emailNV='$txt_email'") != 1) {
                     $pass = md5($txt_pass);
-                    $sql="INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
+                    $sql = "INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
                             VALUES (?, ?, ?, ?, ?, ?, 'Active', ?)";
                     $params = [$txt_hodem, $txt_ten, $txt_email, $txt_sdt, $txt_diachi, $pass, $select_quyen];
                     $result = $ad->themxoasua($sql, $params);
@@ -100,10 +112,11 @@ include 'component/header.php';
                                         window.location='taiKhoan-nv.php';
                                     }, 2000);
                                 </script>";
-                    }else {
+                    } else {
                         echo "<script>alert('Thêm tài khoản không thành công!')</script>";
                         echo "<script>window.location='add-taiKhoan.php'</script>";
                     }
+                    unset($_SESSION['token']);
                     // if ($ad->themxoasua("INSERT INTO nhanvien(hoNV, tenNV, emailNV, sdtNV, diaChiNV, matKhauNV, tinhTrang, id_quyen) 
                     //     VALUES ('$txt_hodem','$txt_ten','$txt_email','$txt_sdt','$txt_diachi','$pass','Active','$select_quyen')") == 1) {
                     //     echo "<script>
@@ -128,6 +141,10 @@ include 'component/header.php';
             } else {
                 echo "<script>alert('Vui lòng nhập đầy đủ thông tin!')</script>";
             }
+        }
+        else if (isset($_REQUEST['btn_them']) && $_REQUEST['btn_them'] == "Thêm" && $_REQUEST['token'] != $_SESSION['token']) {
+            echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                unset($_SESSION['token']);
         }
         ?>
 

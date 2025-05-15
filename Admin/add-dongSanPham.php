@@ -10,6 +10,18 @@ if ($checkRole->checkRoleAdmin() == 0) {
     header('location:../index.php');
 }
 ?>
+
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
+
 <?php
 include 'component/header.php';
 ?>
@@ -26,7 +38,7 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-6">
                     <label for="txttendsp" class="form-label">Nhập tên dòng sản phẩm <span style="color: red">*</span></label>
-                    <input type="text"  class="form-control" name="txttendsp" id="txttendsp" placeholder="Tên dòng sản phẩm ...">
+                    <input type="text"  class="form-control" name="txttendsp" id="txttendsp" placeholder="Tên dòng sản phẩm ..." required>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="txttensp" class="form-label">Chọn thương hiệu sản phẩm <span style="color: red">*</span></label>
@@ -38,6 +50,7 @@ include 'component/header.php';
                     </select>
                 </div>
                 <div class="mb-3 col-md-12 text-center">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <a href="danhSachDongSP.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
                     <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
                     <button type="submit" name="nut_them" value="add-dsp" class="btn btn-outline-primary">Thêm</button>
@@ -45,7 +58,7 @@ include 'component/header.php';
             </div>
             <div align="center">
                 <?php
-                if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-dsp') {
+                if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-dsp' && $_REQUEST['token'] == $_SESSION['token']) {
                     $tendsp = $_REQUEST['txttendsp'];
                     $tenThuongHieu = $_REQUEST['selectDongSP'];
                     if ($tendsp == '' || $tenThuongHieu == '0') {
@@ -70,6 +83,7 @@ include 'component/header.php';
                                                     window.location='add-dongSanPham.php';
                                         })</script>";
                         }
+                        unset($_SESSION['token']);
                         // if ($ad->themxoasua("INSERT INTO dongsanpham(tenDongSP, id_ThuongHieu) 
                         //                             VALUES ('$tendsp','$tenThuongHieu')") == 1) {
                         //     echo "<script>
@@ -86,6 +100,11 @@ include 'component/header.php';
                         //                 })</script>";
                         // }
                     }
+                }
+                else if(isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-dsp' && $_REQUEST['token'] != $_SESSION['token'])
+                {
+                    echo "<script>swal('Thất bại','Không gửi lại form cũ','error')</script>";
+                    unset($_SESSION['token']);
                 }
                 ?>
             </div>
@@ -126,7 +145,7 @@ include 'component/header.php';
                     </tbody>
                 </table>
                 <?php
-                if (isset($_REQUEST['nut_xoa']) && $_REQUEST['nut_xoa'] == 'Xóa') {
+                if (isset($_REQUEST['nut_xoa']) && $_REQUEST['nut_xoa'] == 'Xóa' && $_REQUEST['token'] == $_SESSION['token']) {
                     $id_xoa = $_REQUEST['id_xoa'];
                     if ($ad->themxoasua("DELETE FROM dongsanpham WHERE id_dongSP='$id_xoa'") == 1) {
                         echo "<script>swal('Thành công','Xóa dòng sản phẩm thành công','success').then(function(){
@@ -137,6 +156,11 @@ include 'component/header.php';
                                             window.location='add-dongSanPham.php';
                                 })</script>";
                     }
+                    unset($_SESSION['token']);
+                }
+                else if (isset($_REQUEST['nut_xoa']) && $_REQUEST['nut_xoa'] == 'Xóa' && $_REQUEST['token'] != $_SESSION['token']) {
+                    echo "<script>swal('Thất bại','Không gửi lại form cũ','error')</script>";
+                    unset($_SESSION['token']);
                 }
                 ?>
             </form>

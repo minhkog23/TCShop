@@ -7,6 +7,16 @@ $lg = new loginAdmin();
 include '../class/admin.php';
 $ad = new admin();
 ?>
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,6 +57,7 @@ $ad = new admin();
                 <input type="password" name="txtpass" id="txtpass" placeholder="Nhập mật khẩu">
               </div>
               <div class="text"><a href="#">Quên mật khẩu ?</a></div>
+              <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
               <div class="button input-box">
                 <input type="submit" name="nut_dangNhap" value="Đăng nhập">
               </div>
@@ -63,7 +74,7 @@ $ad = new admin();
                   unset($_SESSION['login_attempts_admin'][$user]);
                   unset($_SESSION['lock_time_admin'][$user]);
                 } else
-                if (isset($_POST['nut_dangNhap']) && $_REQUEST['nut_dangNhap'] == 'Đăng nhập') {
+                if (isset($_POST['nut_dangNhap']) && $_REQUEST['nut_dangNhap'] == 'Đăng nhập' && $_REQUEST['token'] == $_SESSION['token']) {
                   if ($_REQUEST['txtemail'] != '' && $_REQUEST['txtpass'] != '') {
                     $user = $_REQUEST['txtemail'];
                     $pass = $_REQUEST['txtpass'];
@@ -79,7 +90,6 @@ $ad = new admin();
                       unset($_SESSION['login_attempts_admin'][$user]);
                       unset($_SESSION['lock_time_admin'][$user]);
                     } else {
-                      //$ad->checkTrung("select * from admin where email='$user' and password='" . md5($pass) . "'");
                       if ($ad->checkTrung("select * from nhanvien where emailNV='$user'") == 0) {
                         echo '<script>swal("Thất bại","Tài khoản không tồn tại","error")</script>';
                       } else {
@@ -95,9 +105,15 @@ $ad = new admin();
                         }
                       }
                     }
+                    // Sau khi xử lý xong, xóa token khỏi session để tránh reuse
+                    unset($_SESSION['token']);
                   } else {
                     echo '<script>swal("Thất bại","Vui lòng nhập đầy đủ thông tin","error")</script>';
                   }
+                }
+                else if (isset($_POST['nut_dangNhap']) && $_REQUEST['nut_dangNhap'] == 'Đăng nhập' && $_REQUEST['token'] != $_SESSION['token']) {
+                  echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                  unset($_SESSION['token']);
                 }
                 ?>
               </div>

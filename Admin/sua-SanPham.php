@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include '../class/admin.php';
 $ad = new admin();
 ?>
@@ -30,6 +31,16 @@ if (isset($_REQUEST['id_sua']) && $_REQUEST['id_sua'] != '') {
     header('location:danhSachSP.php');
 }
 
+?>
+<?php
+// token
+// $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
+// Đặt ở đầu file PHP, trước khi xuất HTML
+if (!isset($_SESSION['token'])) {
+    //$_SESSION['token'] = bin2hex(random_bytes(32));//
+    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+}
+$token = $_SESSION['token'];
 ?>
 <?php
 include 'component/header.php';
@@ -103,6 +114,7 @@ include 'component/header.php';
                     ?>
                 </div>
                 <div class="mb-3 col-md-12 text-center">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <a href="danhSachSP.php"><button type="button" class="btn btn-outline-danger ">Quay lại</button></a>
                     <input type="reset" value="Nhập lại" class="btn btn-outline-secondary " name="btn_reset" id="btn_reset">
                     <button type="submit" name="nut_sua" value="sua-items" class="btn btn-outline-primary">Lưu</button>
@@ -110,7 +122,7 @@ include 'component/header.php';
             </div>
 
             <?php
-            if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-items') {
+            if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-items' && $_REQUEST['token'] == $_SESSION['token']) {
                 $tensp = $_REQUEST['txttensp'];
                 $DongSP = $_REQUEST['selectDongSP'];
                 $dongia = $_REQUEST['txtdongia'];
@@ -176,6 +188,7 @@ include 'component/header.php';
                                         }
                                     }
                                 }
+                                unset($_SESSION['token']);
                             } else {
                                 echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                             }
@@ -219,7 +232,7 @@ include 'component/header.php';
                             $sql3 = "UPDATE anh_chitietsp
                                                     SET anh1=?,anh2=?,anh3=?,anh4=?
                                                     WHERE id_maSP=?";
-                            $params3 = [$anh1_i, $anh2_i, $anh3_i, $anh4_i, $id_sua];
+                            $params3 = [isset($anh1_i) ? $anh1_i : null, isset($anh2_i) ? $anh2_i : null, isset($anh3_i) ? $anh3_i : null, isset($anh4_i) ? $anh4_i : null, $id_sua];
                             $result3 = $ad->themxoasua($sql3, $params3);
                             if ($result3 != 1) {
                                 echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
@@ -268,6 +281,7 @@ include 'component/header.php';
                                     }
                                 }
                             }
+                            unset($_SESSION['token']);
                         }
                     } else 
                     if (isset($_FILES['fileAnhChiTiet']) && !empty($_FILES['fileAnhChiTiet']['name'][0]) && isset($_FILES['fileAnhNen']) && $anhNen_name != '') {
@@ -284,15 +298,16 @@ include 'component/header.php';
                                     ";
                                     $params6 = [$tensp, $moTa, $dongia, $anhNen_name_rm, $DongSP, $id_sua];
                                     $result6 = $ad->themxoasua($sql6, $params6);
-                                    if ($result6 == 1) {
+                                    if ($result6 == 1) 
+                                    {
                                         echo '<script>
-                                        swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
-                                                    window.location="danhSachSP.php";
-                                        });
-                                        setTimeout(function(){
-                                            window.location="danhSachSP.php";
-                                        }, 2000);
-                                    </script>';
+                                                    swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
+                                                                window.location="danhSachSP.php";
+                                                    });
+                                                    setTimeout(function(){
+                                                        window.location="danhSachSP.php";
+                                                    }, 2000);
+                                                </script>';
 
                                         // xử lý bảng anh_chitietsp
                                         for ($i = 0; $i < count($anhChiTiet_name); $i++) {
@@ -327,11 +342,10 @@ include 'component/header.php';
                                         }
                                         // xử lý bảng anh_chitietsp
                                         if (isset($anh1_i) || isset($anh2_i) || isset($anh3_i) || isset($anh4_i)) {
-
                                             $sql7 = "UPDATE anh_chitietsp
                                                     SET anh1=?,anh2=?,anh3=?,anh4=?
                                                     WHERE id_maSP=?";
-                                            $params7 = [$anh1_i, $anh2_i, $anh3_i, $anh4_i, $id_sua];
+                                            $params7 = [isset($anh1_i) ? $anh1_i : null, isset($anh2_i) ? $anh2_i : null, isset($anh3_i) ? $anh3_i : null, isset($anh4_i) ? $anh4_i : null, $id_sua];
                                             $result7 = $ad->themxoasua($sql7, $params7);
                                             if ($result7 != 1) {
                                                 echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
@@ -382,6 +396,7 @@ include 'component/header.php';
                                             }
                                         }
                                     }
+                                    unset($_SESSION['token']);
                                 }
                             }
                         }
@@ -423,8 +438,13 @@ include 'component/header.php';
                         } else {
                             echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                         }
+                        unset($_SESSION['token']);
                     }
                 }
+            }
+            else if (isset($_REQUEST['nut_sua']) && $_REQUEST['nut_sua'] == 'sua-items' && $_REQUEST['token'] != $_SESSION['token']) {
+                echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
+                unset($_SESSION['token']);
             }
             ?>
         </form>

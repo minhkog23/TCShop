@@ -125,6 +125,7 @@ class khachhang extends badminton
                 $id_NV_giaoHang = $row['id_NV_giaoHang'];
                 $id_maSP = $row['id_maSP'];
                 $tenSP = $row['tenSP'];
+                $size = $row['size'];
                 $soLuong = $row['soLuong'];
                 $anh = $row['anh'];
                 $ngayDat = new DateTime($ngayDat);
@@ -149,6 +150,7 @@ class khachhang extends badminton
                             <img src="../assets/img/img_product/' . $anh . '" alt="SP" width="100" class="me-5 rounded">
                             <div>
                                 <div>Sản phẩm: <strong>' . $tenSP . '</strong></div>
+                                <div>Kích thước: ' . $size . '</div>
                                 <div>Số lượng: ' . $soLuong . '</div>
                                 <div>Giá: ' . number_format($tongTien, 0, '', '.') . ' vnđ</div>
                                 <div = new DateTime($ngaydat);
