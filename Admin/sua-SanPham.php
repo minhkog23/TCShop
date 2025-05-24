@@ -199,7 +199,7 @@ include 'component/header.php';
                         for ($i = 0; $i < count($anhChiTiet_name); $i++) {
                             //$anhChiTiet_type = $_FILES['fileAnhChiTiet']['type'][$i]; // Lấy loại tệp ảnh chi tiết
                             // Kiểm tra nếu tệp không phải là hình ảnh hợp lệ
-                            if ($anhChiTiet_type[$i] != 'image/png' && $anhChiTiet_type[$i] != 'image/jpg' && $anhChiTiet_type[$i] != 'image/jpeg' && $anhChiTiet_type[$i] != 'image/gif' && $anhChiTiet_type[$i] != 'image/webp') {
+                            if ($anhChiTiet_type[$i] != 'image/png' || $anhChiTiet_type[$i] != 'image/jpg' || $anhChiTiet_type[$i] != 'image/jpeg' || $anhChiTiet_type[$i] != 'image/gif' || $anhChiTiet_type[$i] != 'image/webp') {
                                 echo '<script>swal("Thất bại", "Hình ảnh chi tiết không đúng định dạng !!!", "error")</script>';
                                 // Có thể dừng ngay khi gặp lỗi nếu bạn không muốn tiếp tục xử lý các ảnh còn lại
                                 break;
@@ -313,7 +313,7 @@ include 'component/header.php';
                                         for ($i = 0; $i < count($anhChiTiet_name); $i++) {
                                             //$anhChiTiet_type = $_FILES['fileAnhChiTiet']['type'][$i]; // Lấy loại tệp ảnh chi tiết
                                             // Kiểm tra nếu tệp không phải là hình ảnh hợp lệ
-                                            if ($anhChiTiet_type[$i] != 'image/png' && $anhChiTiet_type[$i] != 'image/jpg' && $anhChiTiet_type[$i] != 'image/jpeg' && $anhChiTiet_type[$i] != 'image/gif' && $anhChiTiet_type[$i] != 'image/webp') {
+                                            if ($anhChiTiet_type[$i] != 'image/png' || $anhChiTiet_type[$i] != 'image/jpg' || $anhChiTiet_type[$i] != 'image/jpeg' || $anhChiTiet_type[$i] != 'image/gif' || $anhChiTiet_type[$i] != 'image/webp') {
                                                 echo '<script>swal("Thất bại", "Hình ảnh chi tiết không đúng định dạng !!!", "error")</script>';
                                                 // Có thể dừng ngay khi gặp lỗi nếu bạn không muốn tiếp tục xử lý các ảnh còn lại
                                                 break;
@@ -351,7 +351,7 @@ include 'component/header.php';
                                                 echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                                             } else {
                                                 echo '<script>
-                                    swal("Thành Công","Cập nhập sản phẩm thành công abcxyz","success").then(function(){
+                                    swal("Thành Công","Cập nhập sản phẩm thành công","success").then(function(){
                                             window.location="danhSachSP.php";
                                     });
                                     setTimeout(function(){

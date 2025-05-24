@@ -13,7 +13,7 @@ if ($checkRole->checkRoleAdmin() == 0) {
 
 <?php
 // Danh sách giá trị loc hợp lệ
-$ar = ['cxl', 'dxn', 'cbh', 'huy'];
+$ar = ['cxl', 'dxn', 'cbh', 'huy', 'ht'];
 
 // Lấy loc từ URL
 $loc = isset($_REQUEST['loc']) ? $_REQUEST['loc'] : '';
@@ -38,6 +38,7 @@ include 'component/header.php';
     $dxn = $ad->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đã xác nhận'");
     $cbh = $ad->laycot("select count(tinhTrang) from hoadon where tinhTrang='Đang chuẩn bị hàng'");
     $huy = $ad->laycot("select count(tinhTrang) from hoadon where tinhTrang='Hủy'");
+    $ht = $ad->laycot("select count(tinhTrang) from hoadon where tinhTrang='Hoàn thành'");
 
     ?>
     <a href="danhSachHD.php?loc=cxl" class="btn btn-warning position-relative mx-3">Đơn chờ xử lý
@@ -82,6 +83,9 @@ include 'component/header.php';
 
     <a href="danhSachHD.php?loc=huy" class="btn btn-secondary position-relative mx-3">
         Hủy bỏ
+    </a>
+    <a href="danhSachHD.php?loc=ht" class="btn btn-success position-relative mx-3">
+        Hoàn thành
     </a>
 
 </div>
@@ -156,6 +160,9 @@ include 'component/header.php';
                     }
                 } else if (isset($_REQUEST['loc']) && $_REQUEST['loc'] == 'huy') {
                     $ad->getHD_huy('select * from hoadon where tinhtrang="Hủy" order by id_HD desc');
+                } 
+                else if (isset($_REQUEST['loc']) && $_REQUEST['loc'] == 'ht') {
+                    $ad->getHD_ht('select * from hoadon where tinhtrang="Hoàn thành" order by id_HD desc');
                 } else {
                     // $ad->getHD('select * from hoadon order by id_HD desc');
                     echo '<h3 align="center">Không có đơn hàng nào cần xử lý </h3>';

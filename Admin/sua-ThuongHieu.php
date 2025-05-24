@@ -47,7 +47,7 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="txttenth" class="form-label">Nhập tên thương hiệu <span style="color:red">*</span></label>
-                    <input type="text" class="form-control" name="txttenth" id="txttenth" value="<?php echo $tenThuongHieu ?>" required>
+                    <input type="text" class="form-control" pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Không được chứa số" name="txttenth" id="txttenth" value="<?php echo $tenThuongHieu ?>" required>
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="txtmota" class="form-label">Mô tả</label>

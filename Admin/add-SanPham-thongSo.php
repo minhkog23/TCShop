@@ -36,7 +36,7 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="txtthongSo" class="form-label">Nhập thông số sản phẩm <span style="color: red">*</span></label>
-                    <input type="text" class="form-control" name="txtthongSo" id="txtthongSo" placeholder="Thông số SP ...">
+                    <input type="text" class="form-control" name="txtthongSo" id="txtthongSo" placeholder="Thông số SP ..." required>
                 </div>
 
                 <div class="mb-3 col-md-12 text-center">

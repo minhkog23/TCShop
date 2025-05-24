@@ -63,11 +63,11 @@ $p = new login();
                     </div>
                     <div class="mb-3">
                         <label for="txtho" class="form-label">Họ <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="txtho" name="txtho" placeholder="Nhập họ ..." value="<?php echo $ho ?>" required>
+                        <input type="text" class="form-control" pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Không được chứa số" id="txtho" name="txtho" placeholder="Nhập họ ..." value="<?php echo $ho ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="txtten" class="form-label">Tên <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="txtten" name="txtten" placeholder="Nhập tên người nhận..." value="<?php echo $ten ?>" required>
+                        <input type="text" class="form-control" pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Không được chứa số" id="txtten" name="txtten" placeholder="Nhập tên người nhận..." value="<?php echo $ten ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="txtemail" class="form-label">Email <span style="color:red">*</span></label>
@@ -75,7 +75,7 @@ $p = new login();
                     </div>
                     <div class="mb-3">
                         <label for="txtsdt" class="form-label">Số điện thoại <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="txtsdt" name="txtsdt" placeholder="Nhập số điện thoại ..." value="<?php echo $sdt ?>" required>
+                        <input type="text" class="form-control" pattern="[0-9]{10}" title="Số điện thoại 10 chữ số (VD: 0987654321)" id="txtsdt" name="txtsdt" placeholder="Nhập số điện thoại ..." value="<?php echo $sdt ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="txtdiachi" class="form-label">Địa chỉ nhận hàng<span style="color:red">*</span></label>

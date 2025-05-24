@@ -842,7 +842,7 @@ class admin extends badminton
                                 <a href="sua-SanPham-thongSo.php?idsua=' . $id_size . '" class="btn btn-warning btn-sm">
                                     <span class="text">Sửa</span>
                                 </a>
-                                <input type="submit" name="nut_xoa" id="nut_xoa" class="btn btn-danger btn-sm" value="Xóa">
+                                <input type="submit" name="nut_xoa" id="nut_xoa" class="btn btn-danger btn-sm" value="Xóa" onclick="return confirm(\'Bạn có chắc chắn muốn xóa không ?\')">
 
                             </form>
                         </td>

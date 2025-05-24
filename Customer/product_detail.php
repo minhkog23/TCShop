@@ -247,14 +247,14 @@ if (isset($_REQUEST['nut_giohang']) && $_REQUEST['nut_giohang'] == 'add_to_cart'
 
     </div>
 
-    <!-- Chưa làm đánh giá -->
+    <!-- Chưa làm bình luận -->
     <div class="danhGia text-center mt-5 pt-3">
-        <h3>Đánh giá</h3>
+        <h3>Bình luận</h3>
         <div class="box-danhGia">
             <form action="" method="post">
                 <div class="d-flex">
-                    <textarea name="txtMota" id="txtMota" class="form-control" placeholder="Viết đánh giá ..."></textarea>
-                    <input type="submit" name="btn_danhgia" value="Đánh giá" class="btn btn-success btn-danhGia"></input>
+                    <textarea name="txtMota" id="txtMota" class="form-control" placeholder="Viết bình luận ..." required></textarea>
+                    <input type="submit" name="btn_binhluan" value="Gửi" class="btn btn-success btn-danhGia"></input>
                 </div>
                 <?php
                 $kh->getDanhGia("SELECT dg.id_DG, kh.id_KH, kh.ten, dg.ngayTao, dg.noiDung FROM danhgia dg JOIN khachhang kh ON dg.id_KH=kh.id_KH WHERE id_maSP=$id_maSP");
@@ -262,30 +262,18 @@ if (isset($_REQUEST['nut_giohang']) && $_REQUEST['nut_giohang'] == 'add_to_cart'
 
             </form>
             <?php
-            if (isset($_REQUEST['btn_danhgia']) && $_REQUEST['btn_danhgia'] == 'Đánh giá') {
+            if (isset($_REQUEST['btn_binhluan']) && $_REQUEST['btn_binhluan'] == 'Gửi') {
                 if (isset($_SESSION['id_KH']) && $_SESSION['id_KH'] != '' && isset($_SESSION['ten']) && $_SESSION['ten'] != '') {
                     if ($_REQUEST['txtMota'] != '') {
                         $id_KH = $_SESSION['id_KH'];
                         $ten_KH = $_SESSION['ten'];
                         $noidung = htmlspecialchars($_REQUEST['txtMota'], ENT_QUOTES, 'UTF-8');
-                        // if ($kh->themxoasua("INSERT INTO danhgia(noiDung, id_maSP, id_KH) VALUES ( ? , ? , ? )", ['$noidung','$id_maSP','$id_KH']) == 1) {
-                        //     echo '<script>
-                        //                     swal("Thành công","Đánh giá thành công","success").then(function(){
-                        //                             window.location="product_detail.php?maSP=' . $id_maSP . '";
-                        //                     });
-                        //                     setTimeout(function(){
-                        //                         window.location="product_detail.php?maSP=' . $id_maSP . '";
-                        //                     }, 2000);
-                        //             </script>';
-                        // } else {
-                        //     echo '<script>swal("Thất bại","Đánh giá thất bại !","error")</script>';
-                        // }
                         $sql = "INSERT INTO danhgia(noiDung, id_maSP, id_KH) VALUES (?, ?, ?)";
                         $params = [$noidung, $id_maSP, $id_KH];
                         $result = $kh->themxoasua($sql, $params);
                         if ($result === 1) {
                             echo '<script>
-                                            swal("Thành công","Đánh giá thành công","success").then(function(){
+                                            swal("Thành công","bình luận thành công","success").then(function(){
                                                     window.location="product_detail.php?maSP=' . $id_maSP . '";
                                             });
                                             setTimeout(function(){
@@ -293,11 +281,14 @@ if (isset($_REQUEST['nut_giohang']) && $_REQUEST['nut_giohang'] == 'add_to_cart'
                                             }, 2000);
                                     </script>';
                         } else {
-                            echo '<script>swal("Thất bại","Đánh giá thất bại !","error")</script>';
+                            echo '<script>swal("Thất bại","bình luận thất bại !","error")</script>';
                         }
                     } else {
-                        echo '<script>swal("Thất bại","Bạn chưa nhập đánh giá !","error")</script>';
+                        echo '<script>swal("Thất bại","Bạn chưa nhập nội dung bình luận !","error")</script>';
                     }
+                }
+                else {
+                    echo '<script>swal("Thất bại","Bạn chưa đăng nhập !","error")</script>';
                 }
             }
             ?>

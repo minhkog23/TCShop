@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include '../class/admin.php';
 $ad = new admin();
 ?>

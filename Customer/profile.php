@@ -54,7 +54,7 @@ include_once 'component/header.php';
         <!-- Sidebar -->
         <div class="col-md-3">
             <div class="text-center mb-4">
-                <h6 class="mt-2 mb-0">Xin chào: Test</h6>
+                <h6 class="mt-2 mb-0">Xin chào: <?php echo $_SESSION['ten'] ?></h6>
             </div>
             <div class="list-group">
                 <a href="?loc=profile" class="list-group-item list-group-item-action">Hồ Sơ</a>

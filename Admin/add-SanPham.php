@@ -112,7 +112,14 @@ include 'component/header.php';
                             if (isset($anhChiTiet_name) && !empty($_FILES['fileAnhChiTiet']['name'][0])) {
                                 for ($i = 0; $i < count($anhChiTiet_name); $i++) {
                                     // Kiểm tra nếu tệp không phải là hình ảnh hợp lệ
-                                    if ($anhChiTiet_type[$i] == 'image/png' || $anhChiTiet_type[$i] == 'image/jpg' || $anhChiTiet_type[$i] == 'image/jpeg' || $anhChiTiet_type[$i] == 'image/gif' || $anhChiTiet_type[$i] == 'image/webp') {
+                                    if ($anhChiTiet_type[$i] != 'image/png' || $anhChiTiet_type[$i] != 'image/jpg' || $anhChiTiet_type[$i] != 'image/jpeg' || $anhChiTiet_type[$i] != 'image/gif' || $anhChiTiet_type[$i] != 'image/webp') {
+                                        echo '<script>
+                                                    swal("Thất bại","File ảnh chi tiết không hợp lệ !","error").then(function(){
+                                                        window.location="add-SanPham.php";
+                                                    });
+                                                </script>';
+                                        break;  // Dừng vòng lặp ngay khi phát hiện lỗi
+                                    } else {
                                         $anhChiTiet_name_i = $anhChiTiet_name[$i];
                                         $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];
                                         $anhChiTiet_name_i_rename = time() . '_' . $anhChiTiet_name_i;
@@ -131,13 +138,6 @@ include 'component/header.php';
                                                 $anh4 = $anhChiTiet_name_i_rename;
                                             }
                                         }
-                                    } else {
-                                        echo '<script>
-                                                    swal("Thất bại","File ảnh chi tiết không hợp lệ !","error").then(function(){
-                                                        window.location="add-SanPham.php";
-                                                    });
-                                                </script>';
-                                        break;  // Dừng vòng lặp ngay khi phát hiện lỗi
                                     }
                                 }
 
@@ -194,22 +194,16 @@ include 'component/header.php';
                                     } else {
                                         echo '<script>swal("Thất bại","Upload hình ảnh thất bại","error")</script>';
                                     }
-                                    
                                 }
-
-
-                                
                             } else {
                                 echo '<script>swal("Thất bại","Vui lòng chọn ảnh chi tiết !","error")</script>';
                             }
-                            
                         }
                     } else {
                         echo '<script>swal("Thất bại","Vui lòng chọn ảnh nền !","error")</script>';
                     }
                 }
-            }
-            else if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-items' && $_REQUEST['token'] != $_SESSION['token']) {
+            } else if (isset($_REQUEST['nut_them']) && $_REQUEST['nut_them'] == 'add-items' && $_REQUEST['token'] != $_SESSION['token']) {
                 echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
                 unset($_SESSION['token']);
             }

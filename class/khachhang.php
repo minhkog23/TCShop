@@ -162,7 +162,7 @@ class khachhang extends badminton
                             <form action="" method="post">
                                 <input type="hidden" name="id_hd" value="' . $id_HD . '"  id="">
                                 <input style="display:' . $checkTinhTrang . '" type="submit" value="Hủy" name="nut_huy" class="btn btn-outline-secondary w-25" onclick="confirm(\' Bạn có chắc muốn hủy đơn hàng này không ? \')">
-                                <a href="product_detail.php?maSP=' . $id_maSP . '" style="display:' . $checkDG . '" class="btn btn-outline-secondary w-25">Đánh giá</a>
+                                <a href="product_detail.php?maSP=' . $id_maSP . '" style="display:' . $checkDG . '" class="btn btn-outline-secondary w-25">Bình luận</a>
                             </form>
                         </div>
                     </div>';
@@ -179,7 +179,7 @@ class khachhang extends badminton
         $result = mysqli_query($link, $sql);
         if (mysqli_num_rows($result) > 0) {
             echo '<div class="cus-danhGia mt-5 pd-5">
-                        <h5 align="left" class="mb-3">Đánh giá của khách hàng:</h5>
+                        <h5 align="left" class="mb-3">Bình luận của khách hàng:</h5>
                         <hr>';
             while ($row = mysqli_fetch_assoc($result)) {
                 $id_DG = $row['id_DG'];

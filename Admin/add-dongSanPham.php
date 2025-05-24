@@ -38,7 +38,7 @@ include 'component/header.php';
             <div class="row">
                 <div class="mb-3 col-md-6">
                     <label for="txttendsp" class="form-label">Nhập tên dòng sản phẩm <span style="color: red">*</span></label>
-                    <input type="text"  class="form-control" name="txttendsp" id="txttendsp" placeholder="Tên dòng sản phẩm ..." required>
+                    <input type="text"  class="form-control" pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Không được chứa số" name="txttendsp" id="txttendsp" placeholder="Tên dòng sản phẩm ..." required>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="txttensp" class="form-label">Chọn thương hiệu sản phẩm <span style="color: red">*</span></label>

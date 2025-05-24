@@ -22,13 +22,13 @@ $token = $_SESSION['token'];
                     <div class="form-group hoten mt-4 pt-3 mb-3">
                         <div>
                             <label for="txtho" class="">Nhập họ <span style="color:red">*</span></label>
-                            <input type="text" class="mt-1" name="txtho" id="txtho" placeholder="Nhập họ" required>
+                            <input type="text" class="mt-1" pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Không được chứa số" name="txtho" id="txtho" placeholder="Nhập họ" required>
                         </div>
                         <div>
                             <label for="txtho">Nhập tên <span style="color:red">*</span></label>
-                            <input type="text" class="mt-1" name="txtten" id="txtten" placeholder="Nhập tên" required>
+                            <input type="text" class="mt-1" pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Không được chứa số" name="txtten" id="txtten" placeholder="Nhập tên" required>
                         </div>
-                        
+
                     </div>
                     <div class="form-group mt-3 mb-3">
                         <label for="txtemail">Email <span style="color:red">*</span></label>
@@ -37,7 +37,7 @@ $token = $_SESSION['token'];
                     </div>
                     <div class="form-group mt-3 mb-3">
                         <label for="txtemail">Số điện thoại <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" name="txtsdt" id="txtsdt" placeholder="Nhập số điện thoại" required>
+                        <input type="text" class="form-control" pattern="[0-9]{10}" title="Số điện thoại 10 chữ số (VD: 0987654321)" name="txtsdt" id="txtsdt" placeholder="Nhập số điện thoại" required>
                     </div>
                     <div class="form-group mt-3 mb-3">
                         <label for="txtemail">Địa chỉ</label>
@@ -84,12 +84,12 @@ $token = $_SESSION['token'];
                                                     window.location="login.php";
                                                 }, 2000);
                                             </script>';
+                                            unset($_SESSION['token']);
                                         }
                                         else
                                         {
                                             echo'<script>swal("Thất bại","Đăng ký không thành công !","error")</script>';
                                         }
-                                        unset($_SESSION['token']);
                                     }
                                     else
                                     {
