@@ -12,8 +12,8 @@ $ad = new admin();
 // $token =bin2hex(random_bytes(32)); chỉ hổ trợ php 7.0 trở lên
 // Đặt ở đầu file PHP, trước khi xuất HTML
 if (!isset($_SESSION['token'])) {
-    //$_SESSION['token'] = bin2hex(random_bytes(32));//
-    $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
+  //$_SESSION['token'] = bin2hex(random_bytes(32));//
+  $_SESSION['token'] = md5(uniqid(rand(), true)); // Hoặc sử dụng hàm md5 để tạo token
 }
 $token = $_SESSION['token'];
 ?>
@@ -89,6 +89,8 @@ $token = $_SESSION['token'];
                         </script>';
                       unset($_SESSION['login_attempts_admin'][$user]);
                       unset($_SESSION['lock_time_admin'][$user]);
+                      // Sau khi xử lý xong, xóa token khỏi session để tránh reuse
+                      unset($_SESSION['token']);
                     } else {
                       if ($ad->checkTrung("select * from nhanvien where emailNV='$user'") == 0) {
                         echo '<script>swal("Thất bại","Tài khoản không tồn tại","error")</script>';
@@ -105,13 +107,10 @@ $token = $_SESSION['token'];
                         }
                       }
                     }
-                    // Sau khi xử lý xong, xóa token khỏi session để tránh reuse
-                    unset($_SESSION['token']);
                   } else {
                     echo '<script>swal("Thất bại","Vui lòng nhập đầy đủ thông tin","error")</script>';
                   }
-                }
-                else if (isset($_POST['nut_dangNhap']) && $_REQUEST['nut_dangNhap'] == 'Đăng nhập' && $_REQUEST['token'] != $_SESSION['token']) {
+                } else if (isset($_POST['nut_dangNhap']) && $_REQUEST['nut_dangNhap'] == 'Đăng nhập' && $_REQUEST['token'] != $_SESSION['token']) {
                   echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
                   unset($_SESSION['token']);
                 }

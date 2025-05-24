@@ -209,4 +209,19 @@ class khachhang extends badminton
             echo '<h3 align="center" style="padding-top: 10px ;">Chưa có đánh giá nào !</h3>';
         }
     }
+
+    public function getSPTB($sql)
+    {
+        $link = $this->connect();
+        $result = mysqli_query($link, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $id_KH = htmlspecialchars($row['id_KH'], ENT_QUOTES, 'UTF-8');
+                $ten = htmlspecialchars($row['ten'], ENT_QUOTES, 'UTF-8');
+                $email = htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8');
+                $sdt = htmlspecialchars($row['sdt'], ENT_QUOTES, 'UTF-8');
+                $diaChi = htmlspecialchars($row['diaChi'], ENT_QUOTES, 'UTF-8');
+            }
+        }
+    }
 }
