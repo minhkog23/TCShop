@@ -39,7 +39,7 @@ $bad = new badminton();
                     <a href="index.php"><img src="assets/img/logo.jpg" class="logo col-md-2" alt="Load"></a>
                 </div>
                 <div class="search col-md-6 ">
-                    <form action="product.php" method="post">
+                    <form action="Customer/product.php" method="post">
                         <input type="search" name="txtsearch" id="search" placeholder="Tìm kiếm sản phẩm ...">
                         <button name="nut_search" value="search" type="submit"><i class="fas fa-search"></i></button>
                     </form>
@@ -66,9 +66,9 @@ $bad = new badminton();
                             $id_KH = $_SESSION['id_KH'];
                             echo '<div class="logout">
                                     <ul class="dropdownn_logout">
-                                        <li><a href="profile.php?loc=order&status=tc">Đơn hàng</a></li>
-                                        <li><a href="profile.php?loc=profile">Hồ sơ cá nhân</a></li>
-                                        <li><a href="../class/logout">Đăng xuất</a></li>
+                                        <li><a href="Customer/profile.php?loc=order&status=tc">Đơn hàng</a></li>
+                                        <li><a href="Customer/profile.php?loc=profile">Hồ sơ cá nhân</a></li>
+                                        <li><a href="class/logout">Đăng xuất</a></li>
                                     </ul>
                                 </div> ';
                         } else {
@@ -169,7 +169,9 @@ $bad = new badminton();
             </div>
             <div class="row">
                 <?php
-                $con = $bad->connect();
+                $config = '.env';
+                $dbConfig = parse_ini_file($config);
+                $con = mysqli_connect($dbConfig['DB_HOST'], $dbConfig['DB_USER'], $dbConfig['DB_PASS'], $dbConfig['DB_NAME']);
                 $sql = "SELECT * FROM sanpham where id_SPTB=1";
                 // Sử dụng mysqli_prepare để tránh SQL injection
                 $result = $con->prepare($sql);
@@ -184,7 +186,7 @@ $bad = new badminton();
                     echo '<div class="col-md-3 mb-4">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="assets/img/img_product/' . $anh . '" alt="Vợt cầu lông Yonex" class="img-fluid">
+                            <img src="assets/img/img_product/' . $anh . '" alt="Vợt cầu lông Yonex" width="300px" height="350px">
                             <div class="product-overlay">
                                 <a href="Customer/product_detail.php?maSP=' . $id_maSP . '" class="btn btn-primary">Xem chi tiết</a>
                             </div>
@@ -216,7 +218,7 @@ $bad = new badminton();
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="news-card">
-                        <img src="assets/img/news/Bedminton.jpg" alt="Tin tức 1" class="img-fluid">
+                        <img src="assets/img/news/Bedminton.jpg" alt="Tin tức 1" width="300px" height="400px" class="ms-5">
                         <div class="news-content p-3">
                             <span class="news-date">15/01/2024</span>
                             <h5>Hướng dẫn chọn vợt cầu lông phù hợp cho người mới bắt đầu</h5>
@@ -227,7 +229,7 @@ $bad = new badminton();
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="news-card">
-                        <img src="assets/img/news/Bedminton.jpg" alt="Tin tức 2" class="img-fluid">
+                        <img src="assets/img/news/Bedminton.jpg" alt="Tin tức 2" width="300px" height="400px" class="ms-5">
                         <div class="news-content p-3">
                             <span class="news-date">12/01/2024</span>
                             <h5>Top 5 kỹ thuật cơ bản trong cầu lông</h5>
@@ -238,7 +240,7 @@ $bad = new badminton();
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="news-card">
-                        <img src="assets/img/news/Bedminton.jpg" alt="Tin tức 3" class="img-fluid">
+                        <img src="assets/img/news/Bedminton.jpg" alt="Tin tức 3" width="300px" height="400px" class="ms-5">
                         <div class="news-content p-3">
                             <span class="news-date">10/01/2024</span>
                             <h5>Cách bảo quản vợt cầu lông đúng cách</h5>

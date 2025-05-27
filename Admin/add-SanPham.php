@@ -112,13 +112,17 @@ include 'component/header.php';
                             if (isset($anhChiTiet_name) && !empty($_FILES['fileAnhChiTiet']['name'][0])) {
                                 for ($i = 0; $i < count($anhChiTiet_name); $i++) {
                                     // Kiểm tra nếu tệp không phải là hình ảnh hợp lệ
-                                    if ($anhChiTiet_type[$i] != 'image/png' || $anhChiTiet_type[$i] != 'image/jpg' || $anhChiTiet_type[$i] != 'image/jpeg' || $anhChiTiet_type[$i] != 'image/gif' || $anhChiTiet_type[$i] != 'image/webp') {
-                                        echo '<script>
-                                                    swal("Thất bại","File ảnh chi tiết không hợp lệ !","error").then(function(){
-                                                        window.location="add-SanPham.php";
-                                                    });
-                                                </script>';
-                                        break;  // Dừng vòng lặp ngay khi phát hiện lỗi
+                                    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif'];
+                                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+
+                                    // $fileMimeType = $_FILES['file']['type'];
+                                    for ($j = 0; $j < count($_FILES['fileAnhChiTiet']['name']); $j++) {
+                                        $fileName = $_FILES['fileAnhChiTiet']['name'][$j]; // đúng
+                                        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                                    }
+
+                                    if (!in_array($anhChiTiet_type[$i], $allowedMimeTypes) || !in_array($fileExtension, $allowedExtensions)) {
+                                        echo '<script>swal("Thất bại","File ảnh chi tiết không hợp lệ !","error")</script>';
                                     } else {
                                         $anhChiTiet_name_i = $anhChiTiet_name[$i];
                                         $anhChiTiet_tmp_name_i = $anhChiTiet_tmp_name[$i];

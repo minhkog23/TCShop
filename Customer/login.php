@@ -50,7 +50,7 @@ include_once 'component/header.php';
                         //echo "Tài khoản $user đã bị khóa. Vui lòng thử lại sau " . ($lock_time - (time() - $_SESSION['lock_time'][$user])) . " giây.";
                         echo "<script>swal('Thất bại','Tài khoản $user đã bị khóa. Vui lòng thử lại sau " . ($lock_time - (time() - $_SESSION['lock_time'][$user])) . " giây.','error');</script>";
                         unset($_SESSION['login_attempts'][$user]);
-                        unset($_SESSION['lock_time'][$user]);
+                        //unset($_SESSION['lock_time'][$user]);
                     } else if (isset($_REQUEST['nut_dangnhap']) && $_REQUEST['nut_dangnhap'] == 'Đăng nhập' && $_REQUEST['token'] == $_SESSION['token']) {
                         $pass = $_REQUEST['txtpwd'];
                         if ($p->mylogin($user, md5($pass)) != 1) {
@@ -82,9 +82,8 @@ include_once 'component/header.php';
                             // Sau khi xử lý xong, xóa token khỏi session để tránh reuse
                             unset($_SESSION['token']);
                         }
-                    } else if (isset($_REQUEST['nut_dangnhap']) && $_REQUEST['nut_dangnhap'] == 'Đăng nhập' && $_REQUEST['token'] == $_SESSION['token']) {
-                        echo '<script>swal("Thất bại","Vui lòng nhập đầy đủ thông tin","error")</script>';
-                    } else if (isset($_REQUEST['nut_dangnhap']) && $_REQUEST['nut_dangnhap'] == 'Đăng nhập' && $_REQUEST['token'] != $_SESSION['token']) {
+                    } 
+                    else if (isset($_REQUEST['nut_dangnhap']) && $_REQUEST['nut_dangnhap'] == 'Đăng nhập' && $_REQUEST['token'] != $_SESSION['token']) {
                         echo '<script>swal("Thất bại","Không gửi lại form cũ","error")</script>';
                         unset($_SESSION['token']);
                     }

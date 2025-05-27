@@ -1185,8 +1185,13 @@ class admin extends badminton
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
                 $tongTien = htmlspecialchars($row['doanhThu'], ENT_QUOTES, 'UTF-8');
-
-                echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . number_format($tongTien, 0, ',', '.') . ' vnđ</div>';
+                if($tongTien == null || $tongTien == 0) {
+                    echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . 0 . ' vnđ</div>';
+                }
+                else
+                {
+                    echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . number_format($tongTien, 0, ',', '.') . ' vnđ</div>';
+                }
             }
         } else {
             echo 'Không có doanh thu nào !';

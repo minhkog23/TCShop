@@ -31,7 +31,7 @@
                     echo '<div class="col-md-3 mb-4">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="../assets/img/img_product/'.$anh.'" alt="Vợt cầu lông Yonex" class="img-fluid">
+                            <img src="../assets/img/img_product/'.$anh.'" alt="Vợt cầu lông Yonex" width="300px" height="350px" class="">
                             <div class="product-overlay">
                                 <a href="product_detail.php?maSP='.$id_maSP.'" class="btn btn-primary">Xem chi tiết</a>
                             </div>
@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="news-card">
-                        <img src="../assets/img/news/Bedminton.jpg" alt="Tin tức 1" class="img-fluid">
+                        <img src="../assets/img/news/Bedminton.jpg" alt="Tin tức 1" width="300px" height="400px" class="ms-5">
                         <div class="news-content p-3">
                             <span class="news-date">15/01/2024</span>
                             <h5>Hướng dẫn chọn vợt cầu lông phù hợp cho người mới bắt đầu</h5>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="news-card">
-                        <img src="../assets/img/news/Bedminton.jpg" alt="Tin tức 2" class="img-fluid">
+                        <img src="../assets/img/news/Bedminton.jpg" alt="Tin tức 2" width="300px" height="400px" class="ms-5">
                         <div class="news-content p-3">
                             <span class="news-date">12/01/2024</span>
                             <h5>Top 5 kỹ thuật cơ bản trong cầu lông</h5>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="news-card">
-                        <img src="../assets/img/news/Bedminton.jpg" alt="Tin tức 3" class="img-fluid">
+                        <img src="../assets/img/news/Bedminton.jpg" alt="Tin tức 3" width="300px" height="400px" class="ms-5">
                         <div class="news-content p-3">
                             <span class="news-date">10/01/2024</span>
                             <h5>Cách bảo quản vợt cầu lông đúng cách</h5>

@@ -72,7 +72,7 @@ $token = $_SESSION['token'];
                   $wait = $lock_time - (time() - $_SESSION['lock_time_admin'][$user]);
                   echo "<script>swal('Thất bại','Tài khoản $user đã bị khóa. Vui lòng thử lại sau $wait giây.','error');</script>";
                   unset($_SESSION['login_attempts_admin'][$user]);
-                  unset($_SESSION['lock_time_admin'][$user]);
+                  //unset($_SESSION['lock_time_admin'][$user]);
                 } else
                 if (isset($_POST['nut_dangNhap']) && $_REQUEST['nut_dangNhap'] == 'Đăng nhập' && $_REQUEST['token'] == $_SESSION['token']) {
                   if ($_REQUEST['txtemail'] != '' && $_REQUEST['txtpass'] != '') {

@@ -3,7 +3,9 @@ class badminton
 {
     public function connect()
     {
-        $con = mysqli_connect("localhost", "root", "", "badminton_db");
+        $config = '../.env';
+        $dbConfig = parse_ini_file($config);
+        $con = mysqli_connect($dbConfig['DB_HOST'], $dbConfig['DB_USER'], $dbConfig['DB_PASS'], $dbConfig['DB_NAME']);
         if (!$con) {
             echo 'Không thể kết nối';
             exit();
